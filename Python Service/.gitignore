@@ -1,0 +1,17 @@
+# Ignore virtual environments
+venv/
+uploads/
+
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Environment variables or secrets
+.env
+
+# Logs
+*.log
+
+# Other IDE or editor files
+*.idea/
+.vscode/
