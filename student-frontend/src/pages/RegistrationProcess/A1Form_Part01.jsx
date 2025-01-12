@@ -3,8 +3,18 @@ import uov_logo from "../../assets/uov_logo.png";
 import Y_Image from "../../assets/DP.jpg";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
+import { useFormContext } from "../../utils/FormContext";
 
 function A1Form_Part01() {
+  const { formData, updateFormData } = useFormContext();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData(name, value);
+  };
+
+  console.log(formData);
+
   return (
     <>
       <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
@@ -44,6 +54,8 @@ function A1Form_Part01() {
             <input
               type="text"
               name="enrollment_no"
+              value={formData.enrollment_no}
+              onChange={(e) => handleChange(e)}
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1"
             />
           </div>

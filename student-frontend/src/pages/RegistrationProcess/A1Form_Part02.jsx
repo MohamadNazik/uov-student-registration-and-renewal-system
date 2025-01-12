@@ -6,15 +6,8 @@ import SecondaryButton from "../../components/SecondaryButton";
 import { Link } from "react-router-dom";
 
 function A1Form_Part02() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex flex-col gap-5"
-    >
+    <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex flex-col gap-5">
       {/* Education Qualification */}
       <div className="flex flex-col gap-4">
         <h4 className="text-lg sm:text-xl xl:text-2xl font-bold">
@@ -376,7 +369,7 @@ function A1Form_Part02() {
           </Link>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
 
