@@ -21,6 +21,7 @@ import UploadDocuments from "./pages/RegistrationProcess/UploadDocuments";
 import VerifyID from "./pages/RegistrationProcess/VerifyID";
 import RegSuccess from "./pages/RegistrationProcess/RegSuccess";
 import AlreadyRegSubmitted from "./pages/RegistrationProcess/AlreadyRegSubmitted";
+import { FormProvider } from "./utils/FormContext";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -50,7 +51,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <FormProvider>
+        <RouterProvider router={router} />
+      </FormProvider>
     </>
   );
 }
