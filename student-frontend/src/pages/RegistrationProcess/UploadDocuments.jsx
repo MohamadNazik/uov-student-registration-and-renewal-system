@@ -8,6 +8,8 @@ import {
   handleNICFile,
   handleOlFile,
 } from "../../utils/VerifyDocumentFunctions";
+import SecondaryButton from "../../components/SecondaryButton";
+import { Link } from "react-router-dom";
 
 function UploadDocuments() {
   const [loading, setLoading] = useState("");
@@ -348,6 +350,15 @@ function UploadDocuments() {
               className="border border-black p-1 rounded-md"
             />
           </div>
+        </div>
+        <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
+          <Link to="/verify-id">
+            <SecondaryButton
+              text="Next"
+              color="bg-green-700"
+              hoverColor="hover:bg-green-800"
+            />
+          </Link>
         </div>
       </div>
     </>
