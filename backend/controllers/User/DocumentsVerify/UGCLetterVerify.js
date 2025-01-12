@@ -1,6 +1,7 @@
 export const UgcLetterVerify = async (req, res) => {
   try {
     const { extractedText } = req;
+    console.log(extractedText);
     if (!extractedText) {
       return res
         .status(400)
@@ -11,8 +12,9 @@ export const UgcLetterVerify = async (req, res) => {
     console.log(lowerCaseExtractedText);
 
     const predefinedTexts = [
-      "university admission",
-      "university grant commission",
+      "university admission - academic year",
+      "university grants commission",
+      "university of vavuniya",
     ];
 
     const matches = predefinedTexts.filter((text) =>
