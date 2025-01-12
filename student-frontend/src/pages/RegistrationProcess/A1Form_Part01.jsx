@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import uov_logo from "../../assets/uov_logo.png";
-import Y_Image from "../../assets/DP.jpg";
+import upload_area from "../../assets/upload_image.jpg";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import { useFormContext } from "../../utils/FormContext";
 
 function A1Form_Part01() {
   const { formData, updateFormData } = useFormContext();
+  const [stImage, setStImage] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +22,7 @@ function A1Form_Part01() {
         <div className=" flex text-left items-center  h-screenitems-center text-sm md:text-lg border border-black rounded-sm focus:outline-1 xl:ml-20 focus:outline-black  px-2 py-1 w-[200px] h-[25px] md:w-[300px] mb-4 sm:mb-6 justify-center">
           A1 - Enrollment Form
         </div>
-        <header className="mb-4 sm:flex block justify-between sm:mb-5">
+        <header className="mb-4 sm:flex block justify-between sm:mb-10">
           <img
             src={uov_logo}
             alt="University Logo"
@@ -38,11 +39,29 @@ function A1Form_Part01() {
               Student Admission for the Academic Year 2022/23
             </p>
           </div>
-          <img
+          {/* <img
             src={Y_Image}
             alt="your Image"
             className="w-[50px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 md:mt-0 border border-black rounded-lg"
-          />
+          /> */}
+          <label className="w-[100px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 flex flex-col items-center">
+            <span>Your Image</span>
+            <label htmlFor="image-input">
+              <img
+                src={stImage ? URL.createObjectURL(stImage) : upload_area}
+                alt="your Image"
+                className={`w-[50px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 md:mt-0 border border-black rounded-lg ${
+                  stImage ? "object-contain" : ""
+                }`}
+              />
+            </label>
+            <input
+              onChange={(e) => setStImage(e.target.files[0])}
+              type="file"
+              id="image-input"
+              hidden
+            />
+          </label>
         </header>
 
         <form className="flex flex-col items-center gap-5">
