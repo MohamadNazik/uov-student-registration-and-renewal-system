@@ -40,12 +40,7 @@ router.post(
   fileUploadAndVerifyController,
   BirthcertificateVerify
 );
-router.post(
-  "/verify-mc",
-  upload.single("pdf"),
-  fileUploadAndVerifyController,
-  MedicalCertificateVerify
-);
+
 router.post(
   "/verify-nic",
   upload.single("pdf"),
