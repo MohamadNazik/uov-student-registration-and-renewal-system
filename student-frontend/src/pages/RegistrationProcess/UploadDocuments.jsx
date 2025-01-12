@@ -2,7 +2,12 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { MdVerified } from "react-icons/md";
 import React, { useState } from "react";
-import { handleOlFile } from "../../utils/VerifyDocumentFunctions";
+import {
+  handleAlFile,
+  handleBirthCertificateFile,
+  handleNICFile,
+  handleOlFile,
+} from "../../utils/VerifyDocumentFunctions";
 
 function UploadDocuments() {
   const [loading, setLoading] = useState("");
@@ -10,7 +15,7 @@ function UploadDocuments() {
   const [formData, setFormData] = useState(new FormData());
 
   const [isUgcLtr, setIsUgcLtr] = useState(false);
-  const [isBirth, setIsBirth] = useState(false);
+  const [isBC, setIsBC] = useState(false);
   const [isSclLeaving, setIsSclLeaving] = useState(false);
   const [isNic, setIsNic] = useState(false);
   const [isOl, setIsOl] = useState(false);
@@ -43,6 +48,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -53,11 +59,47 @@ function UploadDocuments() {
             <input
               type="file"
               name="birth-certificate"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleBirthCertificateFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsBC,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "bc" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "bc" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isBC ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* School Leaving */}
@@ -69,6 +111,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -81,11 +124,47 @@ function UploadDocuments() {
             <input
               type="file"
               name="nic"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleNICFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsNic,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "nic" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "nic" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isNic ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* OL Certificate */}
@@ -106,6 +185,7 @@ function UploadDocuments() {
               }
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
             <div className="flex gap-1 items-center">
@@ -142,11 +222,47 @@ function UploadDocuments() {
             <input
               type="file"
               name="al-certificate"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleAlFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsAl,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "al" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "al" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isAl ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* Bank Slip */}
@@ -158,6 +274,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -171,6 +288,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -184,6 +302,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -197,6 +316,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -210,6 +330,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
@@ -223,6 +344,7 @@ function UploadDocuments() {
               onChange={() => {}}
               accept="application/pdf"
               required
+              disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
           </div>
