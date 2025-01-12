@@ -7,7 +7,7 @@ import { documentUploadMiddleware } from "../../middlewares/fileUploadMiddleware
 import { addStudentController } from "../../controllers/User/addStudentController.js";
 import { AlCertificateVerify } from "../../controllers/User/DocumentsVerify/AlCertificateVerify.js";
 import { BirthcertificateVerify } from "../../controllers/User/DocumentsVerify/BirthcertificateVerify.js";
-import { MedicalCertificateVerify } from "../../controllers/User/DocumentsVerify/MedicalCertificateVerify.js";
+
 import { Nicverify } from "../../controllers/User/DocumentsVerify/Nicverify.js";
 import { SchoolLeavingCertificateVerify } from "../../controllers/User/DocumentsVerify/SchoolLeavingCertificateVerify.js";
 import { A3FormVerify } from "../../controllers/User/DocumentsVerify/A3FormVerify.js";
@@ -16,6 +16,7 @@ import { A5FormVerify } from "../../controllers/User/DocumentsVerify/A5FormVerif
 import { A6FormVerify } from "../../controllers/User/DocumentsVerify/A6FormVerify.js";
 import { AttestationVerify } from "../../controllers/User/DocumentsVerify/AttestationVerify.js";
 import { PaymentVerify } from "../../controllers/User/DocumentsVerify/PaymentVerify.js";
+import { UgcLetterVerify } from "../../controllers/User/DocumentsVerify/UGCLetterVerify.js";
 
 const router = express.Router();
 
@@ -33,6 +34,12 @@ router.post(
   upload.single("pdf"),
   fileUploadAndVerifyController,
   AlCertificateVerify
+);
+router.post(
+  "/verify-ugc",
+  upload.single("pdf"),
+  fileUploadAndVerifyController,
+  UgcLetterVerify
 );
 router.post(
   "/verify-bc",

@@ -1,4 +1,4 @@
-export const olCertificateVerify = async (req, res) => {
+export const UgcLetterVerify = async (req, res) => {
   try {
     const { extractedText } = req;
     if (!extractedText) {
