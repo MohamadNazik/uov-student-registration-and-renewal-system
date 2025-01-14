@@ -1,10 +1,7 @@
-
 import React, { useState } from "react";
-import uov_logo from "../../assets/uov_logo.png";
-import upload_area from "../../assets/upload_image.jpg";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
-import { useFormContext } from "../../utils/FormContext";
+
 
 function A1Form_Part03() {
     return (
