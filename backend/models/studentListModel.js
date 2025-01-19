@@ -15,6 +15,14 @@ const studentListSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  department: {
+    type: String,
+    required: true,
+  },
+  course: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.model("studentList", studentListSchema);
