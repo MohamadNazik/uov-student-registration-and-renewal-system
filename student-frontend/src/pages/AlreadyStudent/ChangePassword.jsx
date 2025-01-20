@@ -29,7 +29,7 @@ function ChangePassword() {
               />
             </div>
            
-            {/* New Password *
+            
             <div className="flex flex-col">
               <label htmlFor="newPassword" className="text-gray-700 font-medium">
                 New Password
@@ -63,10 +63,10 @@ function ChangePassword() {
             <Link to="/dashboard" className="text-purple-700 hover:underline">
               Back to dashboard
             </Link>
-          </div> */}
+          </div> 
         </div> 
       </div>
-    
+    </div>
   );
 }
             
