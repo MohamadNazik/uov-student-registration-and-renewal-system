@@ -28,8 +28,8 @@ function ChangePassword() {
                 className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
-
-            {/* New Password */}
+           
+            {/* New Password *
             <div className="flex flex-col">
               <label htmlFor="newPassword" className="text-gray-700 font-medium">
                 New Password
@@ -63,11 +63,11 @@ function ChangePassword() {
             <Link to="/dashboard" className="text-purple-700 hover:underline">
               Back to dashboard
             </Link>
-          </div>
-        </div>
+          </div> */}
+        </div> 
       </div>
-    </div>
+    
   );
 }
-
+            
 export default ChangePassword;
