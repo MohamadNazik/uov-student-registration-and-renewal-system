@@ -29,17 +29,16 @@ function VerifyOTP() {
             />
           </div>
 
-        {/*
+      
           <button
             type="submit"
             className="w-full bg-purple-900 text-white py-3 rounded-lg hover:bg-purple-800 transition duration-200"
           >
             RESET PASSWORD
           </button>
-        </form>*/}
+        </div>
       </div>
-    </div>
-  
+    
   );
 }
 
