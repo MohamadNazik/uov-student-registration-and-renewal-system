@@ -15,8 +15,6 @@ function VerifyOTP() {
         <p className="text-gray-700 text-lg mb-6">
           Please enter the OTP (One Time Passcode) that was sent to your E-mail.
         </p>
-
-        {/*
         
           <div className="flex flex-col">
             <label htmlFor="otp" className="sr-only">
@@ -31,7 +29,7 @@ function VerifyOTP() {
             />
           </div>
 
-        
+        {/*
           <button
             type="submit"
             className="w-full bg-purple-900 text-white py-3 rounded-lg hover:bg-purple-800 transition duration-200"
