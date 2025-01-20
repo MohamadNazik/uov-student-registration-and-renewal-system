@@ -26,14 +26,14 @@ function ForgotPassword() {
               required
             />
           </div>
-{/*
+
           <button
             type="submit"
             className="w-full bg-purple-900 text-white py-3 rounded-lg hover:bg-purple-800 transition duration-200"
           >
             SEND OTP
           </button>
-        */}
+        </div>
       </div>
     </div>
   );
