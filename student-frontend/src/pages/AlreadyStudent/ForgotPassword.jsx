@@ -12,7 +12,7 @@ function ForgotPassword() {
         <p className="text-gray-700 text-lg mb-6">
           Please enter the e-mail that you provided to the University.
         </p>
-{/*
+
         <div className="flex flex-col gap-5">
           <div className="flex flex-col">
             <label htmlFor="email" className="sr-only">
@@ -26,7 +26,7 @@ function ForgotPassword() {
               required
             />
           </div>
-
+{/*
           <button
             type="submit"
             className="w-full bg-purple-900 text-white py-3 rounded-lg hover:bg-purple-800 transition duration-200"
