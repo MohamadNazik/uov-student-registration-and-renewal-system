@@ -19,6 +19,8 @@ export const uploadStudentDetails = async (req, res) => {
       FullName: row.FullName,
       NIC: row.NIC,
       RegNo: row.RegNo,
+      department: row.department,
+      course: row.course,
     }));
 
     const result = await studentListModel.insertMany(students);

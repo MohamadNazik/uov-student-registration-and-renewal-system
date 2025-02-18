@@ -5,7 +5,13 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5 MB
   fileFilter: (req, file, cb) => {
-    const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+    const allowedTypes = [
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+      "application/vnd.ms-excel",
+    ];
     if (!allowedTypes.includes(file.mimetype)) {
       return cb(
         new Error("Invalid file type. Only PDF, JPEG, and PNG are allowed.")
