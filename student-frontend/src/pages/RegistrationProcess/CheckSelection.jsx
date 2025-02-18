@@ -1,9 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryButton from "../../components/PrimaryButton";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import Banner from "../../components/Banner";
+import Loading from "../../components/Loading";
+import SecondaryButton from "../../components/SecondaryButton";
 
 function CheckSelection() {
+  const [nic, setNic] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [err, setErr] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAlreadyVerify = () => {
+      const student = localStorage.getItem("student");
+      if (student) {
+        navigate("/confirm-selection");
+      }
+    };
+
+    checkAlreadyVerify();
+  }, [navigate]);
+
+  const checkSelection = async () => {
+    if (nic === "") {
+      alert("Please enter your NIC");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      setErr(false);
+      const res = await axios.post(
+        "http://localhost:8080/api/users/verifyStudent",
+        {
+          NIC: nic,
+        }
+      );
+      if (res.data.success) {
+        setIsLoading(false);
+        setErr(false);
+        const student = {
+          course: res.data.data.course,
+          department: res.data.data.department,
+        };
+        localStorage.setItem("student", JSON.stringify(student));
+        navigate("/confirm-selection");
+      } else {
+        setErr(true);
+      }
+    } catch (error) {
+      setErr(true);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
@@ -17,6 +68,8 @@ function CheckSelection() {
             id="nic"
             className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[20rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
             placeholder=" "
+            value={nic}
+            onChange={(e) => setNic(e.target.value)}
           />
           <label
             htmlFor="nic"
@@ -25,11 +78,27 @@ function CheckSelection() {
             NIC Number
           </label>
         </div>
+        {err && (
+          <p className="text-xs font-medium text-red-600 text-center">
+            Sorry!
+            <br />
+            You are not selected for the University of Vavuniya.
+          </p>
+        )}
 
-        <Link to="/confirm-selection">
-          <PrimaryButton text="Check" />
-        </Link>
+        <PrimaryButton text="Check" onClick={checkSelection} />
       </div>
+
+      <div className="mt-7">
+        <SecondaryButton
+          text="Go Back to Home"
+          color="bg-red-700"
+          hoverColor="hover:bg-red-800"
+          onClick={() => navigate("/")}
+        />
+      </div>
+
+      {isLoading && <Loading />}
     </div>
   );
 }
