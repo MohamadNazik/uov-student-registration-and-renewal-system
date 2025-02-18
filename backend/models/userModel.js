@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  registration_approval: {
+    type: Boolean,
+    default: false,
+  },
   Title: {
     type: String,
     required: true,
@@ -141,4 +145,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("users", userSchema);
+export default mongoose.model("users", userSchema);
