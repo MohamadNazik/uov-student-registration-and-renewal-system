@@ -14,13 +14,51 @@ function A1Form_Part01() {
     updateFormData(name, value);
   };
 
-  console.log(formData);
+  // console.log(formData);
+  const provinces = [
+    "Central Province",
+    "Eastern Province",
+    "North Central Province",
+    "Northern Province",
+    "North Western Province",
+    "Sabaragamuwa Province",
+    "Southern Province",
+    "Uva Province",
+    "Western Province",
+  ];
+  const districts = [
+    "Ampara",
+    "Anuradhapura",
+    "Badulla",
+    "Batticaloa",
+    "Colombo",
+    "Galle",
+    "Gampaha",
+    "Hambantota",
+    "Jaffna",
+    "Kalutara",
+    "Kandy",
+    "Kegalle",
+    "Kilinochchi",
+    "Kurunegala",
+    "Mannar",
+    "Matale",
+    "Matara",
+    "Monaragala",
+    "Mullaitivu",
+    "Nuwara Eliya",
+    "Polonnaruwa",
+    "Puttalam",
+    "Ratnapura",
+    "Trincomalee",
+    "Vavuniya",
+  ];
 
   return (
     <>
       <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
-        <div className=" flex text-left items-center  h-screenitems-center text-sm md:text-lg border border-black rounded-sm focus:outline-1 xl:ml-20 focus:outline-black  px-2 py-1 w-[200px] h-[25px] md:w-[300px] mb-4 sm:mb-6 justify-center">
-          A1 - Enrollment Form
+        <div className=" flex text-left items-center  h-screenitems-center text-sm md:text-lg border border-black rounded-sm focus:outline-1 xl:ml-20 focus:outline-black  px-2 py-1 w-[200px] h-[25px] md:w-[300px] mb-4 sm:mb-6 justify-center font-bold">
+          A<sub>1</sub> &nbsp;- Enrollment Form
         </div>
         <header className="mb-4 sm:flex block justify-between sm:mb-10">
           <img
@@ -67,7 +105,7 @@ function A1Form_Part01() {
         <form className="flex flex-col items-center gap-5">
           {/* Enrollment Number */}
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-            <label className="text-sm sm:text-lg xl:text-2xl font-medium uppercase">
+            <label className="text-lg sm:text-xl xl:text-2xl font-bold uppercase">
               1. Enrollment No :-
             </label>
             <input
@@ -82,14 +120,14 @@ function A1Form_Part01() {
           {/* Name */}
 
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-            <label className="text-sm sm:text-lg xl:text-2xl font-medium uppercase">
+            <label className="text-lg sm:text-xl xl:text-2xl font-bold uppercase">
               2. Name :-
             </label>
           </div>
 
           <div className="flex flex-col gap-2 sm:gap-4 ml-8">
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (i). Title :-
               </label>
               <div className="flex gap-2 sm:gap-7 ml-9">
@@ -100,7 +138,7 @@ function A1Form_Part01() {
                     value="Rev"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Rev.
                   </span>
                 </label>
@@ -111,7 +149,7 @@ function A1Form_Part01() {
                     value="Mr"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Mr.
                   </span>
                 </label>
@@ -122,7 +160,7 @@ function A1Form_Part01() {
                     value="Mrs"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Mrs.
                   </span>
                 </label>
@@ -133,15 +171,15 @@ function A1Form_Part01() {
                     value="Miss"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Miss.
                   </span>
                 </label>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[288px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-sm xl:text-lg font-medium">
-                (other Please specify)
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
+                (Other Please specify)
               </label>
               <input
                 type="text"
@@ -150,7 +188,7 @@ function A1Form_Part01() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[288px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (ii). Name with Initials :-
               </label>
               <input
@@ -160,7 +198,7 @@ function A1Form_Part01() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (iii). Name denoted by Initials :-
               </label>
               <input
@@ -172,14 +210,14 @@ function A1Form_Part01() {
           </div>
           {/* Address */}
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-            <label className="text-sm sm:text-lg xl:text-2xl font-medium uppercase">
-              2. Address :-
+            <label className="text-lg sm:text-xl xl:text-2xl font-bold uppercase">
+              3. Address :-
             </label>
           </div>
 
           <div className="flex flex-col gap-2 sm:gap-4 ml-8">
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[288px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (i). Permanent Address :-
               </label>
               <textarea
@@ -190,27 +228,43 @@ function A1Form_Part01() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
-                (ii). province :-
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
+                (ii). Province :-
               </label>
-              <input
+              {/* <input
                 type="text"
                 name="province"
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
-              />
+              /> */}
+              <select className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[220px] xl:w-[350px] text-sm sm:text-md xl:text-xl py-1">
+                <option value="">Select a province</option>
+                {provinces.map((province, index) => (
+                  <option key={index} value={province}>
+                    {province}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (ii). District :-
               </label>
-              <input
+              {/* <input
                 type="text"
                 name="district"
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
-              />
+              /> */}
+              <select className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[220px] xl:w-[350px] text-sm sm:text-md xl:text-xl py-1">
+                <option value="">Select a district</option>
+                {districts.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (iii). Divisional Secretariat :-
               </label>
               <input
@@ -220,7 +274,7 @@ function A1Form_Part01() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (iv). National Identity Card No :-
               </label>
               <input
@@ -230,7 +284,7 @@ function A1Form_Part01() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (v). Mobile No :-
               </label>
               <input
@@ -240,12 +294,12 @@ function A1Form_Part01() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
                 (vi). Email Address :-
               </label>
               <input
                 type="text"
-                name="adddress"
+                name="email"
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
