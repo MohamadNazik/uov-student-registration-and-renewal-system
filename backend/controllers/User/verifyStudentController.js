@@ -16,5 +16,11 @@ export const verifyStudentController = async (req, res) => {
         data: student,
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error,
+      message: "error verifying student",
+    });
+  }
 };
