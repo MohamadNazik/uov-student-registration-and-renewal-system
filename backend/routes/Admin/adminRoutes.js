@@ -16,5 +16,5 @@ router.post(
 router.get("/get-student-details", getStudentList);
 router.get("/get-registered-students", getRegisteredStudentsController);
 router.post("/find-regstudent-by-nic", findRegisteredStudentById);
-
+router.post("/approve-student", studentApprovalController);
 export default router;
