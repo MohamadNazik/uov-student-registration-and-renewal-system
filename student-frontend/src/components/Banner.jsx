@@ -11,10 +11,13 @@ function Banner() {
         className="w-20 h-20 sm:w-24 sm:h-24"
       />
       <div className="text-center flex flex-col gap-0 sm:gap-1">
-        <h1 className="text-[15px] sm:text-[22px] font-bold text-black uppercase tracking-wide">
+        <h1 className="text-[15px] sm:text-[22px] font-bold text-[#391031] uppercase">
+          Student registration and renewal system
+        </h1>
+        <h1 className="text-[15px] sm:text-[22px] font-bold text-[#391031] uppercase">
           faculty of applied science
         </h1>
-        <h1 className="text-[15px] sm:text-[22px] font-bold text-black uppercase tracking-wide">
+        <h1 className="text-[15px] sm:text-[22px] font-bold text-[#391031] uppercase">
           university of vavuniya
         </h1>
       </div>
