@@ -138,7 +138,7 @@ function A1Form_Part01() {
                     value="Rev"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Rev.
                   </span>
                 </label>
@@ -149,7 +149,7 @@ function A1Form_Part01() {
                     value="Mr"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Mr.
                   </span>
                 </label>
@@ -160,7 +160,7 @@ function A1Form_Part01() {
                     value="Mrs"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Mrs.
                   </span>
                 </label>
@@ -171,7 +171,7 @@ function A1Form_Part01() {
                     value="Miss"
                     className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                   />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
+                  <span className="text-sm sm:text-base xl:text-lg font-medium">
                     Miss.
                   </span>
                 </label>
