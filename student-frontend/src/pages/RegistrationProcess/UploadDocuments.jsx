@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { MdVerified } from "react-icons/md";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   handleA3formFile,
   handleA4formFile,
@@ -24,16 +24,51 @@ function UploadDocuments() {
 
   const [isUgcLtr, setIsUgcLtr] = useState(false);
   const [isBC, setIsBC] = useState(false);
-  const [isSclLeaving, setIsSclLeaving] = useState(false);
+  // const [isSclLeaving, setIsSclLeaving] = useState(false);
   const [isNic, setIsNic] = useState(false);
   const [isOl, setIsOl] = useState(false);
   const [isAl, setIsAl] = useState(false);
-  const [isBankSlip, setIsBankSlip] = useState(false);
+  // const [isBankSlip, setIsBankSlip] = useState(false);
   const [isA3, setIsA3] = useState(false);
   const [isA4, setIsA4] = useState(false);
   const [isA5, setIsA5] = useState(false);
   const [isA6, setIsA6] = useState(false);
   const [isAttestation, setIsAttestation] = useState(false);
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        isUgcLtr &&
+        isBC &&
+        isNic &&
+        isOl &&
+        isAl &&
+        isA3 &&
+        isA4 &&
+        isA5 &&
+        isA6 &&
+        isAttestation &&
+        error == ""
+      ) {
+        setNextButtonDisabled(false);
+      } else {
+        setNextButtonDisabled(true);
+      }
+    };
+    handleNextButton();
+  }, [
+    isUgcLtr,
+    isBC,
+    isNic,
+    isOl,
+    isAl,
+    isA3,
+    isA4,
+    isA5,
+    isA6,
+    isAttestation,
+  ]);
 
   return (
     <>
@@ -568,13 +603,12 @@ function UploadDocuments() {
           </div>
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
-          <Link to="/verify-id">
-            <SecondaryButton
-              text="Next"
-              color="bg-green-700"
-              hoverColor="hover:bg-green-800"
-            />
-          </Link>
+          <SecondaryButton
+            text="Next"
+            color="bg-green-700"
+            hoverColor="hover:bg-green-800"
+            isDisabled={nextButtonDisabled}
+          />
         </div>
       </div>
     </>
