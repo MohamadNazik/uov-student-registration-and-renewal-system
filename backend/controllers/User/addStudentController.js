@@ -76,6 +76,7 @@ export const addStudentController = async (req, res) => {
 
     const newUser = new User({
       Enrollment_Number,
+      registration_approval: false,
       Title,
       Full_Name,
       Initials,
@@ -100,6 +101,6 @@ export const addStudentController = async (req, res) => {
       message: "An error occurred while adding the user.",
       error: error.message,
       success: false,
-    });
-  }
+    });
+  }
 };
