@@ -1,6 +1,4 @@
-import { trusted } from "mongoose";
 import userModel from "../../models/userModel.js";
-import { response } from "express";
 
 export const studentApprovalController = async (req, res) => {
   try {
@@ -40,11 +38,11 @@ export const studentApprovalController = async (req, res) => {
             message: "Student approved successfully",
             data: updatedStudent,
           });
-        }else{
-            res.status(200).send({
-                success: false,
-                message: "Student is already approved",
-            })
+        } else {
+          res.status(200).send({
+            success: false,
+            message: "Student is already approved",
+          });
         }
       }
     }

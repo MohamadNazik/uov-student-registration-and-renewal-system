@@ -10,6 +10,14 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  default_password: {
+    type: String,
+    required: true,
+  },
+  permanent_password: {
+    type: String,
+    required: true,
+  },
   Title: {
     type: String,
     required: true,
