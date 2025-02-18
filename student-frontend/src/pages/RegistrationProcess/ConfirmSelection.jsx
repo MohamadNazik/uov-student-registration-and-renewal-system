@@ -1,9 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Banner from "../../components/Banner";
 import SecondaryButton from "../../components/SecondaryButton";
 
 function ConfirmSelection() {
+  const navigate = useNavigate();
+  const studentDet = JSON.parse(localStorage.getItem("student"));
+  useEffect(() => {
+    if (!studentDet) {
+      navigate("/check-selection");
+    }
+  }, [studentDet, navigate]);
+
+  const handleBack = () => {
+    localStorage.removeItem("student");
+    navigate("/check-selection");
+  };
+
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
@@ -14,11 +27,11 @@ function ConfirmSelection() {
 
         <div className="flex flex-col gap-1">
           <h1 className="font-bold text-md sm:text-3xl uppercase text-center">
-            Information Technology
+            {studentDet ? studentDet.course : "N/A"}
           </h1>
 
           <h2 className="text-[0.6rem] sm:text-[1rem] font-medium text-center uppercase">
-            Department Physical Science
+            {studentDet ? studentDet.department : "N/A"}
           </h2>
           <h2 className="text-[0.6rem] sm:text-[1rem] font-medium text-center uppercase">
             Faculty of Applied Science
@@ -28,13 +41,21 @@ function ConfirmSelection() {
           </h2>
         </div>
 
-        <Link to="/instructions">
+        <div className="flex gap-5">
           <SecondaryButton
-            text="continue"
-            color="bg-green-700"
-            hoverColor="hover:bg-green-800"
+            text="Go Back"
+            color="bg-red-700"
+            hoverColor="hover:bg-red-800"
+            onClick={handleBack}
           />
-        </Link>
+          <Link to="/instructions">
+            <SecondaryButton
+              text="continue"
+              color="bg-green-700"
+              hoverColor="hover:bg-green-800"
+            />
+          </Link>
+        </div>
       </div>
     </div>
   );
