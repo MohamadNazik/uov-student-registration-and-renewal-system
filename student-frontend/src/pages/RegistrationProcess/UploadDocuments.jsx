@@ -3,10 +3,16 @@ import axios from "axios";
 import { MdVerified } from "react-icons/md";
 import React, { useState } from "react";
 import {
+  handleA3formFile,
+  handleA4formFile,
+  handleA5formFile,
+  handleA6formFile,
   handleAlFile,
+  handleAttestationformFile,
   handleBirthCertificateFile,
   handleNICFile,
   handleOlFile,
+  handleUGCLetterFile,
 } from "../../utils/VerifyDocumentFunctions";
 import SecondaryButton from "../../components/SecondaryButton";
 import { Link } from "react-router-dom";
@@ -47,12 +53,47 @@ function UploadDocuments() {
             <input
               type="file"
               name="ugc-letter"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleUGCLetterFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsUgcLtr,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "ugc-letter" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "ugc-letter" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isUgcLtr ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* Birth Certificate */}
@@ -105,7 +146,7 @@ function UploadDocuments() {
           </div>
 
           {/* School Leaving */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
+          {/* <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
             <p className="font-medium">iii. School Leaving Certificate :-</p>
             <input
               type="file"
@@ -116,12 +157,12 @@ function UploadDocuments() {
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
-          </div>
+          </div> */}
 
           {/* NIC */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
             <p className="font-medium">
-              iv. National Identity Card – Both side :-
+              iii. National Identity Card – Both side :-
             </p>
             <input
               type="file"
@@ -171,7 +212,7 @@ function UploadDocuments() {
 
           {/* OL Certificate */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">v. G.C.E. (O/L) Result Sheet :-</p>
+            <p className="font-medium">iv. G.C.E. (O/L) Result Sheet :-</p>
             <input
               type="file"
               name="ol-certificate"
@@ -220,7 +261,7 @@ function UploadDocuments() {
 
           {/* AL Certificate */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">vi. G.C.E. (A/L) Result Sheet :-</p>
+            <p className="font-medium">v. G.C.E. (A/L) Result Sheet :-</p>
             <input
               type="file"
               name="al-certificate"
@@ -268,7 +309,7 @@ function UploadDocuments() {
           </div>
 
           {/* Bank Slip */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
+          {/* <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
             <p className="font-medium">vii. Bank Slip :-</p>
             <input
               type="file"
@@ -279,76 +320,251 @@ function UploadDocuments() {
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
-          </div>
+          </div> */}
 
           {/* A3 form */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">viii. A3 Form :-</p>
+            <p className="font-medium">vi. A3 Form :-</p>
             <input
               type="file"
               name="a3-form"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleA3formFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsA3,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "a3form" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "a3form" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isA3 ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* A4 form */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">ix. A4 Form :-</p>
+            <p className="font-medium">vii. A4 Form :-</p>
             <input
               type="file"
               name="a4-form"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleA4formFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsA4,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "a4form" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "a4form" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isA4 ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* A5 form */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">x. A5 Form :-</p>
+            <p className="font-medium">viii. A5 Form :-</p>
             <input
               type="file"
               name="a5-form"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleA5formFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsA5,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "a5form" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "a5form" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isA5 ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* A6 form */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">xi. A6 Form :-</p>
+            <p className="font-medium">ix. A6 Form :-</p>
             <input
               type="file"
               name="a6-form"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleA6formFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsA6,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "a6form" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "a6form" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isA6 ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           {/* Attestation form */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
-            <p className="font-medium">xii. Attestation Form :-</p>
+            <p className="font-medium">x. Attestation Form :-</p>
             <input
               type="file"
               name="attestation"
-              onChange={() => {}}
+              onChange={(e) =>
+                handleAttestationformFile(
+                  e,
+                  setLoading,
+                  setError,
+                  setIsAttestation,
+                  formData,
+                  setFormData
+                )
+              }
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
               className="border border-black p-1 rounded-md"
             />
+            <div className="flex gap-1 items-center">
+              {loading && loading === "attestation" ? (
+                <>
+                  <CircularProgress size="15px" color="#ffff" />
+                  <p>Identifying...</p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {error && error === "attestation" ? (
+                <span className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-red-600">
+                  * Wrong document / Not clear
+                </span>
+              ) : (
+                <></>
+              )}
+              {isAttestation ? (
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
