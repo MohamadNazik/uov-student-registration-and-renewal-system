@@ -5,18 +5,18 @@ import SecondaryButton from "../../components/SecondaryButton";
 function A1Form_Part03() {
   return (
     <>
-      <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
-        <form className="flex flex-col items-center gap-5">
+      <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex flex-col gap-5">
+        <form className="flex flex-col gap-5">
           {/* Details of the parents/Guardians  */}
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-            <label className="text-sm sm:text-lg xl:text-2xl font-medium uppercase">
+            <label className="text-lg sm:text-xl xl:text-2xl font-bold uppercase">
               6. Details of the parents/Guardians :-
             </label>
           </div>
 
           <div className="flex flex-col gap-2 sm:gap-4 ml-8">
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[288px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (i). Name :-
               </label>
               <input
@@ -26,7 +26,7 @@ function A1Form_Part03() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (ii). Occuption :-
               </label>
               <input
@@ -36,7 +36,7 @@ function A1Form_Part03() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (iii). Address of the Place Work :-
               </label>
               <input
@@ -46,7 +46,7 @@ function A1Form_Part03() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (iv). Telephone No :-
               </label>
               <input
@@ -59,14 +59,14 @@ function A1Form_Part03() {
 
           {/* Details of the person To be Informed in case Of emergency   */}
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-            <label className="text-sm sm:text-lg xl:text-2xl font-medium uppercase">
+            <label className="text-lg sm:text-xl xl:text-2xl font-bold uppercase">
               7. Details of the Person To be Informed in Case Of Emergency :-
             </label>
           </div>
 
           <div className="flex flex-col gap-2 sm:gap-4 ml-8">
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[288px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (i). Name :-
               </label>
               <input
@@ -76,7 +76,7 @@ function A1Form_Part03() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (ii). Relationship:-
               </label>
               <input
@@ -86,7 +86,7 @@ function A1Form_Part03() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (iii). Address :-
               </label>
               <input
@@ -96,7 +96,7 @@ function A1Form_Part03() {
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
-              <label className="text-sm sm:text-lg xl:text-2xl font-medium">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-10">
                 (iv). Contact No :-
               </label>
               <input
