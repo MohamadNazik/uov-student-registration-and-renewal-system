@@ -5,8 +5,9 @@ import { getStudentList } from "../../controllers/Admin/getStudentList.js";
 import { getRegisteredStudentsController } from "../../controllers/Admin/getRegisteredStudentController.js";
 import { findRegisteredStudentById } from "../../controllers/Admin/findRegisteredStudentbyId.js";
 import { studentApprovalController } from "../../controllers/Admin/studentApprovalController.js";
-import {  loginController } from "../../controllers/Admin/authController.js";
+import { loginController } from "../../controllers/Admin/authController.js";
 import { authenticate } from "../../middlewares/authMiddleware.js";
+import { checkPermission } from "../../middlewares/checkPermissions.js";
 
 const router = express.Router();
 
@@ -18,6 +19,11 @@ router.post(
 router.get("/get-student-details", getStudentList);
 router.get("/get-registered-students", getRegisteredStudentsController);
 router.post("/find-regstudent-by-nic", findRegisteredStudentById);
-router.post("/approve-student",authenticate, studentApprovalController);
-router.post('/login',loginController);
+router.post(
+  "/approve-student",
+  authenticate,
+  checkPermission("approve_student"),
+  studentApprovalController
+);
+router.post("/login", loginController);
 export default router;
