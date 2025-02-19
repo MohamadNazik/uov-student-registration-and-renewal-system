@@ -5,6 +5,7 @@ import { getStudentList } from "../../controllers/Admin/getStudentList.js";
 import { getRegisteredStudentsController } from "../../controllers/Admin/getRegisteredStudentController.js";
 import { findRegisteredStudentById } from "../../controllers/Admin/findRegisteredStudentbyId.js";
 import { studentApprovalController } from "../../controllers/Admin/studentApprovalController.js";
+import { login } from "../../controllers/Admin/authController.js";
 
 const router = express.Router();
 
@@ -17,4 +18,5 @@ router.get("/get-student-details", getStudentList);
 router.get("/get-registered-students", getRegisteredStudentsController);
 router.post("/find-regstudent-by-nic", findRegisteredStudentById);
 router.post("/approve-student", studentApprovalController);
+router.post('/login',login);
 export default router;
