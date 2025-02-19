@@ -11,7 +11,6 @@ const adminSchema = new mongoose.Schema(
       required: true,
     },
     permissions: { type: [String], required: true },
-    faculty: { type: String },
     eSignature: { type: String },
   },
   { timestamps: true }
