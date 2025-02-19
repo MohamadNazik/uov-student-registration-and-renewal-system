@@ -6,6 +6,7 @@ import ConnectDB from "./config/database.js";
 import adminRoutes from "./routes/Admin/adminRoutes.js";
 import userRoutes from "./routes/User/userRoutes.js";
 
+
 const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
@@ -18,6 +19,10 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
+
+
+
 app.use("/api/admin/", adminRoutes);
 app.use("/api/users", userRoutes);
 
