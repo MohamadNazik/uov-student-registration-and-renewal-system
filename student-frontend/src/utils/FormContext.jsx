@@ -22,9 +22,9 @@ export const FormProvider = ({ children }) => {
       Index_AL: "",
       Zscore: "",
       AL_result: {
-        Subject1: { Name: "", result: "" },
-        Subject2: { Name: "", result: "" },
-        Subject3: { Name: "", result: "" },
+        Subject1: { Name: "", Result: "" },
+        Subject2: { Name: "", Result: "" },
+        Subject3: { Name: "", Result: "" },
       },
     },
     Details_of_Citizen: {
@@ -32,8 +32,12 @@ export const FormProvider = ({ children }) => {
       gender: "",
       civil_status: "",
       religion: "",
-      nationality: "",
       birth_date: "",
+      age: "",
+      citizenship: "",
+      country: "",
+      citizenship_from: "",
+      PI: "",
     },
     Details_of_Parents: {
       Name_of_Parents: "",
@@ -84,7 +88,13 @@ export const FormProvider = ({ children }) => {
 
   return (
     <FormContext.Provider
-      value={{ formData, updateFormData, updateNestedFormData, updateFile }}
+      value={{
+        formData,
+        updateFormData,
+        updateNestedFormData,
+        updateFile,
+        setFormData,
+      }}
     >
       {children}
     </FormContext.Provider>

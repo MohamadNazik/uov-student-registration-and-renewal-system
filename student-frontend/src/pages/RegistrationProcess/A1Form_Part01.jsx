@@ -308,7 +308,7 @@ function A1Form_Part01() {
                 (v). Mobile No :-
               </label>
               <input
-                type="text"
+                type="number"
                 name="Phone_Number"
                 value={formData.Address.Phone_Number}
                 onChange={(e) =>
