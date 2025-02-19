@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Banner from "../../components/Banner";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import PdfContainer from "../../components/PdfContainer";
+import A3form from "../../assets/documents/A3form.pdf";
+import A4form from "../../assets/documents/A4form.pdf";
+import A5form from "../../assets/documents/A5form.pdf";
+import A6form from "../../assets/documents/A6form.pdf";
+import Attestationform from "../../assets/documents/Attestationform.pdf";
 
 // instruction page
 
 function Instructions() {
+  const [isUnderstood, setIsUnderstood] = useState(false);
   return (
     <div className="h-screen flex flex-col gap-1 sm:gap-2 justify-start items-center mt-3 sm:mt-7">
       <Banner />
@@ -43,17 +49,39 @@ function Instructions() {
             </h2>
             <div className="flex flex-col gap-3 sm:gap-4 items-center">
               <div className="flex gap-1 sm:gap-3">
-                <PdfContainer text="A3 Form" />
-                <PdfContainer text="A4 Form" />
+                <a href={A3form} download>
+                  <PdfContainer text="A3 Form" />
+                </a>
+                <a href={A4form} download>
+                  <PdfContainer text="A4 Form" />
+                </a>
               </div>
               <div className="flex gap-1 sm:gap-3">
-                <PdfContainer text="A5 Form" />
-                <PdfContainer text="A6 Form" />
+                <a href={A5form} download>
+                  <PdfContainer text="A5 Form" />
+                </a>
+                <a href={A6form} download>
+                  <PdfContainer text="A6 Form" />
+                </a>
               </div>
-              <PdfContainer text="Attestation Form" />
+              <a href={Attestationform} download>
+                <PdfContainer text="Attestation Form" />
+              </a>
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="flex gap-3 mb-4 justify-center items-center">
+        <input
+          type="checkbox"
+          className="w-4 h-4 accent-[#391031]"
+          checked={isUnderstood}
+          onChange={(e) => setIsUnderstood(e.target.checked)}
+        />
+        <p className="text-md font-medium">
+          I have read and understood the instructions.
+        </p>
       </div>
 
       <div className="pb-3 sm:pb-8">
@@ -62,6 +90,7 @@ function Instructions() {
             text="continue to registration"
             color="bg-green-700"
             hoverColor="hover:bg-green-800"
+            isDisabled={!isUnderstood}
           />
         </Link>
       </div>
@@ -70,4 +99,3 @@ function Instructions() {
 }
 
 export default Instructions;
-
