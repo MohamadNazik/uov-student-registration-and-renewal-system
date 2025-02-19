@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Admin from "../../models/adminModel.js";
 
-export const login = async (req, res) => {
+export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
