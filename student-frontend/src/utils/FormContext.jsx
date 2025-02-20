@@ -39,10 +39,10 @@ export const FormProvider = ({ children }) => {
       citizenship_from: "",
       PI: "",
     },
-    Details_of_Parents: {
-      Name_of_Parents: "",
+    Details_of_Parents_or_Guardians: {
+      Name: "",
       Occupation: "",
-      Address: "",
+      Work_Place_Address: "",
       Phone_Number: "",
     },
     Emergency_Person: {
