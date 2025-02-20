@@ -38,11 +38,46 @@ const router = createBrowserRouter([
   { path: "/check-selection", element: <CheckSelection /> },
   { path: "/confirm-selection", element: <ConfirmSelection /> },
   { path: "/instructions", element: <Instructions /> },
-  { path: "/a1-from-part-1", element: <A1Form_Part01 /> },
-  { path: "/a1-from-part-2", element: <A1Form_Part02 /> },
-  { path: "/a1-from-part-3", element: <A1Form_Part03 /> },
-  { path: "/upload-documents", element: <UploadDocuments /> },
-  { path: "/verify-id", element: <VerifyID /> },
+  {
+    path: "/a1-from-part-1",
+    element: (
+      <FormProvider>
+        <A1Form_Part01 />
+      </FormProvider>
+    ),
+  },
+  {
+    path: "/a1-from-part-2",
+    element: (
+      <FormProvider>
+        <A1Form_Part02 />
+      </FormProvider>
+    ),
+  },
+  {
+    path: "/a1-from-part-3",
+    element: (
+      <FormProvider>
+        <A1Form_Part03 />
+      </FormProvider>
+    ),
+  },
+  {
+    path: "/upload-documents",
+    element: (
+      <FormProvider>
+        <UploadDocuments />
+      </FormProvider>
+    ),
+  },
+  {
+    path: "/verify-id",
+    element: (
+      <FormProvider>
+        <VerifyID />
+      </FormProvider>
+    ),
+  },
   { path: "/reg-success", element: <RegSuccess /> },
   { path: "/reg-submitted", element: <AlreadyRegSubmitted /> },
   { path: "/*", element: <Home /> },
@@ -51,9 +86,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <FormProvider>
-        <RouterProvider router={router} />
-      </FormProvider>
+      <RouterProvider router={router} />
     </>
   );
 }

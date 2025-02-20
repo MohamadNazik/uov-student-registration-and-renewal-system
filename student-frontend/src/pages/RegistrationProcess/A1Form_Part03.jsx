@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
+import { useFormContext } from "../../utils/FormContext";
 
 function A1Form_Part03() {
+  const { formData, updateNestedFormData } = useFormContext();
   return (
     <>
       <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex flex-col gap-5">
@@ -10,7 +12,7 @@ function A1Form_Part03() {
           {/* Details of the parents/Guardians  */}
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
             <label className="text-lg sm:text-xl xl:text-2xl font-bold uppercase">
-              6. Details of the parents/Guardians :-
+              6. Details of the Parents/Guardians :-
             </label>
           </div>
 
@@ -21,8 +23,16 @@ function A1Form_Part03() {
               </label>
               <input
                 type="text"
-                name="name"
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1"
+                name="Name"
+                value={formData.Details_of_Parents_or_Guardians.Name}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Details_of_Parents_or_Guardians",
+                    "Name",
+                    e.target.value.toUpperCase()
+                  )
+                }
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -32,7 +42,15 @@ function A1Form_Part03() {
               <input
                 type="text"
                 name="Occuption"
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
+                value={formData.Details_of_Parents_or_Guardians.Occupation}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Details_of_Parents_or_Guardians",
+                    "Occupation",
+                    e.target.value.toUpperCase()
+                  )
+                }
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -41,8 +59,18 @@ function A1Form_Part03() {
               </label>
               <input
                 type="text"
-                name="address_of_the_place_work"
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
+                name="Work_Place_Address"
+                value={
+                  formData.Details_of_Parents_or_Guardians.Work_Place_Address
+                }
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Details_of_Parents_or_Guardians",
+                    "Work_Place_Address",
+                    e.target.value.toUpperCase()
+                  )
+                }
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -51,7 +79,15 @@ function A1Form_Part03() {
               </label>
               <input
                 type="number"
-                name="telephone_no"
+                name="Phone_Number"
+                value={formData.Details_of_Parents_or_Guardians.Phone_Number}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Details_of_Parents_or_Guardians",
+                    "Phone_Number",
+                    e.target.value
+                  )
+                }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
@@ -71,8 +107,16 @@ function A1Form_Part03() {
               </label>
               <input
                 type="text"
-                name="r_name"
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
+                name="Name"
+                value={formData.Emergency_Person.Name}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Emergency_Person",
+                    "Name",
+                    e.target.value.toUpperCase()
+                  )
+                }
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -81,8 +125,16 @@ function A1Form_Part03() {
               </label>
               <input
                 type="text"
-                name="relationship"
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
+                name="Relationship"
+                value={formData.Emergency_Person.Relationship}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Emergency_Person",
+                    "Relationship",
+                    e.target.value.toUpperCase()
+                  )
+                }
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -91,8 +143,16 @@ function A1Form_Part03() {
               </label>
               <input
                 type="text"
-                name="r_address"
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
+                name="Address"
+                value={formData.Emergency_Person.Address}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Emergency_Person",
+                    "Address",
+                    e.target.value.toUpperCase()
+                  )
+                }
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -100,8 +160,16 @@ function A1Form_Part03() {
                 (iv). Contact No :-
               </label>
               <input
-                type="text"
-                name="contact_no"
+                type="number"
+                name="Phone_Number"
+                value={formData.Emergency_Person.Phone_Number}
+                onChange={(e) =>
+                  updateNestedFormData(
+                    "Emergency_Person",
+                    "Phone_Number",
+                    e.target.value
+                  )
+                }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
