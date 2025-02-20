@@ -31,7 +31,11 @@ export const studentApprovalController = async (req, res) => {
     const result = await userModel.updateOne(
       { Enrollment_Number },
       {
-        $set: { registration_approval: true, default_password: hashedPassword },
+        $set: {
+          registration_approval: true,
+          default_password: hashedPassword,
+          permanent_password: hashedPassword,
+        },
       }
     );
 
