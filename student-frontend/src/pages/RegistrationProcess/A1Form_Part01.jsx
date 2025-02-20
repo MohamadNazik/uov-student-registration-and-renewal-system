@@ -113,7 +113,10 @@ function A1Form_Part01() {
               name="Enrollment_Number"
               value={formData.Enrollment_Number}
               onChange={(e) =>
-                updateFormData("Enrollment_Number", e.target.value)
+                updateFormData(
+                  "Enrollment_Number",
+                  e.target.value.toUpperCase()
+                )
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
             />
@@ -133,7 +136,7 @@ function A1Form_Part01() {
                 (i). Title :-
               </label>
               <div className="flex gap-2 sm:gap-7 ml-9">
-                {["Rev", "Mr", "Mrs", "Miss"].map((title) => (
+                {["Rev", "Mr", "Mrs", "Miss", "Other"].map((title) => (
                   <label
                     key={title}
                     className="flex items-center space-x-1 sm:space-x-2 xl:space-x-4"
@@ -143,11 +146,14 @@ function A1Form_Part01() {
                       name="Title"
                       value={title}
                       checked={formData.Title === title}
-                      onChange={(e) => updateFormData("Title", e.target.value)}
+                      onChange={(e) => {
+                        updateFormData("Title", e.target.value);
+                        updateFormData("OtherTitle", "");
+                      }}
                       className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
                     />
                     <span className="text-sm sm:text-base xl:text-lg font-medium">
-                      {title}.
+                      {title}
                     </span>
                   </label>
                 ))}
@@ -159,10 +165,15 @@ function A1Form_Part01() {
               </label>
               <input
                 type="text"
-                name="Title"
-                value={formData.Title}
-                onChange={(e) => updateFormData("Title", e.target.value)}
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
+                name="OtherTitle"
+                value={formData.Title === "Other" ? formData.OtherTitle : ""}
+                onChange={(e) => updateFormData("OtherTitle", e.target.value)}
+                disabled={formData.Title !== "Other"}
+                className={`border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase ${
+                  formData.Title !== "Other"
+                    ? "cursor-not-allowed border-gray-400"
+                    : ""
+                }`}
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[288px] sm:w-[673px] xl:w-[1115px]">
@@ -174,7 +185,10 @@ function A1Form_Part01() {
                 name="Name_with_Initials"
                 value={formData.Name_with_Initials}
                 onChange={(e) =>
-                  updateFormData("Name_with_Initials", e.target.value)
+                  updateFormData(
+                    "Name_with_Initials",
+                    e.target.value.toUpperCase()
+                  )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
@@ -188,7 +202,10 @@ function A1Form_Part01() {
                 name="Name_denoted_by_Initials"
                 value={formData.Name_denoted_by_Initials}
                 onChange={(e) =>
-                  updateFormData("Name_denoted_by_Initials", e.target.value)
+                  updateFormData(
+                    "Name_denoted_by_Initials",
+                    e.target.value.toUpperCase()
+                  )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
@@ -215,7 +232,7 @@ function A1Form_Part01() {
                   updateNestedFormData(
                     "Address",
                     "Permenant_Address",
-                    e.target.value
+                    e.target.value.toUpperCase()
                   )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
@@ -234,7 +251,11 @@ function A1Form_Part01() {
                 name="Province"
                 value={formData.Address.Province}
                 onChange={(e) =>
-                  updateNestedFormData("Address", "Province", e.target.value)
+                  updateNestedFormData(
+                    "Address",
+                    "Province",
+                    e.target.value.toUpperCase()
+                  )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[220px] xl:w-[350px] text-sm sm:text-md xl:text-xl py-1 uppercase"
               >
@@ -259,7 +280,11 @@ function A1Form_Part01() {
                 name="District"
                 value={formData.Address.District}
                 onChange={(e) =>
-                  updateNestedFormData("Address", "District", e.target.value)
+                  updateNestedFormData(
+                    "Address",
+                    "District",
+                    e.target.value.toUpperCase()
+                  )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[220px] xl:w-[350px] text-sm sm:text-md xl:text-xl py-1 uppercase"
               >
@@ -283,7 +308,7 @@ function A1Form_Part01() {
                   updateNestedFormData(
                     "Address",
                     "Divional_Secretarial",
-                    e.target.value
+                    e.target.value.toUpperCase()
                   )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
@@ -298,7 +323,11 @@ function A1Form_Part01() {
                 name="NIC"
                 value={formData.Address.NIC}
                 onChange={(e) =>
-                  updateNestedFormData("Address", "NIC", e.target.value)
+                  updateNestedFormData(
+                    "Address",
+                    "NIC",
+                    e.target.value.toUpperCase()
+                  )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
@@ -330,7 +359,11 @@ function A1Form_Part01() {
                 name="Email"
                 value={formData.Address.Email}
                 onChange={(e) =>
-                  updateNestedFormData("Address", "Email", e.target.value)
+                  updateNestedFormData(
+                    "Address",
+                    "Email",
+                    e.target.value.toLowerCase()
+                  )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 lowercase"
               />
