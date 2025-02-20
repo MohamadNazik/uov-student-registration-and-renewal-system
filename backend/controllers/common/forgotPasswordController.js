@@ -3,7 +3,7 @@ import userModel from "../../models/userModel.js";
 import nodemailer  from 'nodemailer';
 import  bcrypt  from 'bcrypt';
 
-export const forgotPAsswordController = async (req, res) => {
+export const forgotPasswordController = async (req, res) => {
     try {
       const { email } = req.body;
   
