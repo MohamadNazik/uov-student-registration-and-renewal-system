@@ -17,6 +17,7 @@ import { A6FormVerify } from "../../controllers/User/DocumentsVerify/A6FormVerif
 import { AttestationVerify } from "../../controllers/User/DocumentsVerify/AttestationVerify.js";
 import { PaymentVerify } from "../../controllers/User/DocumentsVerify/PaymentVerify.js";
 import { UgcLetterVerify } from "../../controllers/User/DocumentsVerify/UGCLetterVerify.js";
+import { studentLoginController } from "../../controllers/User/studentLoginController.js";
 
 const router = express.Router();
 
@@ -97,5 +98,6 @@ router.post(
   A6FormVerify
 );
 router.post("/add-student", documentUploadMiddleware, addStudentController);
+router.post('/login',studentLoginController);
 
 export default router;
