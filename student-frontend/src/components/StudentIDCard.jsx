@@ -6,7 +6,15 @@ import qrcode from "../assets/QR_Code.png";
 import holder_signature from "../assets/signature.png";
 import dr_signature from "../assets/signature2.png";
 
-function StudentIDCard() {
+function StudentIDCard({
+  Name_with_Initials,
+  Enrollment_Number,
+  NIC,
+  Enrollment_Date,
+  Address,
+  Date_of_Issue,
+  Acedamic_Year,
+}) {
   return (
     <div className="flex flex-col gap-5 xl:flex-row xl:gap-14">
       {/* Front view */}
@@ -42,7 +50,7 @@ function StudentIDCard() {
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
               <h3 className="text-[9px] sm:text-[14px] font-medium">
-                John Doe
+                {Name_with_Initials}
               </h3>
             </div>
             <div className="flex  gap-2">
@@ -53,7 +61,7 @@ function StudentIDCard() {
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
               <h3 className="text-[9px] sm:text-[14px] font-medium">
-                2020/ABC/000
+                {Enrollment_Number}
               </h3>
             </div>
             <div className="flex  gap-2">
@@ -63,9 +71,7 @@ function StudentIDCard() {
                 </h3>
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
-              <h3 className="text-[9px] sm:text-[14px] font-medium">
-                123456789012
-              </h3>
+              <h3 className="text-[9px] sm:text-[14px] font-medium">{NIC}</h3>
             </div>
             <div className="flex  gap-2">
               <div className="flex gap-[5px]">
@@ -74,9 +80,7 @@ function StudentIDCard() {
                 </h3>
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
-              <h3 className="text-[9px] sm:text-[14px] font-medium">
-                01.01.2024
-              </h3>
+              <h3 className="text-[9px] sm:text-[14px] font-medium">N/A</h3>
             </div>
           </div>
         </div>
@@ -105,7 +109,7 @@ function StudentIDCard() {
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
               <h3 className="text-[9px] sm:text-[14px] font-medium">
-                123, ABC Street, XYZ
+                {Address}
               </h3>
             </div>
             <div className="flex  gap-2">
@@ -115,14 +119,12 @@ function StudentIDCard() {
                 </h3>
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
-              <h3 className="text-[9px] sm:text-[14px] font-medium">
-                01.01.2024
-              </h3>
+              <h3 className="text-[9px] sm:text-[14px] font-medium">N/A</h3>
             </div>
           </div>
 
           <h2 className="text-[9px] font-bold text-center pt-1 sm:pt-3 sm:text-[14px]">
-            Valid for four academic years from - 2024 / 2025
+            Valid for four academic years from - N/A
           </h2>
 
           <div className="flex justify-between px-6 py-1 pt-2 sm:pt-4 items-center">

@@ -251,11 +251,7 @@ function A1Form_Part01() {
                 name="Province"
                 value={formData.Address.Province}
                 onChange={(e) =>
-                  updateNestedFormData(
-                    "Address",
-                    "Province",
-                    e.target.value.toUpperCase()
-                  )
+                  updateNestedFormData("Address", "Province", e.target.value)
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[220px] xl:w-[350px] text-sm sm:text-md xl:text-xl py-1 uppercase"
               >
@@ -280,11 +276,7 @@ function A1Form_Part01() {
                 name="District"
                 value={formData.Address.District}
                 onChange={(e) =>
-                  updateNestedFormData(
-                    "Address",
-                    "District",
-                    e.target.value.toUpperCase()
-                  )
+                  updateNestedFormData("Address", "District", e.target.value)
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[220px] xl:w-[350px] text-sm sm:text-md xl:text-xl py-1 uppercase"
               >
