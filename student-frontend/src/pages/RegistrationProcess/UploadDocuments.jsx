@@ -616,12 +616,14 @@ function UploadDocuments() {
           </div>
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
-          <SecondaryButton
-            text="Next"
-            color="bg-green-700"
-            hoverColor="hover:bg-green-800"
-            isDisabled={nextButtonDisabled}
-          />
+          <Link to="/verify-id">
+            <SecondaryButton
+              text="Next"
+              color="bg-green-700"
+              hoverColor="hover:bg-green-800"
+              isDisabled={nextButtonDisabled}
+            />
+          </Link>
         </div>
       </div>
     </>
