@@ -24,7 +24,7 @@ app.use(
 
 
 app.use("/api/admin/", adminRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/users/", userRoutes);
 
 const PORT = process.env.PORT || 8080;
 
