@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const OTPVerificationSchema = new mongoose.Schema({
-  staffId: String,
+  email: String,
   otp: String,
   createdAt: Date,
   expiresAt: Date,
