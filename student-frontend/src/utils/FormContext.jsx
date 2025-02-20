@@ -54,6 +54,15 @@ export const FormProvider = ({ children }) => {
     profile_photo: null,
     Documents: {
       UGC_Letter: null,
+      BC: null,
+      NIC: null,
+      OL: null,
+      AL: null,
+      A3: null,
+      A4: null,
+      A5: null,
+      A6: null,
+      Attestation: null,
     },
   });
 
