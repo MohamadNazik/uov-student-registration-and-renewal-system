@@ -15,7 +15,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Forgot Password Controller
 export const forgotPasswordController = async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).send({ message: "Email is required" });
@@ -29,7 +28,11 @@ export const forgotPasswordController = async (req, res) => {
 
   const otp = crypto.randomInt(1000, 9999).toString();
 
-  await otpModel.create({ email, otp,expiresAt: new Date(Date.now() + 5 * 60 * 1000) });
+  await otpModel.create({
+    email,
+    otp,
+    expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+  });
 
   const mailOptions = {
     from: process.env.APP_EMAIL,
@@ -44,4 +47,37 @@ export const forgotPasswordController = async (req, res) => {
     }
     res.send({ message: "OTP sent successfully", status: "PENDING", email });
   });
+};
+
+export const verifyOTPController = async (req, res) => {
+  try {
+    const { otp, email } = req.body;
+
+    if (!otp || !email) {
+      return res.status(400).send({ message: "OTP and email are required" });
+    }
+
+    const otpData = await otpModel.findOne({ email, otp });
+
+    if (!otpData) {
+      return res.status(404).send({ message: "Invalid OTP" });
+    }
+
+    if (new Date() > otpData.expiresAt) {
+      await otpModel.deleteOne({ _id: otpData._id });
+      return res.status(400).send({ message: "OTP has expired" });
+    }
+
+    await otpModel.deleteOne({ _id: otpData._id });
+
+    return res
+      .status(200)
+      .send({ message: "OTP verified successfully", email });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error: error.message,
+      message: "Error verifying OTP",
+    });
+  }
 };
