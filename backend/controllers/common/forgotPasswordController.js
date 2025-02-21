@@ -69,6 +69,7 @@ export const verifyOTPController = async (req, res) => {
     }
 
     await otpModel.deleteOne({ _id: otpData._id });
+    await userModel.updateOne({otp_verify:true})
 
     return res
       .status(200)

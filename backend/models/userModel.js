@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  otp_verify:{
+    type:Boolean,
+    default: false,
+  },
   registration_approval: {
     type: Boolean,
     default: false,

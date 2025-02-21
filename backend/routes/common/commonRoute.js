@@ -4,5 +4,5 @@ import { forgotPasswordController, verifyOTPController } from "../../controllers
 const router = express.Router();
 
 router.post("/forgot-password", forgotPasswordController);
-router.delete('/verify-otp',verifyOTPController);
+router.post('/verify-otp',verifyOTPController);
 export default router;
