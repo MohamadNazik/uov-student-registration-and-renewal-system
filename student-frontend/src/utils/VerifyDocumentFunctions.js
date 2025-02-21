@@ -6,19 +6,20 @@ export const handleOlFile = async (
   setLoading,
   setError,
   setIsOl,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("ol");
   setError("");
   setIsOl(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-ol", formData, {
+    .post("http://localhost:8080/api/users/verify-ol", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -28,19 +29,21 @@ export const handleOlFile = async (
         setIsOl(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "OL", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsOl(false);
         setError("ol");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "OL", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -50,19 +53,20 @@ export const handleBirthCertificateFile = async (
   setLoading,
   setError,
   setIsBC,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("bc");
   setError("");
   setIsBC(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-bc", formData, {
+    .post("http://localhost:8080/api/users/verify-bc", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -72,19 +76,21 @@ export const handleBirthCertificateFile = async (
         setIsBC(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "BC", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsBC(false);
         setError("bc");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "BC", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -94,19 +100,20 @@ export const handleNICFile = async (
   setLoading,
   setError,
   setIsNic,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("nic");
   setError("");
   setIsNic(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-nic", formData, {
+    .post("http://localhost:8080/api/users/verify-nic", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -116,19 +123,21 @@ export const handleNICFile = async (
         setIsNic(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "NIC", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsNic(false);
         setError("nic");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "NIC", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -138,19 +147,20 @@ export const handleAlFile = async (
   setLoading,
   setError,
   setIsAl,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("al");
   setError("");
   setIsAl(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-al", formData, {
+    .post("http://localhost:8080/api/users/verify-al", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -160,19 +170,21 @@ export const handleAlFile = async (
         setIsAl(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "AL", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsAl(false);
         setError("al");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "AL", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -182,19 +194,20 @@ export const handleUGCLetterFile = async (
   setLoading,
   setError,
   setIsUgcLtr,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("ugc-letter");
   setError("");
   setIsUgcLtr(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-ugc", formData, {
+    .post("http://localhost:8080/api/users/verify-ugc", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -204,19 +217,21 @@ export const handleUGCLetterFile = async (
         setIsUgcLtr(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
+        setFormDataVerify(new FormData());
+        updateFile("Documents", "UGC_Letter", file);
       } else {
         setIsUgcLtr(false);
         setError("ugc-letter");
         setLoading("");
-        setFormData(new FormData());
+        setFormDataVerify(new FormData());
         e.target.value = "";
+        updateFile("Documents", "UGC_Letter", null);
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -226,19 +241,20 @@ export const handleA3formFile = async (
   setLoading,
   setError,
   setIsA3,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("a3form");
   setError("");
   setIsA3(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-a3form", formData, {
+    .post("http://localhost:8080/api/users/verify-a3form", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -248,19 +264,21 @@ export const handleA3formFile = async (
         setIsA3(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "A3", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsA3(false);
         setError("a3form");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "A3", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -270,19 +288,20 @@ export const handleA4formFile = async (
   setLoading,
   setError,
   setIsA4,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("a4form");
   setError("");
   setIsA4(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-a4form", formData, {
+    .post("http://localhost:8080/api/users/verify-a4form", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -292,20 +311,21 @@ export const handleA4formFile = async (
         setIsA4(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
-        s;
+        updateFile("Documents", "A4", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsA4(false);
         setError("a4form");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "A4", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -315,19 +335,20 @@ export const handleA5formFile = async (
   setLoading,
   setError,
   setIsA5,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("a5form");
   setError("");
   setIsA5(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-a5form", formData, {
+    .post("http://localhost:8080/api/users/verify-a5form", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -337,20 +358,21 @@ export const handleA5formFile = async (
         setIsA5(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
-        s;
+        updateFile("Documents", "A5", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsA5(false);
         setError("a5form");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "A5", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -360,19 +382,20 @@ export const handleA6formFile = async (
   setLoading,
   setError,
   setIsA6,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("a6form");
   setError("");
   setIsA6(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-a6form", formData, {
+    .post("http://localhost:8080/api/users/verify-a6form", formDataVerify, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -382,20 +405,21 @@ export const handleA6formFile = async (
         setIsA6(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
-        s;
+        updateFile("Documents", "A6", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsA6(false);
         setError("a6form");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "A6", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };
 
@@ -405,41 +429,47 @@ export const handleAttestationformFile = async (
   setLoading,
   setError,
   setIsAttestation,
-  formData,
-  setFormData
+  formDataVerify,
+  setFormDataVerify,
+  updateFile
 ) => {
   const file = e.target.files[0];
 
-  formData.append("pdf", file);
+  formDataVerify.append("pdf", file);
 
   setLoading("attestation");
   setError("");
   setIsAttestation(false);
 
   await axios
-    .post("http://localhost:8080/api/users/verify-attestation", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+    .post(
+      "http://localhost:8080/api/users/verify-attestation",
+      formDataVerify,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
     .then((res) => {
       if (res.data.success) {
         setIsAttestation(true);
         setError("");
         setLoading("");
-        setFormData(new FormData());
-        s;
+        updateFile("Documents", "Attestation", file);
+        setFormDataVerify(new FormData());
       } else {
         setIsAttestation(false);
         setError("attestation");
         setLoading("");
-        setFormData(new FormData());
+        updateFile("Documents", "Attestation", null);
+        setFormDataVerify(new FormData());
         e.target.value = "";
       }
     })
     .catch((err) => {
       console.log(err);
       setLoading("");
-      setFormData(new FormData());
+      setFormDataVerify(new FormData());
     });
 };

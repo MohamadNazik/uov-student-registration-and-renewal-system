@@ -117,7 +117,7 @@ function A1Form_Part02() {
                 formData.Educational_Qualifications.AL_result["Subject1"].Name
               }
               onChange={(e) =>
-                updateALResult("Subject1", "Name", e.target.value)
+                updateALResult("Subject1", "Name", e.target.value.toUpperCase())
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
             />
@@ -130,7 +130,11 @@ function A1Form_Part02() {
                 formData.Educational_Qualifications.AL_result["Subject1"].Result
               }
               onChange={(e) =>
-                updateALResult("Subject1", "Result", e.target.value)
+                updateALResult(
+                  "Subject1",
+                  "Result",
+                  e.target.value.toUpperCase()
+                )
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 text-sm sm:text-lg xl:text-2xl py-1"
             >
@@ -153,7 +157,7 @@ function A1Form_Part02() {
                 formData.Educational_Qualifications.AL_result["Subject2"].Name
               }
               onChange={(e) =>
-                updateALResult("Subject2", "Name", e.target.value)
+                updateALResult("Subject2", "Name", e.target.value.toUpperCase())
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
             />
@@ -166,7 +170,11 @@ function A1Form_Part02() {
                 formData.Educational_Qualifications.AL_result["Subject2"].Result
               }
               onChange={(e) =>
-                updateALResult("Subject2", "Result", e.target.value)
+                updateALResult(
+                  "Subject2",
+                  "Result",
+                  e.target.value.toUpperCase()
+                )
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 text-sm sm:text-lg xl:text-2xl py-1"
             >
@@ -188,7 +196,7 @@ function A1Form_Part02() {
                 formData.Educational_Qualifications.AL_result["Subject3"].Name
               }
               onChange={(e) =>
-                updateALResult("Subject3", "Name", e.target.value)
+                updateALResult("Subject3", "Name", e.target.value.toUpperCase())
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
             />
@@ -201,7 +209,11 @@ function A1Form_Part02() {
                 formData.Educational_Qualifications.AL_result["Subject3"].Result
               }
               onChange={(e) =>
-                updateALResult("Subject3", "Result", e.target.value)
+                updateALResult(
+                  "Subject3",
+                  "Result",
+                  e.target.value.toUpperCase()
+                )
               }
               className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 text-sm sm:text-lg xl:text-2xl py-1"
             >
@@ -249,7 +261,7 @@ function A1Form_Part02() {
                     updateNestedFormData(
                       "Details_of_Citizen",
                       "race",
-                      e.target.value
+                      e.target.value.toUpperCase()
                     );
                   }}
                   className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
@@ -268,7 +280,11 @@ function A1Form_Part02() {
               name="anyother"
               value={formData.Details_of_Citizen.PI}
               onChange={(e) =>
-                updateNestedFormData("Details_of_Citizen", "PI", e.target.value)
+                updateNestedFormData(
+                  "Details_of_Citizen",
+                  "PI",
+                  e.target.value.toUpperCase()
+                )
               }
               disabled={formData.Details_of_Citizen.race !== "OTHERS"}
               className={`border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase ${
@@ -299,7 +315,7 @@ function A1Form_Part02() {
                   updateNestedFormData(
                     "Details_of_Citizen",
                     "gender",
-                    e.target.value
+                    e.target.value.toUpperCase()
                   )
                 }
                 className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
@@ -332,7 +348,7 @@ function A1Form_Part02() {
                   updateNestedFormData(
                     "Details_of_Citizen",
                     "civil_status",
-                    e.target.value
+                    e.target.value.toUpperCase()
                   )
                 }
                 className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
@@ -356,7 +372,7 @@ function A1Form_Part02() {
               updateNestedFormData(
                 "Details_of_Citizen",
                 "religion",
-                e.target.value
+                e.target.value.toUpperCase()
               )
             }
             className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
@@ -378,7 +394,7 @@ function A1Form_Part02() {
               updateNestedFormData(
                 "Details_of_Citizen",
                 "birth_date",
-                e.target.value
+                e.target.value.toUpperCase()
               )
             }
             className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1"
@@ -389,7 +405,7 @@ function A1Form_Part02() {
             vi. Age:-
           </label>
           <input
-            type="text"
+            type="number"
             name="age"
             value={formData.Details_of_Citizen.age}
             onChange={(e) =>
@@ -438,7 +454,7 @@ function A1Form_Part02() {
                   updateNestedFormData(
                     "Details_of_Citizen",
                     "citizenship",
-                    e.target.value
+                    e.target.value.toUpperCase()
                   );
                 }}
                 className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
@@ -465,7 +481,7 @@ function A1Form_Part02() {
               updateNestedFormData(
                 "Details_of_Citizen",
                 "country",
-                e.target.value
+                e.target.value.toUpperCase()
               )
             }
             disabled={formData.Details_of_Citizen.citizenship !== "FOREIGNER"}
@@ -505,7 +521,7 @@ function A1Form_Part02() {
                   updateNestedFormData(
                     "Details_of_Citizen",
                     "citizenship_from",
-                    e.target.value
+                    e.target.value.toUpperCase()
                   )
                 }
                 className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"

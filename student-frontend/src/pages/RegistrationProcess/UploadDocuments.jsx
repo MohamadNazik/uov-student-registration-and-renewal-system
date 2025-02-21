@@ -16,11 +16,12 @@ import {
 } from "../../utils/VerifyDocumentFunctions";
 import SecondaryButton from "../../components/SecondaryButton";
 import { Link } from "react-router-dom";
+import { useFormContext } from "../../utils/FormContext";
 
 function UploadDocuments() {
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState(new FormData());
+  const [formDataVerify, setFormDataverify] = useState(new FormData());
 
   const [isUgcLtr, setIsUgcLtr] = useState(false);
   const [isBC, setIsBC] = useState(false);
@@ -35,6 +36,8 @@ function UploadDocuments() {
   const [isA6, setIsA6] = useState(false);
   const [isAttestation, setIsAttestation] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  const { updateFile } = useFormContext();
 
   useEffect(() => {
     const handleNextButton = () => {
@@ -87,17 +90,18 @@ function UploadDocuments() {
             <p className="font-medium">i. Admission Letter sent by UGC :-</p>
             <input
               type="file"
-              name="ugc-letter"
-              onChange={(e) =>
+              name="UGC_Letter"
+              onChange={(e) => {
                 handleUGCLetterFile(
                   e,
                   setLoading,
                   setError,
                   setIsUgcLtr,
-                  formData,
-                  setFormData
-                )
-              }
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
+                );
+              }}
               accept="application/pdf"
               required
               disabled={loading === "" ? false : true}
@@ -143,8 +147,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsBC,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -208,8 +213,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsNic,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -257,8 +263,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsOl,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -306,8 +313,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsAl,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -369,8 +377,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsA3,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -418,8 +427,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsA4,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -467,8 +477,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsA5,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -516,8 +527,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsA6,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -565,8 +577,9 @@ function UploadDocuments() {
                   setLoading,
                   setError,
                   setIsAttestation,
-                  formData,
-                  setFormData
+                  formDataVerify,
+                  setFormDataverify,
+                  updateFile
                 )
               }
               accept="application/pdf"
@@ -603,12 +616,14 @@ function UploadDocuments() {
           </div>
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
-          <SecondaryButton
-            text="Next"
-            color="bg-green-700"
-            hoverColor="hover:bg-green-800"
-            isDisabled={nextButtonDisabled}
-          />
+          <Link to="/verify-id">
+            <SecondaryButton
+              text="Next"
+              color="bg-green-700"
+              hoverColor="hover:bg-green-800"
+              isDisabled={nextButtonDisabled}
+            />
+          </Link>
         </div>
       </div>
     </>
