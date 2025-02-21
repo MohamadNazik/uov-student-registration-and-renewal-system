@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import ConnectDB from "./config/database.js";
 import adminRoutes from "./routes/Admin/adminRoutes.js";
 import userRoutes from "./routes/User/userRoutes.js";
+import commonRoute from './routes/common/commonRoute.js'
 
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(
 
 app.use("/api/admin/", adminRoutes);
 app.use("/api/users/", userRoutes);
+app.use ('/api/common/',commonRoute)
 
 const PORT = process.env.PORT || 8080;
 
