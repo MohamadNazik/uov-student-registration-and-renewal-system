@@ -10,6 +10,10 @@ const adminSchema = new mongoose.Schema(
       enum: ["dr", "sar", "sar_staff", "far", "far_staff"],
       required: true,
     },
+    otp_verify: {
+      type: Boolean,
+      default: false,
+    },
     permissions: { type: [String], required: true },
     eSignature: { type: String },
   },
