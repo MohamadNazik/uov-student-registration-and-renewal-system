@@ -1,9 +1,7 @@
 import React from "react";
-import StudentIDCard from "../components/StudentIDCard";
-
 
 function LoginPage() {
-  return <div><StudentIDCard/></div>;
+  return <div>Login Page</div>;
 }
 
 export default LoginPage;
