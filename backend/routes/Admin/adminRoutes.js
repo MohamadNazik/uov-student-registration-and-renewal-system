@@ -8,9 +8,9 @@ import { studentApprovalController } from "../../controllers/Admin/studentApprov
 import { loginController } from "../../controllers/Admin/authController.js";
 import { authenticate } from "../../middlewares/authMiddleware.js";
 import { checkPermission } from "../../middlewares/checkPermissions.js";
-import { createRegistrationPostController } from "../../controllers/Admin/Renewal/createRegistrationPostController.js";
-import { updateRegistrationPostController } from "../../controllers/Admin/Renewal/updateRegistrationPostController.js";
-import { deleteRegistrationPostController } from "../../controllers/Admin/Renewal/deleteRegistrationController.js";
+import { createRegistrationPostController } from "../../controllers/Admin/Registration/createRegistrationPostController.js";
+import { updateRegistrationPostController } from "../../controllers/Admin/Registration/updateRegistrationPostController.js";
+import { deleteRegistrationPostController } from "../../controllers/Admin/Registration/deleteRegistrationController.js";
 
 const router = express.Router();
 
