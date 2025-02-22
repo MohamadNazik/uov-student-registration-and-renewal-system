@@ -1,4 +1,5 @@
-import adminUpdates from "../../../models/adminUpdates.js";
+import adminUpdatesModel from "../../../models/adminUpdatesModel.js";
+
 
 export const updateRegistrationPostController = async (req, res) => {
   try {
@@ -19,7 +20,7 @@ export const updateRegistrationPostController = async (req, res) => {
       });
     }
 
-    const existingPost = await adminUpdates.findById(id);
+    const existingPost = await adminUpdatesModel.findById(id);
     if (!existingPost) {
       return res.status(404).send({
         success: false,
@@ -27,7 +28,7 @@ export const updateRegistrationPostController = async (req, res) => {
       });
     }
 
-    const updatedPost = await adminUpdates.findByIdAndUpdate(
+    const updatedPost = await adminUpdatesModel.findByIdAndUpdate(
       id,
       {
         ...(updateType && { updateType }),

@@ -1,4 +1,5 @@
-import adminUpdates from "../../../models/adminUpdates.js";
+import adminUpdatesModel from "../../../models/adminUpdatesModel.js";
+
 
 export const createRegistrationPostController = async(req,res)=>{
     try {
@@ -16,7 +17,7 @@ export const createRegistrationPostController = async(req,res)=>{
                     message: "Invalid update type"
                 })
             }else{
-                const registrationPost = new adminUpdates({
+                const registrationPost = new adminUpdatesModel({
                     adminId,
                     updateType,
                     updateMessage,

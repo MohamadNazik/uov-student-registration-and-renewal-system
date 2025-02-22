@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const adminUpdatesSchema = new Schema({
+const adminUpdatesSchema = new mongoose.Schema({
   adminId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin",
@@ -21,14 +21,14 @@ const adminUpdatesSchema = new Schema({
   },
   enrollmentDate:{
     type: Date,
-    required: true,
+    required: false,
   },
   idCardIssueDate:{
     type: Date,
-    required: true,
+    required: false,
   },
   academicYear:{
-    type: String,
+    type: [String],
     required: true,
   },
 
