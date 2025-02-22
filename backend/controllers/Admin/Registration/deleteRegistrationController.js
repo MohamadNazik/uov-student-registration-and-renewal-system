@@ -1,4 +1,5 @@
-import adminUpdates from "../../../models/adminUpdates.js";
+import adminUpdatesModel from "../../../models/adminUpdatesModel.js";
+
 
 export const deleteRegistrationPostController = async (req, res) => {
   try {
@@ -11,7 +12,7 @@ export const deleteRegistrationPostController = async (req, res) => {
       });
     }
 
-    const deletedPost = await adminUpdates.findByIdAndDelete(id);
+    const deletedPost = await adminUpdatesModel.findByIdAndDelete(id);
 
     if (!deletedPost) {
       return res.status(404).send({
