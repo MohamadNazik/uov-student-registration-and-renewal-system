@@ -8,10 +8,9 @@ import { studentApprovalController } from "../../controllers/Admin/studentApprov
 import { loginController } from "../../controllers/Admin/authController.js";
 import { authenticate } from "../../middlewares/authMiddleware.js";
 import { checkPermission } from "../../middlewares/checkPermissions.js";
-import { createRegistrationPostController } from "../../controllers/Admin/Renewal/createRegistrationPost.js";
+import { createRegistrationPostController } from "../../controllers/Admin/Renewal/createRegistrationPostController.js";
 import { updateRegistrationPostController } from "../../controllers/Admin/Renewal/updateRegistrationPostController.js";
-import { deleteRegistrationPostController } from "../../controllers/Admin/Renewal/deleteRegistrationPostController.js";
-
+import { deleteRegistrationPostController } from "../../controllers/Admin/Renewal/deleteRegistrationController.js";
 
 const router = express.Router();
 
@@ -30,7 +29,7 @@ router.post(
   studentApprovalController
 );
 router.post("/login", loginController);
-router.post('/registration-post',createRegistrationPostController);
-router.put('/update-registration-post', updateRegistrationPostController);
-router.delete('/delete-registration-post',deleteRegistrationPostController);
+router.post("/registration-post", createRegistrationPostController);
+router.put("/update-registration-post", updateRegistrationPostController);
+router.delete("/delete-registration-post", deleteRegistrationPostController);
 export default router;
