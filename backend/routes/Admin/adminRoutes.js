@@ -12,6 +12,7 @@ import { createRegistrationPostController } from "../../controllers/Admin/Regist
 import { updateRegistrationPostController } from "../../controllers/Admin/Registration/updateRegistrationPostController.js";
 import { deleteRegistrationPostController } from "../../controllers/Admin/Registration/deleteRegistrationController.js";
 import { createRenewalPostController } from "../../controllers/Admin/Renewal/createRenewalPostController.js";
+import { updateRenewalPostController } from "../../controllers/Admin/Renewal/updateRenewalPostController.js";
 
 
 const router = express.Router();
@@ -35,4 +36,5 @@ router.post('/registration-post',createRegistrationPostController);
 router.put('/update-registration-post', updateRegistrationPostController);
 router.delete('/delete-registration-post',deleteRegistrationPostController);
 router.post('/create-renewal-post',createRenewalPostController);
+router.put('/update-renewal-post',updateRenewalPostController);
 export default router;
