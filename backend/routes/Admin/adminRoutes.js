@@ -9,6 +9,9 @@ import { loginController } from "../../controllers/Admin/authController.js";
 import { authenticate } from "../../middlewares/authMiddleware.js";
 import { checkPermission } from "../../middlewares/checkPermissions.js";
 import { createRegistrationPostController } from "../../controllers/Admin/Renewal/createRegistrationPost.js";
+import { updateRegistrationPostController } from "../../controllers/Admin/Renewal/updateRegistrationPostController.js";
+import { deleteRegistrationPostController } from "../../controllers/Admin/Renewal/deleteRegistrationPostController.js";
+
 
 const router = express.Router();
 
@@ -28,4 +31,6 @@ router.post(
 );
 router.post("/login", loginController);
 router.post('/registration-post',createRegistrationPostController);
+router.put('/update-registration-post', updateRegistrationPostController);
+router.delete('/delete-registration-post',deleteRegistrationPostController);
 export default router;
