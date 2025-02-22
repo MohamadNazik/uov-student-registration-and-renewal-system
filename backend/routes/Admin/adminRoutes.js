@@ -11,6 +11,7 @@ import { checkPermission } from "../../middlewares/checkPermissions.js";
 import { createRegistrationPostController } from "../../controllers/Admin/Renewal/createRegistrationPost.js";
 import { updateRegistrationPostController } from "../../controllers/Admin/Renewal/updateRegistrationPostController.js";
 import { deleteRegistrationPostController } from "../../controllers/Admin/Renewal/deleteRegistrationPostController.js";
+import { createRenewalPostController } from "../../controllers/Admin/Renewal/createRenewalPostController.js";
 
 
 const router = express.Router();
@@ -33,4 +34,5 @@ router.post("/login", loginController);
 router.post('/registration-post',createRegistrationPostController);
 router.put('/update-registration-post', updateRegistrationPostController);
 router.delete('/delete-registration-post',deleteRegistrationPostController);
+router.post('/create-renewal-post',createRenewalPostController);
 export default router;
