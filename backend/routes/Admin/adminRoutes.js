@@ -8,6 +8,7 @@ import { studentApprovalController } from "../../controllers/Admin/studentApprov
 import { loginController } from "../../controllers/Admin/authController.js";
 import { authenticate } from "../../middlewares/authMiddleware.js";
 import { checkPermission } from "../../middlewares/checkPermissions.js";
+import { createRegistrationPostController } from "../../controllers/Admin/Renewal/createRegistrationPost.js";
 
 const router = express.Router();
 
@@ -26,4 +27,5 @@ router.post(
   studentApprovalController
 );
 router.post("/login", loginController);
+router.post('/registration-post',createRegistrationPostController);
 export default router;
