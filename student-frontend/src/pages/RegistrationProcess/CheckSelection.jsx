@@ -41,11 +41,13 @@ function CheckSelection() {
         setIsLoading(false);
         setErr(false);
         const student = {
+          NIC: res.data.data.NIC,
+          Enrollment_No: res.data.data.RegNo,
           course: res.data.data.course,
           department: res.data.data.department,
         };
         localStorage.setItem("student", JSON.stringify(student));
-        navigate("/confirm-selection");
+        // navigate("/confirm-selection");
       } else {
         setErr(true);
       }
