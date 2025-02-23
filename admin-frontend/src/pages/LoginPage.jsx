@@ -9,7 +9,7 @@ function LoginPage() {
       <Banner />
       <div className="bg-white p-8 sm:p-8 rounded-3xl flex flex-col items-center gap-5 sm:gap-8 shadow-2xl">
         <h2 className="text-sm sm:text-lg font-bold tracking-wide uppercase">
-          Student Login
+          Admin Login
         </h2>
         <div className="relative">
           <input
