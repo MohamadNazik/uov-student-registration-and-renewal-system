@@ -9,6 +9,6 @@ router.post('/verify-otp',verifyOTPController);
 router.post('/resend-otp',resendOtpController);
 router.post('/reset-password',resetPasswordController);
 
-router.get('/registration-available',checkRegistrationAvailabilityController);
+router.get('/registration-available',checkRegistrationAvailabilityController)
 
 export default router;
