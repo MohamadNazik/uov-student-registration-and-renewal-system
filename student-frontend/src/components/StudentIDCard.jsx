@@ -45,7 +45,7 @@ function StudentIDCard({
           />
           <div className="flex flex-col justify-between">
             <div className="flex gap-2">
-              <div className="flex gap-[57px] sm:gap-[84px]">
+              <div className="flex gap-[59px] sm:gap-[88px]">
                 <h3 className="text-[9px] sm:text-[14px] font-medium">Name</h3>
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
@@ -54,7 +54,7 @@ function StudentIDCard({
               </h3>
             </div>
             <div className="flex  gap-2">
-              <div className="flex gap-[23px] sm:gap-[32px]">
+              <div className="flex gap-[24px] sm:gap-[33px]">
                 <h3 className="text-[9px] sm:text-[14px] font-medium">
                   Enrollment No
                 </h3>
@@ -65,7 +65,7 @@ function StudentIDCard({
               </h3>
             </div>
             <div className="flex  gap-2">
-              <div className="flex gap-[47px] sm:gap-[70px]">
+              <div className="flex gap-[49px] sm:gap-[72px]">
                 <h3 className="text-[9px] sm:text-[14px] font-medium">
                   N.I.C No
                 </h3>
@@ -74,7 +74,7 @@ function StudentIDCard({
               <h3 className="text-[9px] sm:text-[14px] font-medium">{NIC}</h3>
             </div>
             <div className="flex  gap-2">
-              <div className="flex gap-[5px]">
+              <div className="flex gap-[6px]">
                 <h3 className="text-[9px] sm:text-[14px] font-medium">
                   Date of Enrollment
                 </h3>

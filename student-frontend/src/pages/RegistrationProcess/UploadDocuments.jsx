@@ -37,7 +37,7 @@ function UploadDocuments() {
   const [isAttestation, setIsAttestation] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
-  const { updateFile } = useFormContext();
+  const { updateNestedFormData } = useFormContext();
 
   useEffect(() => {
     const handleNextButton = () => {
@@ -99,7 +99,7 @@ function UploadDocuments() {
                   setIsUgcLtr,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 );
               }}
               accept="application/pdf"
@@ -149,7 +149,7 @@ function UploadDocuments() {
                   setIsBC,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -215,7 +215,7 @@ function UploadDocuments() {
                   setIsNic,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -265,7 +265,7 @@ function UploadDocuments() {
                   setIsOl,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -315,7 +315,7 @@ function UploadDocuments() {
                   setIsAl,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -379,7 +379,7 @@ function UploadDocuments() {
                   setIsA3,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -429,7 +429,7 @@ function UploadDocuments() {
                   setIsA4,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -479,7 +479,7 @@ function UploadDocuments() {
                   setIsA5,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -529,7 +529,7 @@ function UploadDocuments() {
                   setIsA6,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"
@@ -579,7 +579,7 @@ function UploadDocuments() {
                   setIsAttestation,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateNestedFormData
                 )
               }
               accept="application/pdf"

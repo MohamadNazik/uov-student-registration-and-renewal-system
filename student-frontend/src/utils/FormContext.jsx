@@ -173,13 +173,10 @@ export const FormProvider = ({ children }) => {
   };
 
   // Function to handle file uploads
-  const updateFile = (parent, name, file) => {
+  const updateFile = (name, file) => {
     setFormData((prev) => ({
       ...prev,
-      [parent]: {
-        ...prev[parent],
-        [name]: file,
-      },
+      [name]: file,
     }));
   };
 
