@@ -34,6 +34,9 @@ router.post(
   studentApprovalController
 );
 router.post("/login", loginController);
+
+
+//Registration and Renewal
 router.post('/registration-post',createRegistrationPostController);
 router.put('/update-registration-post', updateRegistrationPostController);
 router.delete('/delete-registration-post',deleteRegistrationPostController);
