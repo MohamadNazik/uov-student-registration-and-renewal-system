@@ -22,6 +22,7 @@ import VerifyID from "./pages/RegistrationProcess/VerifyID";
 import RegSuccess from "./pages/RegistrationProcess/RegSuccess";
 import AlreadyRegSubmitted from "./pages/RegistrationProcess/AlreadyRegSubmitted";
 import { FormProvider } from "./utils/FormContext";
+import RegNotOpen from "./pages/RegistrationProcess/RegNotOpen";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -79,7 +80,8 @@ const router = createBrowserRouter([
     ),
   },
   { path: "/reg-success", element: <RegSuccess /> },
-  { path: "/reg-submitted", element: <AlreadyRegSubmitted /> },
+  { path: "/already-reg-submitted", element: <AlreadyRegSubmitted /> },
+  { path: "/reg-not-open", element: <RegNotOpen /> },
   { path: "/*", element: <Home /> },
 ]);
 
