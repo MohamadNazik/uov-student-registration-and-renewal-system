@@ -17,6 +17,8 @@ export const addStudentController = async (req, res) => {
       Details_of_Citizen,
       Details_of_Parents,
       Emergency_Person,
+      default_password,
+      permanent_password,
     } = req.body;
 
     const address = Address || {};
@@ -25,6 +27,7 @@ export const addStudentController = async (req, res) => {
     const parentDetails = Details_of_Parents || {};
     const emergencyDetails = Emergency_Person || {};
 
+    // Check required fields
     if (
       !Enrollment_Number ||
       !Title ||
@@ -35,11 +38,11 @@ export const addStudentController = async (req, res) => {
       !citizenDetails ||
       !parentDetails ||
       !emergencyDetails ||
-      !req.files
+      !default_password ||
+      !permanent_password
     ) {
       return res.status(400).json({
-        message:
-          "Missing required fields or files. Please provide all necessary data.",
+        message: "Missing required fields. Please provide all necessary data.",
       });
     }
 
@@ -54,22 +57,39 @@ export const addStudentController = async (req, res) => {
     }
 
     const documentPaths = {};
-    const fileKeys = ["UGC_Letter"];
+    const fileKeys = [
+      "UGC_Letter",
+      "Birth_Certificate",
+      "School_leaving",
+      "NIC",
+      "OL_Result_Sheet",
+      "AL_Result_Sheet",
+      "Bank_Slip",
+      "Information_Sheet",
+      "Declaration_Form",
+      "Games_Form",
+      "Hostal_Accomodation",
+      "Digital_Signature",
+      "Attestaion_Form",
+    ];
 
+    // Process uploaded files
     for (const key of fileKeys) {
-      if (req.files[key]) {
+      if (req.files && req.files[key]) {
         const file = req.files[key][0];
         const filePath = path.join(studentDir, file.originalname);
-
         fs.writeFileSync(filePath, file.buffer);
-
-        documentPaths[key] = { Name: file.originalname, path: filePath };
+        if (key === "Digital_Signature") {
+          documentPaths[key] = { signatureData: filePath, timestamp: new Date(), signedBy: "Student" };
+        } else {
+          documentPaths[key] = { Name: file.originalname, path: filePath };
+        }
       }
     }
-    if (req.files.profile_photo) {
+
+    if (req.files && req.files.profile_photo) {
       const profilePhoto = req.files.profile_photo[0];
       const profilePhotoPath = path.join(studentDir, profilePhoto.originalname);
-
       fs.writeFileSync(profilePhotoPath, profilePhoto.buffer);
       documentPaths.profile_photo = profilePhotoPath;
     }
@@ -77,6 +97,8 @@ export const addStudentController = async (req, res) => {
     const newUser = new User({
       Enrollment_Number,
       registration_approval: false,
+      default_password,
+      permanent_password,
       Title,
       Full_Name,
       Initials,
@@ -85,7 +107,7 @@ export const addStudentController = async (req, res) => {
       Details_of_Citizen: citizenDetails,
       Details_of_Parents: parentDetails,
       Emergency_Person: emergencyDetails,
-      profile_photo: documentPaths.profile_photo,
+      profile_photo: documentPaths.profile_photo || "default_profile.png",
       Documents: documentPaths,
     });
 
