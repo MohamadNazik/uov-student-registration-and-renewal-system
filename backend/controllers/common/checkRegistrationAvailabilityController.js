@@ -2,7 +2,6 @@ import adminUpdatesModel from "../../models/adminUpdatesModel.js";
 
 export const checkRegistrationAvailabilityController = async (req, res) => {
   try {
-    
     const posts = await adminUpdatesModel
       .find({ updateType: "Registration" })
       .sort({ expireDate: -1 })
@@ -13,16 +12,12 @@ export const checkRegistrationAvailabilityController = async (req, res) => {
         success: false,
         message: "No registration post found",
       });
-    }else{
-        res.status(200).send({
-            success: true,
-            message: "Registration available",
-           
-        })
+    } else {
+      return res.status(200).send({
+        success: true,
+        message: "Registration available",
+      });
     }
-   
-
-    
   } catch (error) {
     res.status(500).send({
       success: false,
