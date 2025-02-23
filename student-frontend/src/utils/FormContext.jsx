@@ -91,7 +91,7 @@ export const FormProvider = ({ children }) => {
           Permenant_Address: "",
           Province: "",
           District: "",
-          Divional_Secretarial: "",
+          Divisional_Secretarial: "",
           NIC: "",
           Phone_Number: "",
           Email: "",

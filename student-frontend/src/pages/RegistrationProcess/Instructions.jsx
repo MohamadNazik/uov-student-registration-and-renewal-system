@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "../../components/Banner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import PdfContainer from "../../components/PdfContainer";
 import A3form from "../../assets/documents/A3form.pdf";
@@ -12,6 +12,17 @@ import Attestationform from "../../assets/documents/Attestationform.pdf";
 // instruction page
 
 function Instructions() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkAlreadyVerify = () => {
+      const student = localStorage.getItem("student");
+      if (!student) {
+        navigate("/");
+      }
+    };
+
+    checkAlreadyVerify();
+  }, [navigate]);
   const [isUnderstood, setIsUnderstood] = useState(false);
   return (
     <div className="h-screen flex flex-col gap-1 sm:gap-2 justify-start items-center mt-3 sm:mt-7">

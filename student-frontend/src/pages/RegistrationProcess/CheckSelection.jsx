@@ -13,12 +13,28 @@ function CheckSelection() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const handleRegistration = async () => {
+      try {
+        await axios
+          .get("http://localhost:8080/api/common/registration-available")
+          .then((res) => {
+            if (!res.data.success) {
+              navigate("/reg-not-open");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {}
+    };
     const checkAlreadyVerify = () => {
       const student = localStorage.getItem("student");
       if (student) {
         navigate("/confirm-selection");
       }
     };
+
+    handleRegistration();
 
     checkAlreadyVerify();
   }, [navigate]);
@@ -47,7 +63,7 @@ function CheckSelection() {
           department: res.data.data.department,
         };
         localStorage.setItem("student", JSON.stringify(student));
-        // navigate("/confirm-selection");
+        navigate("/confirm-selection");
       } else {
         setErr(true);
       }

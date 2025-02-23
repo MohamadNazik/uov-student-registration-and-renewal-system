@@ -8,7 +8,7 @@ export const checkRegistrationAvailabilityController = async (req, res) => {
       .limit(1);
 
     if (!posts || posts.length === 0) {
-      return res.status(404).send({
+      return res.status(200).send({
         success: false,
         message: "No registration post found",
       });

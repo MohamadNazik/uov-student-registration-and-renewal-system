@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import uov_logo from "../../assets/uov_logo.png";
 import upload_area from "../../assets/upload_image.jpg";
 import { Link } from "react-router-dom";
@@ -9,6 +9,58 @@ function A1Form_Part01() {
   const { formData, updateFormData, updateFile, updateNestedFormData } =
     useFormContext();
   const [stImage, setStImage] = useState(false);
+  const [enrollment_Number, setEnrollment_Number] = useState(() => {
+    const RegNo = localStorage.getItem("student");
+    return RegNo ? JSON.parse(RegNo).Enrollment_No : null;
+  });
+  const [nic, setNic] = useState(() => {
+    const RegNo = localStorage.getItem("student");
+    return RegNo ? JSON.parse(RegNo).NIC : null;
+  });
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        formData.Enrollment_Number === "" ||
+        formData.Name_with_Initials === "" ||
+        formData.Name_denoted_by_Initials === "" ||
+        formData.Address.Permenant_Address === "" ||
+        formData.Address.Province === "" ||
+        formData.Address.District === "" ||
+        formData.Address.Divional_Secretarial === "" ||
+        formData.Address.NIC === "" ||
+        formData.Address.Phone_Number === "" ||
+        formData.Address.Email === "" ||
+        formData.Title === "" ||
+        formData.profile_photo === null
+      ) {
+        setNextButtonDisabled(true);
+      } else {
+        if (formData.Title === "Other") {
+          formData.OtherTitle === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else {
+          setNextButtonDisabled(false);
+        }
+      }
+    };
+    handleNextButton();
+  }, [formData]);
+
+  useEffect(() => {
+    const preAssignValues = () => {
+      if (enrollment_Number) {
+        updateFormData("Enrollment_Number", enrollment_Number);
+      }
+      if (nic) {
+        updateNestedFormData("Address", "NIC", nic);
+      }
+    };
+    preAssignValues();
+  }, []);
 
   const provinces = [
     "Central Province",
@@ -112,13 +164,8 @@ function A1Form_Part01() {
               type="text"
               name="Enrollment_Number"
               value={formData.Enrollment_Number}
-              onChange={(e) =>
-                updateFormData(
-                  "Enrollment_Number",
-                  e.target.value.toUpperCase()
-                )
-              }
-              className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
+              disabled
+              className="border-2 rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase cursor-not-allowed border-gray-400"
             />
           </div>
 
@@ -314,14 +361,8 @@ function A1Form_Part01() {
                 type="text"
                 name="NIC"
                 value={formData.Address.NIC}
-                onChange={(e) =>
-                  updateNestedFormData(
-                    "Address",
-                    "NIC",
-                    e.target.value.toUpperCase()
-                  )
-                }
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
+                disabled
+                className="border-2 rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase cursor-not-allowed border-gray-400"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -367,6 +408,7 @@ function A1Form_Part01() {
           <Link to="/a1-from-part-2">
             <SecondaryButton
               text="Next"
+              isDisabled={nextButtonDisabled}
               color="bg-green-700"
               hoverColor="hover:bg-green-800"
             />
