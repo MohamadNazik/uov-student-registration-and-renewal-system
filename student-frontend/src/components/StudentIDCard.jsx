@@ -40,7 +40,11 @@ function StudentIDCard({
         </div>
         <div className="flex gap-2 sm:gap-4 px-6 py-2">
           <img
-            src={image ? URL.createObjectURL(image) : student_img}
+            src={
+              image && image instanceof File
+                ? URL.createObjectURL(image)
+                : student_img
+            }
             alt="student_image"
             className="w-16 h-32 sm:w-[105px] border-[1px] border-black"
           />
@@ -81,7 +85,9 @@ function StudentIDCard({
                 </h3>
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
-              <h3 className="text-[9px] sm:text-[14px] font-medium">N/A</h3>
+              <h3 className="text-[9px] sm:text-[14px] font-medium">
+                {Enrollment_Date}
+              </h3>
             </div>
           </div>
         </div>
@@ -120,12 +126,14 @@ function StudentIDCard({
                 </h3>
                 <h3 className="text-[9px] sm:text-[14px] font-medium">:</h3>
               </div>
-              <h3 className="text-[9px] sm:text-[14px] font-medium">N/A</h3>
+              <h3 className="text-[9px] sm:text-[14px] font-medium">
+                {Date_of_Issue}
+              </h3>
             </div>
           </div>
 
           <h2 className="text-[9px] font-bold text-center pt-1 sm:pt-3 sm:text-[14px]">
-            Valid for four academic years from - N/A
+            Valid for four academic years from - {Acedamic_Year}
           </h2>
 
           <div className="flex justify-between px-6 py-1 pt-2 sm:pt-4 items-center">

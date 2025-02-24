@@ -62,6 +62,7 @@ export const FormProvider = ({ children }) => {
             Address: "",
           },
           profile_photo: null,
+          signature: null,
           Documents: {
             UGC_Letter: null,
             BC: null,
@@ -137,6 +138,7 @@ export const FormProvider = ({ children }) => {
           Address: "",
         },
         profile_photo: null,
+        signature: null,
         Documents: {
           UGC_Letter: null,
           BC: null,
@@ -157,7 +159,7 @@ export const FormProvider = ({ children }) => {
     return () => clearTimeout(timeout);
   }, [navigate]);
 
-  console.log(formData);
+  // console.log(formData);
 
   // Function to update text inputs
   const updateFormData = (name, value) => {

@@ -7,6 +7,26 @@ import axios from "axios";
 
 function VerifyID() {
   const { formData } = useFormContext();
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      await axios
+        .post("http://localhost:8080/api/users/add-student", formData)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.success) {
+            sessionStorage.removeItem("formData");
+            localStorage.removeItem("student");
+            localStorage.removeItem("regDetails");
+            navigate("/reg-success");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {}
+  };
 
   return (
     <div className="mb-10">
@@ -31,6 +51,9 @@ function VerifyID() {
           Enrollment_Number={formData.Enrollment_Number}
           Address={formData.Address.Permenant_Address}
           NIC={formData.Address.NIC}
+          Enrollment_Date={formData.Enrollment_Date}
+          Date_of_Issue={formData.ID_IssueDate}
+          Acedamic_Year={formData.AcademicYear}
         />
       </div>
 
@@ -43,13 +66,12 @@ function VerifyID() {
             hoverColor="hover:bg-green-800"
           />
         </Link>
-        <Link to="/reg-success">
-          <SecondaryButton
-            text="Correct & Submit"
-            color="bg-green-700"
-            hoverColor="hover:bg-green-800"
-          />
-        </Link>
+        <SecondaryButton
+          text="Correct & Submit"
+          color="bg-green-700"
+          hoverColor="hover:bg-green-800"
+          onClick={handleSubmit}
+        />
       </div>
     </div>
   );
