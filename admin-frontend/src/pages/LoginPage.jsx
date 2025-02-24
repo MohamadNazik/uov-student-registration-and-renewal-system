@@ -42,7 +42,7 @@ function LoginPage() {
         <p className="text-red-600 text-xs sm:text-sm font-medium -mt-2 sm:-mt-4 text-center">
           Forgot password?
         </p>
-        <Link to="/admin-dashboard">
+        <Link to="/dashboard">
           <PrimaryButton text="LOGIN" />
         </Link>
       </div>
