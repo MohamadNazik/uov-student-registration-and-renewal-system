@@ -14,8 +14,21 @@ function A1Form_Part01() {
     return RegNo ? JSON.parse(RegNo).Enrollment_No : null;
   });
   const [nic, setNic] = useState(() => {
-    const RegNo = localStorage.getItem("student");
-    return RegNo ? JSON.parse(RegNo).NIC : null;
+    const nic = localStorage.getItem("student");
+    return nic ? JSON.parse(nic).NIC : null;
+  });
+
+  const [enrollmentDate, setEnrollmentDate] = useState(() => {
+    const regDetails = localStorage.getItem("regDetails");
+    return regDetails ? JSON.parse(regDetails).EnrollmentDate : null;
+  });
+  const [idIssueDate, setIDIssueDate] = useState(() => {
+    const regDetails = localStorage.getItem("regDetails");
+    return regDetails ? JSON.parse(regDetails).ID_IssueDate : null;
+  });
+  const [academicYear, setAcademicYear] = useState(() => {
+    const regDetails = localStorage.getItem("regDetails");
+    return regDetails ? JSON.parse(regDetails).AcademicYear : null;
   });
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
@@ -57,6 +70,15 @@ function A1Form_Part01() {
       }
       if (nic) {
         updateNestedFormData("Address", "NIC", nic);
+      }
+      if (enrollmentDate) {
+        updateFormData("Enrollment_Date", enrollmentDate);
+      }
+      if (idIssueDate) {
+        updateFormData("ID_IssueDate", idIssueDate);
+      }
+      if (academicYear) {
+        updateFormData("AcademicYear", academicYear);
       }
     };
     preAssignValues();

@@ -15,6 +15,9 @@ export const FormProvider = ({ children }) => {
           Title: "",
           Name_with_Initials: "",
           Name_denoted_by_Initials: "",
+          Enrollment_Date: "",
+          ID_IssueDate: "",
+          AcademicYear: "",
           Address: {
             Permenant_Address: "",
             Province: "",
@@ -87,6 +90,9 @@ export const FormProvider = ({ children }) => {
         Title: "",
         Name_with_Initials: "",
         Name_denoted_by_Initials: "",
+        Enrollment_Date: "",
+        ID_IssueDate: "",
+        AcademicYear: "",
         Address: {
           Permenant_Address: "",
           Province: "",
