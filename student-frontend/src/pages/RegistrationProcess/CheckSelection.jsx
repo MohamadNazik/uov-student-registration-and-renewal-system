@@ -20,6 +20,40 @@ function CheckSelection() {
           .then((res) => {
             if (!res.data.success) {
               navigate("/reg-not-open");
+            } else {
+              // console.log(res.data.data[0]);
+
+              const EnrollmentDate = new Date(res.data.data[0].enrollmentDate);
+
+              // Extract day, month, and year
+              const Eday = String(EnrollmentDate.getDate()).padStart(2, "0");
+              const Emonth = String(EnrollmentDate.getMonth() + 1).padStart(
+                2,
+                "0"
+              ); // Months are 0-indexed
+              const Eyear = EnrollmentDate.getFullYear();
+
+              const formattedEnrollmentDate = `${Eday}/${Emonth}/${Eyear}`;
+
+              const IdIssueDate = new Date(res.data.data[0].idCardIssueDate);
+
+              // Extract day, month, and year
+              const Iday = String(IdIssueDate.getDate()).padStart(2, "0");
+              const Imonth = String(IdIssueDate.getMonth() + 1).padStart(
+                2,
+                "0"
+              ); // Months are 0-indexed
+              const Iyear = IdIssueDate.getFullYear();
+
+              const formattedIDDate = `${Iday}/${Imonth}/${Iyear}`;
+
+              const regDetails = {
+                EnrollmentDate: formattedEnrollmentDate,
+                ID_IssueDate: formattedIDDate,
+                AcademicYear: res.data.data[0].academicYear[0],
+              };
+
+              localStorage.setItem("regDetails", JSON.stringify(regDetails));
             }
           })
           .catch((err) => {

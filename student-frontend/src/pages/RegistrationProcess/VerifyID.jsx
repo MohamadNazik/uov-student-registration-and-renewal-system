@@ -8,24 +8,6 @@ import axios from "axios";
 function VerifyID() {
   const { formData } = useFormContext();
 
-  useEffect(() => {
-    const getDetailsFromAdmin = async () => {
-      try {
-        await axios
-          .get("http://localhost:8080/api/common/registration-available")
-          .then((res) => {
-            if (res.data.success) {
-              console.log(res.data);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } catch (error) {}
-    };
-    getDetailsFromAdmin();
-  }, []);
-
   return (
     <div className="mb-10">
       <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
