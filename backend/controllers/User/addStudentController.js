@@ -10,36 +10,38 @@ export const addStudentController = async (req, res) => {
     const {
       Enrollment_Number,
       Title,
-      Full_Name,
-      Initials,
+      Name_with_Initials,
+      Name_denoted_by_Initials,
+      Enrollment_Date,
+      ID_IssueDate,
+      AcademicYear,
       Address,
       Educational_Qualifications,
       Details_of_Citizen,
-      Details_of_Parents,
+      Details_of_Parents_or_Guardians,
       Emergency_Person,
-      default_password,
-      permanent_password,
     } = req.body;
 
     const address = Address || {};
     const qualifications = Educational_Qualifications || {};
     const citizenDetails = Details_of_Citizen || {};
-    const parentDetails = Details_of_Parents || {};
+    const parentDetails = Details_of_Parents_or_Guardians || {};
     const emergencyDetails = Emergency_Person || {};
 
     // Check required fields
     if (
       !Enrollment_Number ||
       !Title ||
-      !Full_Name ||
-      !Initials ||
+      !Name_with_Initials ||
+      !Name_denoted_by_Initials ||
+      !Enrollment_Date ||
+      !ID_IssueDate ||
+      !AcademicYear ||
       !address ||
       !qualifications ||
       !citizenDetails ||
       !parentDetails ||
-      !emergencyDetails ||
-      !default_password ||
-      !permanent_password
+      !emergencyDetails 
     ) {
       return res.status(400).json({
         message: "Missing required fields. Please provide all necessary data.",
@@ -59,18 +61,15 @@ export const addStudentController = async (req, res) => {
     const documentPaths = {};
     const fileKeys = [
       "UGC_Letter",
-      "Birth_Certificate",
-      "School_leaving",
+      "BC",
       "NIC",
-      "OL_Result_Sheet",
-      "AL_Result_Sheet",
-      "Bank_Slip",
-      "Information_Sheet",
-      "Declaration_Form",
-      "Games_Form",
-      "Hostal_Accomodation",
-      "Digital_Signature",
-      "Attestaion_Form",
+      "OL",
+      "AL",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "Attestation",
     ];
 
     // Process uploaded files
@@ -96,16 +95,16 @@ export const addStudentController = async (req, res) => {
 
     const newUser = new User({
       Enrollment_Number,
-      registration_approval: false,
-      default_password,
-      permanent_password,
       Title,
-      Full_Name,
-      Initials,
+      Name_with_Initials,
+      Name_denoted_by_Initials,
+      Enrollment_Date,
+      ID_IssueDate,
+      AcademicYear,
       Address: address,
       Educational_Qualifications: qualifications,
       Details_of_Citizen: citizenDetails,
-      Details_of_Parents: parentDetails,
+      Details_of_Parents_or_Guardians: parentDetails,
       Emergency_Person: emergencyDetails,
       profile_photo: documentPaths.profile_photo || "default_profile.png",
       Documents: documentPaths,

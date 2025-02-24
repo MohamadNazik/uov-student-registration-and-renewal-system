@@ -6,8 +6,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  otp_verify:{
-    type:Boolean,
+  otp_verify: {
+    type: Boolean,
     default: false,
   },
   registration_approval: {
@@ -16,21 +16,33 @@ const userSchema = new mongoose.Schema({
   },
   default_password: {
     type: String,
-    required: true,
+    required: false,
   },
   permanent_password: {
     type: String,
-    required: true,
+    required: false,
   },
   Title: {
     type: String,
     required: true,
   },
-  Full_Name: {
+  Name_with_Initials: {
     type: String,
     required: true,
   },
-  Initials: {
+  Name_denoted_by_Initials: {
+    type: String,
+    required: true,
+  },
+  Enrollment_Date:{
+    type: String,
+    required: true,
+  },
+  ID_IssueDate:{
+    type: String,
+    required: true,
+  },
+  AcademicYear:{
     type: String,
     required: true,
   },
@@ -69,15 +81,16 @@ const userSchema = new mongoose.Schema({
     religion: { type: String, required: true },
     nationality: { type: String, required: true },
     birth_date: { type: Date, required: true },
-    country: {
-      desent: { type: String },
-      registration: { type: String },
-    },
+    age: { type: Number, required: true },
+    citizenship: { type: String, required: true },
+    country: { type: String, required: true},
+    citizenship_from:{type: String, required: true},
+    PI:{ type:String, required:true}
   },
-  Details_of_Parents: {
-    Name_of_Parents: { type: String, required: true },
+  Details_of_Parents_or_Guardians: {
+    Name: { type: String, required: true },
     Occupation: { type: String, required: true },
-    Address: { type: String, required: true },
+    Work_Place_Address: { type: String, required: true },
     Phone_Number: { type: String, required: true },
   },
   Emergency_Person: {
@@ -89,18 +102,19 @@ const userSchema = new mongoose.Schema({
   profile_photo: {
     type: String,
     required: true,
-    default: "default_profile.png",
+    
+  },
+  signature:{
+    type: String,
+    required: true,
+    
   },
   Documents: {
     UGC_Letter: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    Birth_Certificate: {
-      Name: { type: String, required: true },
-      path: { type: String, required: true },
-    },
-    School_leaving: {
+    BC: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
@@ -108,49 +122,31 @@ const userSchema = new mongoose.Schema({
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    OL_Result_Sheet: {
+    OL: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    AL_Result_Sheet: {
+    AL: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    Bank_Slip: {
+    A3: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    Information_Sheet: {
+    A4: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    Declaration_Form: {
+    A5: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    Games_Form: {
+    A6: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
-    Hostal_Accomodation: {
-      Name: { type: String, required: true },
-      path: { type: String, required: true },
-    },
-    Digital_Signature: {
-      signatureData: {
-        type: String, // Base64-encoded string or file path
-        required: false,
-      },
-      timestamp: {
-        type: Date,
-        default: Date.now,
-      },
-      signedBy: {
-        type: String,
-        required: false,
-      },
-    },
-    Attestaion_Form: {
+    Attestation: {
       Name: { type: String, required: true },
       path: { type: String, required: true },
     },
