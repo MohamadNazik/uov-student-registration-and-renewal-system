@@ -1,7 +1,7 @@
 {
   /* A1 form part 02*/
 }
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SecondaryButton from "../../components/SecondaryButton";
 import { Link } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
@@ -14,6 +14,50 @@ function A1Form_Part02() {
     updateFile,
     setFormData,
   } = useFormContext();
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        formData.Educational_Qualifications.AL_year === "" ||
+        formData.Educational_Qualifications.Index_AL === "" ||
+        formData.Educational_Qualifications.Zscore === "" ||
+        formData.Educational_Qualifications.AL_result.Subject1.Name === "" ||
+        formData.Educational_Qualifications.AL_result.Subject1.Result === "" ||
+        formData.Educational_Qualifications.AL_result.Subject2.Name === "" ||
+        formData.Educational_Qualifications.AL_result.Subject2.Result === "" ||
+        formData.Educational_Qualifications.AL_result.Subject3.Name === "" ||
+        formData.Educational_Qualifications.AL_result.Subject3.Result === "" ||
+        formData.Details_of_Citizen.race === "" ||
+        formData.Details_of_Citizen.gender === "" ||
+        formData.Details_of_Citizen.civil_status === "" ||
+        formData.Details_of_Citizen.religion === "" ||
+        formData.Details_of_Citizen.birth_date === "" ||
+        formData.Details_of_Citizen.age === "" ||
+        formData.Details_of_Citizen.citizenship === ""
+      ) {
+        setNextButtonDisabled(true);
+      } else {
+        if (formData.Details_of_Citizen.race === "OTHERS") {
+          formData.Details_of_Citizen.PI === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
+          formData.Details_of_Citizen.citizenship_from === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else if (formData.Details_of_Citizen.citizenship === "FOREIGNER") {
+          formData.Details_of_Citizen.country === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else {
+          setNextButtonDisabled(false);
+        }
+      }
+    };
+    handleNextButton();
+  }, [formData]);
 
   const updateALResult = (subjectKey, field, value) => {
     setFormData((prev) => ({
@@ -539,6 +583,7 @@ function A1Form_Part02() {
               text="Next"
               color="bg-green-700"
               hoverColor="hover:bg-green-800"
+              isDisabled={nextButtonDisabled}
             />
           </Link>
         </div>
