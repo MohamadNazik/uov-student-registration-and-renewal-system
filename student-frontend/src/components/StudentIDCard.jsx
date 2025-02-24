@@ -7,6 +7,7 @@ import holder_signature from "../assets/signature.png";
 import dr_signature from "../assets/signature2.png";
 
 function StudentIDCard({
+  image,
   Name_with_Initials,
   Enrollment_Number,
   NIC,
@@ -39,9 +40,9 @@ function StudentIDCard({
         </div>
         <div className="flex gap-2 sm:gap-4 px-6 py-2">
           <img
-            src={student_img}
+            src={image ? URL.createObjectURL(image) : student_img}
             alt="student_image"
-            className="w-16 sm:w-[105px] border-[1px] border-black"
+            className="w-16 h-32 sm:w-[105px] border-[1px] border-black"
           />
           <div className="flex flex-col justify-between">
             <div className="flex gap-2">

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import StudentIDCard from "../../components/StudentIDCard";
 import { useFormContext } from "../../utils/FormContext";
@@ -25,6 +25,7 @@ function VerifyID() {
     };
     getDetailsFromAdmin();
   }, []);
+
   return (
     <div className="mb-10">
       <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
@@ -43,6 +44,7 @@ function VerifyID() {
       {/* student id */}
       <div className="flex w-full justify-center py-5 xl:py-16">
         <StudentIDCard
+          image={formData.profile_photo}
           Name_with_Initials={formData.Name_with_Initials}
           Enrollment_Number={formData.Enrollment_Number}
           Address={formData.Address.Permenant_Address}

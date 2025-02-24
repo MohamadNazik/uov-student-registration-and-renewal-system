@@ -34,7 +34,7 @@ function A1Form_Part01() {
         formData.Address.Phone_Number === "" ||
         formData.Address.Email === "" ||
         formData.Title === "" ||
-        formData.profile_photo === null
+        !(formData.profile_photo instanceof File)
       ) {
         setNextButtonDisabled(true);
       } else {
