@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import { useFormContext } from "../../utils/FormContext";
 
 function A1Form_Part03() {
   const { formData, updateNestedFormData } = useFormContext();
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        formData.Details_of_Parents_or_Guardians.Name === "" ||
+        formData.Details_of_Parents_or_Guardians.Occupation === "" ||
+        formData.Details_of_Parents_or_Guardians.Phone_Number === "" ||
+        formData.Emergency_Person.Name === "" ||
+        formData.Emergency_Person.Relationship === "" ||
+        formData.Emergency_Person.Address === "" ||
+        formData.Emergency_Person.Phone_Number === ""
+      ) {
+        setNextButtonDisabled(true);
+      } else {
+        setNextButtonDisabled(false);
+      }
+    };
+    handleNextButton();
+  }, [formData]);
   return (
     <>
       <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex flex-col gap-5">
@@ -182,6 +202,7 @@ function A1Form_Part03() {
               text="Next"
               color="bg-green-700"
               hoverColor="hover:bg-green-800"
+              isDisabled={nextButtonDisabled}
             />
           </Link>
         </div>
