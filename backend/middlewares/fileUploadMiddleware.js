@@ -38,4 +38,5 @@ export const documentUploadMiddleware = upload.fields([
   { name: "A6", maxCount: 1 },
   { name: "Attestation", maxCount: 1 },
   { name: "signature", maxCount: 1 },
+  
 ]);

@@ -28,7 +28,6 @@ export const addStudentController = async (req, res) => {
     const parentDetails = Details_of_Parents_or_Guardians || {};
     const emergencyDetails = Emergency_Person || {};
 
-    // Check required fields
     if (
       !Enrollment_Number ||
       !Title ||
@@ -70,27 +69,32 @@ export const addStudentController = async (req, res) => {
       "A5",
       "A6",
       "Attestation",
+      "profile_photo",
+      "signature"
     ];
 
-    // Process uploaded files
     for (const key of fileKeys) {
-      if (req.files && req.files[key]) {
+      if (req.files?.[key]?.length) {
         const file = req.files[key][0];
         const filePath = path.join(studentDir, file.originalname);
         fs.writeFileSync(filePath, file.buffer);
-        if (key === "Digital_Signature") {
-          documentPaths[key] = { signatureData: filePath, timestamp: new Date(), signedBy: "Student" };
-        } else {
-          documentPaths[key] = { Name: file.originalname, path: filePath };
-        }
+
+        documentPaths[key] = { Name: file.originalname, path: filePath };
       }
     }
 
-    if (req.files && req.files.profile_photo) {
+    if (req.files?.profile_photo?.length) {
       const profilePhoto = req.files.profile_photo[0];
       const profilePhotoPath = path.join(studentDir, profilePhoto.originalname);
       fs.writeFileSync(profilePhotoPath, profilePhoto.buffer);
-      documentPaths.profile_photo = profilePhotoPath;
+      documentPaths.profile_photo = { Name: profilePhoto.originalname, path: profilePhotoPath };
+    }
+
+    if (req.files?.signature?.length) {
+      const signaturePhoto = req.files.signature[0];
+      const signaturePhotoPath = path.join(studentDir, signaturePhoto.originalname);
+      fs.writeFileSync(signaturePhotoPath, signaturePhoto.buffer);
+      documentPaths.signature = { Name: signaturePhoto.originalname, path: signaturePhotoPath };
     }
 
     const newUser = new User({
@@ -106,7 +110,8 @@ export const addStudentController = async (req, res) => {
       Details_of_Citizen: citizenDetails,
       Details_of_Parents_or_Guardians: parentDetails,
       Emergency_Person: emergencyDetails,
-      profile_photo: documentPaths.profile_photo || "default_profile.png",
+      profile_photo: documentPaths.profile_photo?.path || "default_profile.png",
+      signature: documentPaths.signature?.path || "default_signature.png",
       Documents: documentPaths,
     });
 

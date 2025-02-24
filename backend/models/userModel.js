@@ -34,15 +34,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Enrollment_Date:{
+  Enrollment_Date: {
     type: String,
     required: true,
   },
-  ID_IssueDate:{
+  ID_IssueDate: {
     type: String,
     required: true,
   },
-  AcademicYear:{
+  AcademicYear: {
     type: String,
     required: true,
   },
@@ -83,9 +83,9 @@ const userSchema = new mongoose.Schema({
     birth_date: { type: Date, required: true },
     age: { type: Number, required: true },
     citizenship: { type: String, required: true },
-    country: { type: String, required: true},
-    citizenship_from:{type: String, required: true},
-    PI:{ type:String, required:true}
+    country: { type: String, required: true },
+    citizenship_from: { type: String, required: true },
+    PI: { type: String, required: true },
   },
   Details_of_Parents_or_Guardians: {
     Name: { type: String, required: true },
@@ -102,12 +102,10 @@ const userSchema = new mongoose.Schema({
   profile_photo: {
     type: String,
     required: true,
-    
   },
-  signature:{
+  signature: {
     type: String,
     required: true,
-    
   },
   Documents: {
     UGC_Letter: {
