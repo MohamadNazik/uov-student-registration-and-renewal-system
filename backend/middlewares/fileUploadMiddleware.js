@@ -14,7 +14,9 @@ const upload = multer({
     ];
     if (!allowedTypes.includes(file.mimetype)) {
       return cb(
-        new Error("Invalid file type. Only PDF, JPEG, PNG, and Excel files are allowed.")
+        new Error(
+          "Invalid file type. Only PDF, JPEG, PNG, and Excel files are allowed."
+        )
       );
     }
     cb(null, true);
@@ -26,16 +28,15 @@ export const fileUploadMiddleware = upload.single("file");
 export const documentUploadMiddleware = upload.fields([
   { name: "UGC_Letter", maxCount: 1 },
   { name: "profile_photo", maxCount: 1 },
-  { name: "Birth_Certificate", maxCount: 1 },
-  { name: "School_leaving", maxCount: 1 },
+  { name: "BC", maxCount: 1 },
   { name: "NIC", maxCount: 1 },
-  { name: "OL_Result_Sheet", maxCount: 1 },
-  { name: "AL_Result_Sheet", maxCount: 1 },
-  { name: "Bank_Slip", maxCount: 1 },
-  { name: "Information_Sheet", maxCount: 1 },
-  { name: "Declaration_Form", maxCount: 1 },
-  { name: "Games_Form", maxCount: 1 },
-  { name: "Hostal_Accomodation", maxCount: 1 },
-  { name: "Digital_Signature", maxCount: 1 },
-  { name: "Attestaion_Form", maxCount: 1 },
+  { name: "OL", maxCount: 1 },
+  { name: "AL", maxCount: 1 },
+  { name: "A3", maxCount: 1 },
+  { name: "A4", maxCount: 1 },
+  { name: "A5", maxCount: 1 },
+  { name: "A6", maxCount: 1 },
+  { name: "Attestation", maxCount: 1 },
+  { name: "signature", maxCount: 1 },
+  
 ]);
