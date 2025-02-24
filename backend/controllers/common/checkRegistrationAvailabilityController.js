@@ -14,13 +14,14 @@ export const checkRegistrationAvailabilityController = async (req, res) => {
         message: "No registration post found",
       });
     } else {
-      const signature = await adminModel.findOne({email:"deputy@example.com"})
-     
+      const signature = await adminModel.findOne({
+        email: "deputy@example.com",
+      });
 
       return res.status(200).send({
         success: true,
         message: "Registration available",
-        data:posts,
+        data: posts,
         signatureData: signature ? signature.eSignature : null,
       });
     }

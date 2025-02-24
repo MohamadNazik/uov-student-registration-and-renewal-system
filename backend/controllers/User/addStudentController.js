@@ -10,36 +10,37 @@ export const addStudentController = async (req, res) => {
     const {
       Enrollment_Number,
       Title,
-      Full_Name,
-      Initials,
+      Name_with_Initials,
+      Name_denoted_by_Initials,
+      Enrollment_Date,
+      ID_IssueDate,
+      AcademicYear,
       Address,
       Educational_Qualifications,
       Details_of_Citizen,
-      Details_of_Parents,
+      Details_of_Parents_or_Guardians,
       Emergency_Person,
-      default_password,
-      permanent_password,
     } = req.body;
 
     const address = Address || {};
     const qualifications = Educational_Qualifications || {};
     const citizenDetails = Details_of_Citizen || {};
-    const parentDetails = Details_of_Parents || {};
+    const parentDetails = Details_of_Parents_or_Guardians || {};
     const emergencyDetails = Emergency_Person || {};
 
-    // Check required fields
     if (
       !Enrollment_Number ||
       !Title ||
-      !Full_Name ||
-      !Initials ||
+      !Name_with_Initials ||
+      !Name_denoted_by_Initials ||
+      !Enrollment_Date ||
+      !ID_IssueDate ||
+      !AcademicYear ||
       !address ||
       !qualifications ||
       !citizenDetails ||
       !parentDetails ||
-      !emergencyDetails ||
-      !default_password ||
-      !permanent_password
+      !emergencyDetails 
     ) {
       return res.status(400).json({
         message: "Missing required fields. Please provide all necessary data.",
@@ -59,55 +60,58 @@ export const addStudentController = async (req, res) => {
     const documentPaths = {};
     const fileKeys = [
       "UGC_Letter",
-      "Birth_Certificate",
-      "School_leaving",
+      "BC",
       "NIC",
-      "OL_Result_Sheet",
-      "AL_Result_Sheet",
-      "Bank_Slip",
-      "Information_Sheet",
-      "Declaration_Form",
-      "Games_Form",
-      "Hostal_Accomodation",
-      "Digital_Signature",
-      "Attestaion_Form",
+      "OL",
+      "AL",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "Attestation",
+      "profile_photo",
+      "signature"
     ];
 
-    // Process uploaded files
     for (const key of fileKeys) {
-      if (req.files && req.files[key]) {
+      if (req.files?.[key]?.length) {
         const file = req.files[key][0];
         const filePath = path.join(studentDir, file.originalname);
         fs.writeFileSync(filePath, file.buffer);
-        if (key === "Digital_Signature") {
-          documentPaths[key] = { signatureData: filePath, timestamp: new Date(), signedBy: "Student" };
-        } else {
-          documentPaths[key] = { Name: file.originalname, path: filePath };
-        }
+
+        documentPaths[key] = { Name: file.originalname, path: filePath };
       }
     }
 
-    if (req.files && req.files.profile_photo) {
+    if (req.files?.profile_photo?.length) {
       const profilePhoto = req.files.profile_photo[0];
       const profilePhotoPath = path.join(studentDir, profilePhoto.originalname);
       fs.writeFileSync(profilePhotoPath, profilePhoto.buffer);
-      documentPaths.profile_photo = profilePhotoPath;
+      documentPaths.profile_photo = { Name: profilePhoto.originalname, path: profilePhotoPath };
+    }
+
+    if (req.files?.signature?.length) {
+      const signaturePhoto = req.files.signature[0];
+      const signaturePhotoPath = path.join(studentDir, signaturePhoto.originalname);
+      fs.writeFileSync(signaturePhotoPath, signaturePhoto.buffer);
+      documentPaths.signature = { Name: signaturePhoto.originalname, path: signaturePhotoPath };
     }
 
     const newUser = new User({
       Enrollment_Number,
-      registration_approval: false,
-      default_password,
-      permanent_password,
       Title,
-      Full_Name,
-      Initials,
+      Name_with_Initials,
+      Name_denoted_by_Initials,
+      Enrollment_Date,
+      ID_IssueDate,
+      AcademicYear,
       Address: address,
       Educational_Qualifications: qualifications,
       Details_of_Citizen: citizenDetails,
-      Details_of_Parents: parentDetails,
+      Details_of_Parents_or_Guardians: parentDetails,
       Emergency_Person: emergencyDetails,
-      profile_photo: documentPaths.profile_photo || "default_profile.png",
+      profile_photo: documentPaths.profile_photo?.path || "default_profile.png",
+      signature: documentPaths.signature?.path || "default_signature.png",
       Documents: documentPaths,
     });
 
