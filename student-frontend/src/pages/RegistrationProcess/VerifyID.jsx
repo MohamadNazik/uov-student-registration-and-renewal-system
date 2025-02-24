@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import StudentIDCard from "../../components/StudentIDCard";
 import { useFormContext } from "../../utils/FormContext";
+import axios from "axios";
 
 function VerifyID() {
   const { formData } = useFormContext();
+
+  useEffect(() => {
+    const getDetailsFromAdmin = async () => {
+      try {
+        await axios
+          .get("http://localhost:8080/api/common/registration-available")
+          .then((res) => {
+            if (res.data.success) {
+              console.log(res.data);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {}
+    };
+    getDetailsFromAdmin();
+  }, []);
   return (
-    <>
+    <div className="mb-10">
       <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
         {/* Details of the parents/Guardians  */}
         <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -48,7 +67,7 @@ function VerifyID() {
           />
         </Link>
       </div>
-    </>
+    </div>
   );
 }
 
