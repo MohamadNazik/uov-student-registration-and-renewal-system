@@ -1,4 +1,5 @@
 import adminUpdatesModel from "../../models/adminUpdatesModel.js";
+import adminModel from "../../models/adminModel.js";
 
 export const checkRegistrationAvailabilityController = async (req, res) => {
   try {
@@ -13,9 +14,14 @@ export const checkRegistrationAvailabilityController = async (req, res) => {
         message: "No registration post found",
       });
     } else {
+      const signature = await adminModel.findOne({email:"deputy@example.com"})
+     
+
       return res.status(200).send({
         success: true,
         message: "Registration available",
+        data:posts,
+        signatureData: signature ? signature.eSignature : null,
       });
     }
   } catch (error) {
