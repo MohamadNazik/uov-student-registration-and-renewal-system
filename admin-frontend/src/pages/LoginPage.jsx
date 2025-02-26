@@ -11,15 +11,15 @@ function LoginPage() {
    const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === "sar_admin" && password === "password") {
+    if (uname === "sar_admin" && pwd === "sar123") {
       localStorage.setItem("adminRole", "SAR");
       navigate("/dashboard");
     } 
-    else if (username === "dr_admin" && password === "password") {
+    else if (uname === "dr_admin" && pwd === "dr123") {
       localStorage.setItem("adminRole", "DR");
       navigate("/dashboard");
     }
-    else if (username === "far_admin" && password === "password") {
+    else if (uname === "far_admin" && pwd === "far123") {
       localStorage.setItem("adminRole", "FAR");
       navigate("/dashboard");
     }
@@ -38,6 +38,8 @@ function LoginPage() {
           <input
             type="text"
             id="username"
+            value={uname}
+            onChange={(e) => setUname(e.target.value)}
             className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[20rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
             placeholder=" "
           />
@@ -52,6 +54,8 @@ function LoginPage() {
           <input
             type="password"
             id="password"
+            value={pwd}
+            onChange={(e) => setPwd(e.target.value)}
             className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[20rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
             placeholder=" "
           />
