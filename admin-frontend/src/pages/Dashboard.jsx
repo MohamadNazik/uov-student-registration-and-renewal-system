@@ -53,7 +53,7 @@ function Dashboard() {
         {adminRole === "FAR" && (
           <>
             <Link to="/renewal-submission">
-              <TextCard text="Renewal Submission" />
+              <TextCard text="Renewal Submissions" />
             </Link>
             <Link to="/system-settings">
               <TextCard text="System Settings" />
