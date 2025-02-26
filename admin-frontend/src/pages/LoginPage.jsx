@@ -7,6 +7,26 @@ function LoginPage() {
    const [uname,setUname] = useState("");
    const [pwd,setPwd] = useState("");
    const navigate = useNavigate();
+
+   const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (username === "sar_admin" && password === "password") {
+      localStorage.setItem("adminRole", "SAR");
+      navigate("/dashboard");
+    } 
+    else if (username === "dr_admin" && password === "password") {
+      localStorage.setItem("adminRole", "DR");
+      navigate("/dashboard");
+    }
+    else if (username === "far_admin" && password === "password") {
+      localStorage.setItem("adminRole", "FAR");
+      navigate("/dashboard");
+    }
+    else {
+      console.log("Invalid username or password");
+    }
+  };
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
