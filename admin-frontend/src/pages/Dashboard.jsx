@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 
 function Dashboard() {
-  const [adminRole, setAdminRole] = useState('');
+  const [adminRole, setAdminRole] = useState("");
 
   useEffect(() => {
     const role = localStorage.getItem("adminRole");
@@ -22,7 +22,7 @@ function Dashboard() {
     <div><Header title="Admin Dashboard" />
       <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
 
-        {(adminRole === "SAR") && (
+        {adminRole === "SAR" && (
           <>
             <Link to="/new-registration">
               <TextCard text="New Registration" />
@@ -36,7 +36,7 @@ function Dashboard() {
           </>
         )}
 
-        {(adminRole === "SAR") && (
+        {adminRole === "DR" && (
           <>
             <Link to="/new-registration">
               <TextCard text="New Registration" />
