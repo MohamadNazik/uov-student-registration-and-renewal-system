@@ -6,7 +6,17 @@ import { Link } from "react-router-dom";
 
 
 function Dashboard() {
+  const [adminRole, setAdminRole] = useState('');
 
+  useEffect(() => {
+    const role = localStorage.getItem("adminRole");
+    if (role) {
+      setAdminRole(role);
+    } else {
+      console.log("No admin role found,user should be redirected to login");
+
+    }
+  }, []);
 
   return (
     <div><Header title="Admin Dashboard" />
