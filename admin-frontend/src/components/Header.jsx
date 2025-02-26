@@ -16,7 +16,7 @@ function Header({ title }) {
         {title}
       </h1>
 
-      <Link to="/login">
+      <Link to="/">
         <img
           src={logout_icon}
           alt="logout_icon"
