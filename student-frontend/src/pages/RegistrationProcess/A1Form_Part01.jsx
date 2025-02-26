@@ -4,11 +4,26 @@ import upload_area from "../../assets/upload_image.jpg";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import { useFormContext } from "../../utils/FormContext";
+import { openDB } from "idb";
 
 function A1Form_Part01() {
-  const { formData, updateFormData, updateFile, updateNestedFormData } =
-    useFormContext();
-  const [stImage, setStImage] = useState(false);
+  const {
+    formData,
+    updateFormData,
+    updateFile,
+    updateNestedFormData,
+    updateDocumentFile,
+  } = useFormContext();
+
+  const dbPromise = openDB("fileDB", 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files");
+      }
+    },
+  });
+
+  const [stImage, setStImage] = useState("");
   const [enrollment_Number, setEnrollment_Number] = useState(() => {
     const RegNo = localStorage.getItem("student");
     return RegNo ? JSON.parse(RegNo).Enrollment_No : null;
@@ -34,36 +49,15 @@ function A1Form_Part01() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
   useEffect(() => {
-    const handleNextButton = () => {
-      if (
-        formData.Enrollment_Number === "" ||
-        formData.Name_with_Initials === "" ||
-        formData.Name_denoted_by_Initials === "" ||
-        formData.Address.Permenant_Address === "" ||
-        formData.Address.Province === "" ||
-        formData.Address.District === "" ||
-        formData.Address.Divional_Secretarial === "" ||
-        formData.Address.NIC === "" ||
-        formData.Address.Phone_Number === "" ||
-        formData.Address.Email === "" ||
-        formData.Title === "" ||
-        !(formData.profile_photo instanceof File)
-      ) {
-        setNextButtonDisabled(true);
-      } else {
-        if (formData.Title === "Other") {
-          formData.OtherTitle === ""
-            ? setNextButtonDisabled(true)
-            : setNextButtonDisabled(false);
-        } else {
-          setNextButtonDisabled(false);
-        }
+    const loadProfilePhoto = async () => {
+      const db = await dbPromise;
+      const storedFile = await db.get("files", "profile_photo");
+
+      if (storedFile) {
+        setStImage(storedFile);
       }
     };
-    handleNextButton();
-  }, [formData]);
 
-  useEffect(() => {
     const preAssignValues = () => {
       if (enrollment_Number) {
         updateFormData("Enrollment_Number", enrollment_Number);
@@ -82,7 +76,38 @@ function A1Form_Part01() {
       }
     };
     preAssignValues();
+    loadProfilePhoto();
   }, []);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        formData.Enrollment_Number === "" ||
+        formData.Name_with_Initials === "" ||
+        formData.Name_denoted_by_Initials === "" ||
+        formData.Address.Permenant_Address === "" ||
+        formData.Address.Province === "" ||
+        formData.Address.District === "" ||
+        formData.Address.Divional_Secretarial === "" ||
+        formData.Address.NIC === "" ||
+        formData.Address.Phone_Number === "" ||
+        formData.Address.Email === "" ||
+        formData.Title === ""
+      ) {
+        setNextButtonDisabled(true);
+      } else {
+        if (formData.Title === "Other") {
+          formData.OtherTitle === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else {
+          setNextButtonDisabled(false);
+        }
+      }
+      setNextButtonDisabled(stImage === null || stImage === "");
+    };
+    handleNextButton();
+  }, [formData, stImage]);
 
   const provinces = [
     "Central Province",
@@ -123,8 +148,14 @@ function A1Form_Part01() {
     "Vavuniya",
   ];
 
-  const profilePhotoHandle = (e) => {
-    setStImage(e.target.files[0]);
+  const profilePhotoHandle = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const db = await dbPromise;
+    await db.put("files", file, "profile_photo"); // Save to IndexedDB
+
+    setStImage(file); // Update state
     updateFile("profile_photo", e.target.files[0]);
   };
 

@@ -1,12 +1,20 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { openDB } from "idb";
 
 const FormContext = createContext();
 
+// Initialize IndexedDB for file storage
+const dbPromise = openDB("fileDB", 1, {
+  upgrade(db) {
+    db.createObjectStore("files");
+  },
+});
+
 export const FormProvider = ({ children }) => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState(() => {
-    // Load form data from sessionStorage (if available)
     const savedData = sessionStorage.getItem("formData");
     return savedData
       ? JSON.parse(savedData)
@@ -22,7 +30,7 @@ export const FormProvider = ({ children }) => {
             Permenant_Address: "",
             Province: "",
             District: "",
-            Divional_Secretarial: "",
+            Divisional_Secretarial: "",
             NIC: "",
             Phone_Number: "",
             Email: "",
@@ -78,14 +86,48 @@ export const FormProvider = ({ children }) => {
         };
   });
 
-  // Save data to sessionStorage whenever formData changes
+  // Save form data (excluding files) to sessionStorage whenever it changes
   useEffect(() => {
-    sessionStorage.setItem("formData", JSON.stringify(formData));
+    const { profile_photo, signature, Documents, ...rest } = formData;
+    sessionStorage.setItem("formData", JSON.stringify(rest));
   }, [formData]);
 
+  // Load files from IndexedDB on first render
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const loadFiles = async () => {
+      const db = await dbPromise;
+      const updatedFiles = {
+        profile_photo: null,
+        signature: null,
+        Documents: {},
+      };
+
+      // Load profile photo and signature
+      updatedFiles.profile_photo = await db.get("files", "profile_photo");
+      updatedFiles.signature = await db.get("files", "signature");
+
+      // Load all documents
+      const documentKeys = Object.keys(formData.Documents);
+      for (const key of documentKeys) {
+        updatedFiles.Documents[key] = await db.get("files", key);
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        ...updatedFiles,
+      }));
+    };
+
+    loadFiles();
+  }, []);
+
+  // Automatically clear session and files after 90 minutes
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
       sessionStorage.removeItem("formData");
+      const db = await dbPromise;
+      await db.clear("files"); // Remove all stored files
+
       setFormData({
         Enrollment_Number: "",
         Title: "",
@@ -152,6 +194,7 @@ export const FormProvider = ({ children }) => {
           Attestation: null,
         },
       });
+
       alert("Session expired! Please restart the form.");
       navigate("/instructions");
     }, 90 * 60 * 1000); // 90 minutes
@@ -159,9 +202,7 @@ export const FormProvider = ({ children }) => {
     return () => clearTimeout(timeout);
   }, [navigate]);
 
-  // console.log(formData);
-
-  // Function to update text inputs
+  // Update text inputs
   const updateFormData = (name, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -169,7 +210,7 @@ export const FormProvider = ({ children }) => {
     }));
   };
 
-  // Function to update nested objects like Address
+  // Update nested fields
   const updateNestedFormData = (parent, name, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -180,14 +221,32 @@ export const FormProvider = ({ children }) => {
     }));
   };
 
-  // Function to handle file uploads
-  const updateFile = (name, file) => {
+  // Save files to IndexedDB
+  const updateFile = async (name, file) => {
+    const db = await dbPromise;
+    await db.put("files", file, name);
+
     setFormData((prev) => ({
       ...prev,
       [name]: file,
     }));
   };
 
+  // Save document files separately
+  const updateDocumentFile = async (docName, file) => {
+    const db = await dbPromise;
+    await db.put("files", file, docName);
+
+    setFormData((prev) => ({
+      ...prev,
+      Documents: {
+        ...prev.Documents,
+        [docName]: file,
+      },
+    }));
+  };
+
+  console.log(formData.profile_photo);
   return (
     <FormContext.Provider
       value={{
@@ -195,6 +254,7 @@ export const FormProvider = ({ children }) => {
         updateFormData,
         updateNestedFormData,
         updateFile,
+        updateDocumentFile,
         setFormData,
       }}
     >
