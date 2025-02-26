@@ -22,7 +22,43 @@ function Dashboard() {
     <div><Header title="Admin Dashboard" />
       <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
 
+        {(adminRole === "SAR") && (
+          <>
+            <Link to="/new-registration">
+              <TextCard text="New Registration" />
+            </Link>
+            <Link to="/registered-students">
+              <TextCard text="Registered Students" />
+            </Link>
+            <Link to="/system-settings">
+              <TextCard text="System Settings" />
+            </Link>
+          </>
+        )}
 
+        {(adminRole === "SAR") && (
+          <>
+            <Link to="/new-registration">
+              <TextCard text="New Registration" />
+            </Link>
+            <Link to="/registered-students">
+              <TextCard text="Registered Students" />
+            </Link>
+            <Link to="/system-settings">
+              <TextCard text="System Settings" />
+            </Link>
+          </>
+        )}
+        {adminRole === "FAR" && (
+          <>
+            <Link to="/renewal-submission">
+              <TextCard text="Renewal Submission" />
+            </Link>
+            <Link to="/system-settings">
+              <TextCard text="System Settings" />
+            </Link>
+          </>
+        )}
 
         <Link to="/change-password">
           <PrimaryButton text="Change Password" />
