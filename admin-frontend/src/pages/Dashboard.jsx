@@ -4,24 +4,29 @@ import TextCard from "../components/TextCard";
 import PrimaryButton from "../components/PrimaryButton";
 import { Link } from "react-router-dom";
 
-
 function Dashboard() {
   const [adminRole, setAdminRole] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const role = localStorage.getItem("adminRole");
     if (role) {
       setAdminRole(role);
     } else {
-      console.log("No admin role found,user should be redirected to login");
-
+      console.log("No admin role found, user should be redirected to login");
     }
+    setLoading(false);
   }, []);
 
-  return (
-    <div><Header title="Admin Dashboard" />
-      <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
+  return (
+    <div>
+      <Header title="Admin Dashboard" />
+      <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
+        {/* SAR Role Options */}
         {adminRole === "SAR" && (
           <>
             <Link to="/new-registration">
@@ -36,6 +41,7 @@ function Dashboard() {
           </>
         )}
 
+        {/* DR Role Options */}
         {adminRole === "DR" && (
           <>
             <Link to="/new-registration">
@@ -49,6 +55,8 @@ function Dashboard() {
             </Link>
           </>
         )}
+
+        {/* FAR Role Options */}
         {adminRole === "FAR" && (
           <>
             <Link to="/renewal-submission">
@@ -60,6 +68,7 @@ function Dashboard() {
           </>
         )}
 
+        {/* Common option for all roles */}
         <Link to="/change-password">
           <PrimaryButton text="Change Password" />
         </Link>

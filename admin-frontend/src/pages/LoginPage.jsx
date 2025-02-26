@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import PrimaryButton from "../components/PrimaryButton";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Banner from "../components/Banner";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+    
     if (username === "sar_admin" && password === "sar123") {
       localStorage.setItem("adminRole", "SAR");
       navigate("/dashboard");
@@ -24,9 +25,11 @@ function LoginPage() {
       navigate("/dashboard");
     }
     else {
+      
       console.log("Invalid username or password");
     }
   };
+
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
@@ -69,15 +72,12 @@ function LoginPage() {
               Password
             </label>
           </div>
-          <p className="text-red-600 text-xs sm:text-sm font-medium -mt-2 sm:-mt-4 text-center">
-            Forgot password?
-          </p>
-          <Link to="/dashboard">
-            <PrimaryButton text="LOGIN" />
-          </Link>
+          
+          <PrimaryButton type="submit" text="LOGIN" />
         </form>
       </div>
     </div>
   );
 }
+
 export default LoginPage;
