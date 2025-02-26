@@ -1,9 +1,12 @@
-import React from "react";
+import React,{ useState } from "react";
 import PrimaryButton from "../components/PrimaryButton";
-import { Link } from "react-router-dom";
+import { Link,useNavigate  } from "react-router-dom";
 import Banner from "../components/Banner";
 
 function LoginPage() {
+   const [uname,setUname] = useState("");
+   const [pwd,setPwd] = useState("");
+   const navigate = useNavigate();
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
