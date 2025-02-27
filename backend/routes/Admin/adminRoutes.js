@@ -16,6 +16,7 @@ import { updateRenewalPostController } from "../../controllers/Admin/Renewal/upd
 import { deleteRenewalPostController } from "../../controllers/Admin/Renewal/deleteRenewalPostController.js";
 import { getRegistrationPostController } from "../../controllers/Admin/Registration/getRegistrationPostController.js";
 import { getRenewalPostController } from "../../controllers/Admin/Renewal/getRenewalPostController.js";
+import { getNotApprovedStudents } from "../../controllers/Admin/getNotApprovedStudents.js";
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.post(
   studentApprovalController
 );
 router.post("/login", loginController);
+router.get("/get-not-approved-students", getNotApprovedStudents);
 
 
 //Registration and Renewal
