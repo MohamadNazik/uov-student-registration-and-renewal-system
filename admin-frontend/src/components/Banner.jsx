@@ -20,6 +20,9 @@ function Banner() {
         <h1 className="text-[15px] sm:text-[22px] font-bold text-[#391031] uppercase">
           university of vavuniya
         </h1>
+        <h1 className="text-[15px] sm:text-[22px] font-bold text-[#391031] uppercase">
+          admin panel
+        </h1>
       </div>
     </div>
   );
