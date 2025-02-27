@@ -15,4 +15,3 @@ function PdfContainer({ text }) {
 }
 
 export default PdfContainer;
-

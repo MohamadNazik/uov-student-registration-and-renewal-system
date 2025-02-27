@@ -14,6 +14,11 @@ const dbPromise = openDB("fileDB", 1, {
 export const FormProvider = ({ children }) => {
   const navigate = useNavigate();
 
+  const [documentURLs, setDocumentURLs] = useState(() => {
+    const savedURLs = sessionStorage.getItem("documentURLs");
+    return savedURLs ? JSON.parse(savedURLs) : {};
+  });
+
   const [formData, setFormData] = useState(() => {
     const savedData = sessionStorage.getItem("formData");
     return savedData
@@ -92,7 +97,7 @@ export const FormProvider = ({ children }) => {
     sessionStorage.setItem("formData", JSON.stringify(rest));
   }, [formData]);
 
-  // Load files from IndexedDB on first render
+  // Load files and documentURLs from IndexedDB and sessionStorage on first render
   useEffect(() => {
     const loadFiles = async () => {
       const db = await dbPromise;
@@ -101,30 +106,51 @@ export const FormProvider = ({ children }) => {
         signature: null,
         Documents: {},
       };
+      const updatedURLs = {};
 
-      // Load profile photo and signature
+      // Load profile photo and signature from IndexedDB
       updatedFiles.profile_photo = await db.get("files", "profile_photo");
       updatedFiles.signature = await db.get("files", "signature");
 
-      // Load all documents
-      const documentKeys = Object.keys(formData.Documents);
+      // Load all document files from IndexedDB
+      const documentKeys = Object.keys(formData.Documents || {});
       for (const key of documentKeys) {
-        updatedFiles.Documents[key] = await db.get("files", key);
+        const file = await db.get("files", key);
+        updatedFiles.Documents[key] = file;
+
+        // If file exists, generate object URL and store in state + sessionStorage
+        if (file) {
+          const fileURL = URL.createObjectURL(file);
+          updatedURLs[key] = fileURL;
+        }
       }
 
+      // Merge the loaded files into formData
       setFormData((prev) => ({
         ...prev,
         ...updatedFiles,
+        Documents: {
+          ...prev.Documents,
+          ...updatedFiles.Documents,
+        },
       }));
+
+      // Update documentURLs state & store in sessionStorage
+      setDocumentURLs((prev) => ({ ...prev, ...updatedURLs }));
+      sessionStorage.setItem(
+        "documentURLs",
+        JSON.stringify({ ...prev, ...updatedURLs })
+      );
     };
 
     loadFiles();
-  }, []);
+  }, []); // ✅ Runs only once when the component mounts
 
   // Automatically clear session and files after 90 minutes
   useEffect(() => {
     const timeout = setTimeout(async () => {
       sessionStorage.removeItem("formData");
+      sessionStorage.removeItem("documentURLs"); // Clear documentURLs from sessionStorage
       const db = await dbPromise;
       await db.clear("files"); // Remove all stored files
 
@@ -232,11 +258,14 @@ export const FormProvider = ({ children }) => {
     }));
   };
 
-  // Save document files separately
+  // Save document files separately and persist in sessionStorage
   const updateDocumentFile = async (docName, file) => {
     const db = await dbPromise;
+
+    // Save the file to IndexedDB
     await db.put("files", file, docName);
 
+    // Update formData state
     setFormData((prev) => ({
       ...prev,
       Documents: {
@@ -244,9 +273,31 @@ export const FormProvider = ({ children }) => {
         [docName]: file,
       },
     }));
+
+    // If the file is valid, create a URL and update documentURLs state
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+
+      // Update the documentURLs state with the generated URL
+      setDocumentURLs((prev) => {
+        const updated = { ...prev, [docName]: fileURL };
+        // Store documentURLs in sessionStorage
+        sessionStorage.setItem("documentURLs", JSON.stringify(updated));
+        return updated;
+      });
+    } else {
+      // If the file is null (for document deletion), remove from the URLs state
+      setDocumentURLs((prev) => {
+        const updated = { ...prev };
+        delete updated[docName];
+        sessionStorage.setItem("documentURLs", JSON.stringify(updated));
+        return updated;
+      });
+    }
   };
 
-  console.log(formData.profile_photo);
+  console.log(formData);
+
   return (
     <FormContext.Provider
       value={{
@@ -256,6 +307,7 @@ export const FormProvider = ({ children }) => {
         updateFile,
         updateDocumentFile,
         setFormData,
+        documentURLs,
       }}
     >
       {children}

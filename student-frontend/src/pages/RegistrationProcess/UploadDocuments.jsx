@@ -17,6 +17,16 @@ import {
 import SecondaryButton from "../../components/SecondaryButton";
 import { Link } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
+import PdfContainer from "../../components/PdfContainer";
+import { openDB } from "idb";
+
+const dbPromise = openDB("fileDB", 1, {
+  upgrade(db) {
+    if (!db.objectStoreNames.contains("files")) {
+      db.createObjectStore("files");
+    }
+  },
+});
 
 function UploadDocuments() {
   const [loading, setLoading] = useState("");
@@ -37,7 +47,7 @@ function UploadDocuments() {
   const [isAttestation, setIsAttestation] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
-  const { updateNestedFormData } = useFormContext();
+  const { updateDocumentFile, documentURLs } = useFormContext();
 
   useEffect(() => {
     const handleNextButton = () => {
@@ -99,7 +109,7 @@ function UploadDocuments() {
                   setIsUgcLtr,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 );
               }}
               accept="application/pdf"
@@ -149,7 +159,7 @@ function UploadDocuments() {
                   setIsBC,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -215,7 +225,7 @@ function UploadDocuments() {
                   setIsNic,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -265,7 +275,7 @@ function UploadDocuments() {
                   setIsOl,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -315,7 +325,7 @@ function UploadDocuments() {
                   setIsAl,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -379,7 +389,7 @@ function UploadDocuments() {
                   setIsA3,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -429,7 +439,7 @@ function UploadDocuments() {
                   setIsA4,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -479,7 +489,7 @@ function UploadDocuments() {
                   setIsA5,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -529,7 +539,7 @@ function UploadDocuments() {
                   setIsA6,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -579,7 +589,7 @@ function UploadDocuments() {
                   setIsAttestation,
                   formDataVerify,
                   setFormDataverify,
-                  updateNestedFormData
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -614,6 +624,20 @@ function UploadDocuments() {
               )}
             </div>
           </div>
+        </div>
+        <div>
+          {Object.entries(documentURLs).map(([key, fileURL]) =>
+            fileURL ? (
+              <a
+                key={key}
+                href={fileURL}
+                download={`${key}.pdf`}
+                className="block mb-2"
+              >
+                <PdfContainer text={key} />
+              </a>
+            ) : null
+          )}
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
           <Link to="/verify-id">
