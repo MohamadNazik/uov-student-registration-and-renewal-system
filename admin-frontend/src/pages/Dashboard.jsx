@@ -2,25 +2,37 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import TextCard from "../components/TextCard";
 import PrimaryButton from "../components/PrimaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const [adminRole, setAdminRole] = useState("");
-  useEffect(() => {
-    const role = localStorage.getItem("adminRole");
-    if (role) {
-      setAdminRole(role);
+  const navigate = useNavigate();
+  const [adminRole, setAdminRole] = useState(() => {
+    const adminData = sessionStorage.getItem("adminData");
+    if (adminData) {
+      try {
+        const parsedData = JSON.parse(adminData);
+        return parsedData.data.role;
+      } catch (error) {
+        console.error("Error parsing adminData:", error);
+        return null;
+      }
     } else {
-      console.log("No admin role found, user should be redirected to login");
+      console.log("No admin role found, redirecting to login...");
+      return null;
     }
-    
+  });
+
+  useEffect(() => {
+    if (!adminRole) {
+      navigate("/");
+    }
   }, []);
   return (
     <div>
       <Header title="Admin Dashboard" />
       <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
         {/* SAR Role Options */}
-        {adminRole === "SAR" && (
+        {adminRole === "sar" && (
           <>
             <Link to="/new-registration">
               <TextCard text="New Registration" />
@@ -35,7 +47,7 @@ function Dashboard() {
         )}
 
         {/* DR Role Options */}
-        {adminRole === "DR" && (
+        {adminRole === "dr" && (
           <>
             <Link to="/new-registration">
               <TextCard text="New Registration" />
@@ -50,7 +62,7 @@ function Dashboard() {
         )}
 
         {/* FAR Role Options */}
-        {adminRole === "FAR" && (
+        {adminRole === "far" && (
           <>
             <Link to="/renewal-submission">
               <TextCard text="Renewal Submissions" />
