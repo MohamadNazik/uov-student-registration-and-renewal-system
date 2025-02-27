@@ -70,7 +70,7 @@ function NewRegistrations() {
                       <td className="px-6 py-4 font-medium text-black dark:text-white">
                         {student.Name_with_Initials}
                       </td>
-                      <td className="px-6 py-4">{student.AcademicYear}</td>
+                      <td className="px-6 py-4">{student.course}</td>
                       <td className="px-6 py-4">{student.Enrollment_Date}</td>
                       <td className="px-6 py-4">
                         <a

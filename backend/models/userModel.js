@@ -107,6 +107,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  course: {
+    type: String,
+    required: true,
+  },
   Documents: {
     UGC_Letter: {
       Name: { type: String, required: true },

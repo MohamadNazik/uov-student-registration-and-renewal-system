@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import User from "../../models/userModel.js";
+import studentListModel from "../../models/studentListModel.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -40,7 +41,7 @@ export const addStudentController = async (req, res) => {
       !qualifications ||
       !citizenDetails ||
       !parentDetails ||
-      !emergencyDetails 
+      !emergencyDetails
     ) {
       return res.status(400).json({
         message: "Missing required fields. Please provide all necessary data.",
@@ -70,7 +71,7 @@ export const addStudentController = async (req, res) => {
       "A6",
       "Attestation",
       "profile_photo",
-      "signature"
+      "signature",
     ];
 
     for (const key of fileKeys) {
@@ -87,15 +88,29 @@ export const addStudentController = async (req, res) => {
       const profilePhoto = req.files.profile_photo[0];
       const profilePhotoPath = path.join(studentDir, profilePhoto.originalname);
       fs.writeFileSync(profilePhotoPath, profilePhoto.buffer);
-      documentPaths.profile_photo = { Name: profilePhoto.originalname, path: profilePhotoPath };
+      documentPaths.profile_photo = {
+        Name: profilePhoto.originalname,
+        path: profilePhotoPath,
+      };
     }
 
     if (req.files?.signature?.length) {
       const signaturePhoto = req.files.signature[0];
-      const signaturePhotoPath = path.join(studentDir, signaturePhoto.originalname);
+      const signaturePhotoPath = path.join(
+        studentDir,
+        signaturePhoto.originalname
+      );
       fs.writeFileSync(signaturePhotoPath, signaturePhoto.buffer);
-      documentPaths.signature = { Name: signaturePhoto.originalname, path: signaturePhotoPath };
+      documentPaths.signature = {
+        Name: signaturePhoto.originalname,
+        path: signaturePhotoPath,
+      };
     }
+
+    const courseDetails = await studentListModel.findOne({
+      RegNo: Enrollment_Number,
+    });
+    const course = courseDetails.course;
 
     const newUser = new User({
       Enrollment_Number,
@@ -112,6 +127,7 @@ export const addStudentController = async (req, res) => {
       Emergency_Person: emergencyDetails,
       profile_photo: documentPaths.profile_photo?.path || "default_profile.png",
       signature: documentPaths.signature?.path || "default_signature.png",
+      course: course,
       Documents: documentPaths,
     });
 
