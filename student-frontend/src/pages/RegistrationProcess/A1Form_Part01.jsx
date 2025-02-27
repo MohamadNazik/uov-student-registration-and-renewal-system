@@ -95,16 +95,13 @@ function A1Form_Part01() {
         formData.Title === ""
       ) {
         setNextButtonDisabled(true);
+      } else if (formData.Title === "Other") {
+        formData.OtherTitle === ""
+          ? setNextButtonDisabled(true)
+          : setNextButtonDisabled(false);
       } else {
-        if (formData.Title === "Other") {
-          formData.OtherTitle === ""
-            ? setNextButtonDisabled(true)
-            : setNextButtonDisabled(false);
-        } else {
-          setNextButtonDisabled(false);
-        }
+        setNextButtonDisabled(stImage === null || stImage === "");
       }
-      setNextButtonDisabled(stImage === null || stImage === "");
     };
     handleNextButton();
   }, [formData, stImage]);
