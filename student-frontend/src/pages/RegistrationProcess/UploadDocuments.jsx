@@ -29,6 +29,14 @@ const dbPromise = openDB("fileDB", 1, {
 });
 
 function UploadDocuments() {
+  const dbPromise = openDB("fileDB", 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files");
+      }
+    },
+  });
+
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
   const [formDataVerify, setFormDataverify] = useState(new FormData());
@@ -47,7 +55,9 @@ function UploadDocuments() {
   const [isAttestation, setIsAttestation] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
-  const { updateDocumentFile, documentURLs } = useFormContext();
+  const [documentURLs, setDocumentURLs] = useState({});
+
+  const { updateDocumentFile, formData } = useFormContext();
 
   useEffect(() => {
     const handleNextButton = () => {
@@ -82,6 +92,23 @@ function UploadDocuments() {
     isA6,
     isAttestation,
   ]);
+
+  useEffect(() => {
+    const loadDocuments = async () => {
+      const updatedURLs = {};
+      const db = await dbPromise;
+      const documentKeys = Object.keys(formData.Documents || {});
+      for (const key of documentKeys) {
+        const file = await db.get("files", key);
+        if (file) {
+          const fileURL = URL.createObjectURL(file);
+          updatedURLs[key] = fileURL;
+        }
+      }
+      setDocumentURLs((prev) => ({ ...prev, ...updatedURLs }));
+    };
+    loadDocuments();
+  }, [formData]);
 
   return (
     <>
@@ -626,16 +653,23 @@ function UploadDocuments() {
           </div>
         </div>
         <div>
+          <p className="text-lg font-medium text-black mt-8 mb-6">
+            Documents that you are going to submit. Pleace check wheather all
+            documents are correct.
+            <br />
+            <span className="text-red-600">Click the document to view</span>
+          </p>
           {Object.entries(documentURLs).map(([key, fileURL]) =>
             fileURL ? (
-              <a
-                key={key}
-                href={fileURL}
-                download={`${key}.pdf`}
-                className="block mb-2"
-              >
-                <PdfContainer text={key} />
-              </a>
+              <div key={key} className="flex">
+                <a href={fileURL} target="_blank" className="block mb-2">
+                  <PdfContainer text={key} />
+                </a>
+                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                  <MdVerified />
+                  <p>Identified</p>
+                </div>
+              </div>
             ) : null
           )}
         </div>

@@ -7,13 +7,8 @@ import { useFormContext } from "../../utils/FormContext";
 import { openDB } from "idb";
 
 function A1Form_Part01() {
-  const {
-    formData,
-    updateFormData,
-    updateFile,
-    updateNestedFormData,
-    updateDocumentFile,
-  } = useFormContext();
+  const { formData, updateFormData, updateFile, updateNestedFormData } =
+    useFormContext();
 
   const dbPromise = openDB("fileDB", 1, {
     upgrade(db) {
@@ -391,12 +386,12 @@ function A1Form_Part01() {
               </label>
               <input
                 type="text"
-                name="Divional_Secretarial"
+                name="Divisional_Secretarial"
                 value={formData.Address.Divional_Secretarial}
                 onChange={(e) =>
                   updateNestedFormData(
                     "Address",
-                    "Divional_Secretarial",
+                    "Divisional_Secretarial",
                     e.target.value.toUpperCase()
                   )
                 }
