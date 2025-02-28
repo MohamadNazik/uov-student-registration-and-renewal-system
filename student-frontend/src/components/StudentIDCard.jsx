@@ -15,6 +15,7 @@ function StudentIDCard({
   Address,
   Date_of_Issue,
   Acedamic_Year,
+  stSignature,
 }) {
   return (
     <div className="flex flex-col gap-5 xl:flex-row xl:gap-14">
@@ -139,7 +140,11 @@ function StudentIDCard({
           <div className="flex justify-between px-6 py-1 pt-2 sm:pt-4 items-center">
             <div className="flex flex-col items-center">
               <img
-                src={holder_signature}
+                src={
+                  stSignature && stSignature instanceof File
+                    ? URL.createObjectURL(stSignature)
+                    : holder_signature
+                }
                 alt="holder_signature"
                 className="w-9 sm:w-16"
               />

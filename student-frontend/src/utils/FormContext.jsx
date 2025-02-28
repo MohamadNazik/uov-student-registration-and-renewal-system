@@ -256,7 +256,7 @@ export const FormProvider = ({ children }) => {
     }));
   };
 
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <FormContext.Provider

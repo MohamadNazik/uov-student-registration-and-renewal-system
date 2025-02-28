@@ -56,9 +56,9 @@ const userSchema = new mongoose.Schema({
     Email: { type: String, required: true, unique: true },
   },
   Educational_Qualifications: {
-    AL_year: { type: Number, required: true },
-    Index_AL: { type: Number, required: true, unique: true },
-    Zscore: { type: Number, required: true, unique: true },
+    AL_year: { type: String, required: true },
+    Index_AL: { type: String, required: true, unique: true },
+    Zscore: { type: String, required: true, unique: true },
     AL_result: {
       Subject1: {
         Name: { type: String, required: true },
@@ -80,8 +80,8 @@ const userSchema = new mongoose.Schema({
     civil_status: { type: String, required: true },
     religion: { type: String, required: true },
     nationality: { type: String, required: true },
-    birth_date: { type: Date, required: true },
-    age: { type: Number, required: true },
+    birth_date: { type: String, required: true },
+    age: { type: String, required: true },
     citizenship: { type: String, required: true },
     country: { type: String, required: true },
     citizenship_from: { type: String, required: true },
@@ -90,7 +90,7 @@ const userSchema = new mongoose.Schema({
   Details_of_Parents_or_Guardians: {
     Name: { type: String, required: true },
     Occupation: { type: String, required: true },
-    Work_Place_Address: { type: String, required: true },
+    Work_Place_Address: { type: String, required: false },
     Phone_Number: { type: String, required: true },
   },
   Emergency_Person: {

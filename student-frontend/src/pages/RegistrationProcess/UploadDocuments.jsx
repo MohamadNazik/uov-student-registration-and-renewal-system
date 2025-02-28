@@ -651,19 +651,22 @@ function UploadDocuments() {
             <br />
             <span className="text-red-600">Click the document to view</span>
           </p>
-          {Object.entries(documentURLs).map(([key, fileURL]) =>
-            fileURL ? (
-              <div key={key} className="flex">
-                <a href={fileURL} target="_blank" className="block mb-2">
-                  <PdfContainer text={key} />
-                </a>
-                <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
-                  <MdVerified />
-                  <p>Identified</p>
+          <div className="flex flex-col gap-5">
+            {Object.entries(documentURLs).map(([key, fileURL], index) =>
+              fileURL ? (
+                <div key={key} className="flex items-center">
+                  <span className="font-semibold mr-4">{index + 1}.</span>
+                  <a href={fileURL} target="_blank" className="block">
+                    <PdfContainer text={key} />
+                  </a>
+                  <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                    <MdVerified />
+                    <p>Identified</p>
+                  </div>
                 </div>
-              </div>
-            ) : null
-          )}
+              ) : null
+            )}
+          </div>
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
           <Link to="/verify-id">

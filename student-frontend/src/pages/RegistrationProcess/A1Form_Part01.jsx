@@ -19,6 +19,7 @@ function A1Form_Part01() {
   });
 
   const [stImage, setStImage] = useState("");
+  const [signature, setSignature] = useState("");
   const [enrollment_Number, setEnrollment_Number] = useState(() => {
     const RegNo = localStorage.getItem("student");
     return RegNo ? JSON.parse(RegNo).Enrollment_No : null;
@@ -52,6 +53,14 @@ function A1Form_Part01() {
         setStImage(storedFile);
       }
     };
+    const loadSignature = async () => {
+      const db = await dbPromise;
+      const storedFile = await db.get("files", "signature");
+
+      if (storedFile) {
+        setSignature(storedFile);
+      }
+    };
 
     const preAssignValues = () => {
       if (enrollment_Number) {
@@ -72,6 +81,7 @@ function A1Form_Part01() {
     };
     preAssignValues();
     loadProfilePhoto();
+    loadSignature();
   }, []);
 
   useEffect(() => {
@@ -96,6 +106,7 @@ function A1Form_Part01() {
           : setNextButtonDisabled(false);
       } else {
         setNextButtonDisabled(stImage === null || stImage === "");
+        setNextButtonDisabled(signature === null || signature === "");
       }
     };
     handleNextButton();
@@ -151,6 +162,17 @@ function A1Form_Part01() {
     updateFile("profile_photo", e.target.files[0]);
   };
 
+  const signatureHandle = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const db = await dbPromise;
+    await db.put("files", file, "signature"); // Save to IndexedDB
+
+    setSignature(file); // Update state
+    updateFile("signature", e.target.files[0]);
+  };
+
   return (
     <>
       <div className="bg-white md:block sm:flex m-2 sm:m-5 xl:ml-8 p-2 sm:p-7 xl:p-10 shadow-md rounded-lg  justify-center">
@@ -185,7 +207,7 @@ function A1Form_Part01() {
               <img
                 src={stImage ? URL.createObjectURL(stImage) : upload_area}
                 alt="your Image"
-                className={`w-[50px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 md:mt-0 border border-black rounded-lg ${
+                className={`w-[50px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 md:mt-0 border border-black rounded-lg cursor-pointer ${
                   stImage ? "object-contain" : ""
                 }`}
               />
@@ -300,6 +322,26 @@ function A1Form_Part01() {
                   )
                 }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
+                (iv). Upload your signature :-
+              </label>
+              <label htmlFor="signature-input">
+                <img
+                  src={signature ? URL.createObjectURL(signature) : upload_area}
+                  alt="your signature"
+                  className={`w-[50px] sm:w-[120px] md:h-[130px] mb-2 mt-2 md:mt-0 border border-black rounded-lg cursor-pointer ${
+                    signature ? "object-contain" : ""
+                  }`}
+                />
+              </label>
+              <input
+                onChange={(e) => signatureHandle(e)}
+                type="file"
+                id="signature-input"
+                hidden
               />
             </div>
           </div>
