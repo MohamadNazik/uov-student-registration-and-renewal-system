@@ -17,6 +17,8 @@ function VerifyID() {
   const { formData } = useFormContext();
   const navigate = useNavigate();
 
+  console.log(formData);
+
   useEffect(() => {
     const checkDocuments = () => {
       if (
@@ -35,18 +37,20 @@ function VerifyID() {
       await axios
         .post("http://localhost:8080/api/users/add-student", formData)
         .then((res) => {
-          // console.log(res.data);
+          console.log(res.data);
           if (res.data.success) {
-            sessionStorage.removeItem("formData");
-            localStorage.removeItem("student");
-            localStorage.removeItem("regDetails");
-            navigate("/reg-success");
+            // sessionStorage.removeItem("formData");
+            // localStorage.removeItem("student");
+            // localStorage.removeItem("regDetails");
+            // navigate("/reg-success");
           }
         })
         .catch((err) => {
           console.log(err);
         });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -75,6 +79,7 @@ function VerifyID() {
           Enrollment_Date={formData.Enrollment_Date}
           Date_of_Issue={formData.ID_IssueDate}
           Acedamic_Year={formData.AcademicYear}
+          stSignature={formData.signature}
         />
       </div>
 
