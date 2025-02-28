@@ -107,6 +107,11 @@ function CheckSelection() {
     }
   };
 
+  const handleGoHome = () => {
+    localStorage.removeItem("regDetails");
+    navigate("/");
+  };
+
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
@@ -146,7 +151,7 @@ function CheckSelection() {
           text="Go Back to Home"
           color="bg-red-700"
           hoverColor="hover:bg-red-800"
-          onClick={() => navigate("/")}
+          onClick={handleGoHome}
         />
       </div>
 

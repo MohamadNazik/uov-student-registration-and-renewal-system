@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import PrimaryButton from "../../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +20,12 @@ function Home() {
         });
     } catch (error) {}
   };
+  useEffect(() => {
+    const removeLocalStorage = () => {
+      localStorage.removeItem("regDetails");
+    };
+    removeLocalStorage();
+  }, []);
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />

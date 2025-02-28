@@ -86,13 +86,17 @@ function Instructions() {
       <div className="flex gap-3 mb-4 justify-center items-center">
         <input
           type="checkbox"
-          className="w-4 h-4 accent-[#391031]"
+          id="checkBoxSelection"
+          className="w-4 h-4 accent-[#391031] cursor-pointer"
           checked={isUnderstood}
           onChange={(e) => setIsUnderstood(e.target.checked)}
         />
-        <p className="text-md font-medium">
+        <label
+          htmlFor="checkBoxSelection"
+          className="text-md font-medium cursor-pointer"
+        >
           I have read and understood the instructions.
-        </p>
+        </label>
       </div>
 
       <div className="pb-3 sm:pb-8">
