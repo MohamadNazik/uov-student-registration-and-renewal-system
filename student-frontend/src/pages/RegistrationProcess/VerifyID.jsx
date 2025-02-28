@@ -4,17 +4,38 @@ import SecondaryButton from "../../components/SecondaryButton";
 import StudentIDCard from "../../components/StudentIDCard";
 import { useFormContext } from "../../utils/FormContext";
 import axios from "axios";
+import { openDB } from "idb";
 
 function VerifyID() {
+  // const dbPromise = openDB("fileDB", 1, {
+  //   upgrade(db) {
+  //     if (!db.objectStoreNames.contains("files")) {
+  //       db.createObjectStore("files");
+  //     }
+  //   },
+  // });
   const { formData } = useFormContext();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkDocuments = () => {
+      if (
+        formData.Documents &&
+        Object.entries(formData.Documents).length === 0
+      ) {
+        navigate("/upload-documents");
+      }
+    };
+
+    checkDocuments();
+  }, [formData.Documents]);
 
   const handleSubmit = async () => {
     try {
       await axios
         .post("http://localhost:8080/api/users/add-student", formData)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.success) {
             sessionStorage.removeItem("formData");
             localStorage.removeItem("student");

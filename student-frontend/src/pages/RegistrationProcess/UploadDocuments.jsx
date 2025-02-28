@@ -20,14 +20,6 @@ import { useFormContext } from "../../utils/FormContext";
 import PdfContainer from "../../components/PdfContainer";
 import { openDB } from "idb";
 
-const dbPromise = openDB("fileDB", 1, {
-  upgrade(db) {
-    if (!db.objectStoreNames.contains("files")) {
-      db.createObjectStore("files");
-    }
-  },
-});
-
 function UploadDocuments() {
   const dbPromise = openDB("fileDB", 1, {
     upgrade(db) {
