@@ -22,11 +22,11 @@ export const addStudentController = async (req, res) => {
       Emergency_Person,
     } = req.body;
 
-    const address = Address || {};
-    const qualifications = Educational_Qualifications || {};
-    const citizenDetails = Details_of_Citizen || {};
-    const parentDetails = Details_of_Parents_or_Guardians || {};
-    const emergencyDetails = Emergency_Person || {};
+    const address = JSON.parse(Address || "{}");
+    const qualifications = JSON.parse(Educational_Qualifications || "{}");
+    const citizenDetails = JSON.parse(Details_of_Citizen || "{}");
+    const parentDetails = JSON.parse(Details_of_Parents_or_Guardians || "{}");
+    const emergencyDetails = JSON.parse(Emergency_Person || "{}");
 
     if (
       !Enrollment_Number ||
@@ -36,11 +36,11 @@ export const addStudentController = async (req, res) => {
       !Enrollment_Date ||
       !ID_IssueDate ||
       !AcademicYear ||
-      !address ||
-      !qualifications ||
-      !citizenDetails ||
-      !parentDetails ||
-      !emergencyDetails 
+      Object.entries(address).length === 0 ||
+      Object.entries(qualifications).length === 0 ||
+      Object.entries(citizenDetails).length === 0 ||
+      Object.entries(parentDetails).length === 0 ||
+      Object.entries(emergencyDetails).length === 0
     ) {
       return res.status(400).json({
         message: "Missing required fields. Please provide all necessary data.",
@@ -70,7 +70,7 @@ export const addStudentController = async (req, res) => {
       "A6",
       "Attestation",
       "profile_photo",
-      "signature"
+      "signature",
     ];
 
     for (const key of fileKeys) {
@@ -87,14 +87,23 @@ export const addStudentController = async (req, res) => {
       const profilePhoto = req.files.profile_photo[0];
       const profilePhotoPath = path.join(studentDir, profilePhoto.originalname);
       fs.writeFileSync(profilePhotoPath, profilePhoto.buffer);
-      documentPaths.profile_photo = { Name: profilePhoto.originalname, path: profilePhotoPath };
+      documentPaths.profile_photo = {
+        Name: profilePhoto.originalname,
+        path: profilePhotoPath,
+      };
     }
 
     if (req.files?.signature?.length) {
       const signaturePhoto = req.files.signature[0];
-      const signaturePhotoPath = path.join(studentDir, signaturePhoto.originalname);
+      const signaturePhotoPath = path.join(
+        studentDir,
+        signaturePhoto.originalname
+      );
       fs.writeFileSync(signaturePhotoPath, signaturePhoto.buffer);
-      documentPaths.signature = { Name: signaturePhoto.originalname, path: signaturePhotoPath };
+      documentPaths.signature = {
+        Name: signaturePhoto.originalname,
+        path: signaturePhotoPath,
+      };
     }
 
     const newUser = new User({

@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
     Permenant_Address: { type: String, required: true },
     Province: { type: String, required: true },
     District: { type: String, required: true },
-    Divional_Secretarial: { type: String, required: true },
+    Divisional_Secretarial: { type: String, required: true },
     NIC: { type: String, required: true, unique: true },
     Phone_Number: { type: String, required: true },
     Email: { type: String, required: true, unique: true },
@@ -62,15 +62,15 @@ const userSchema = new mongoose.Schema({
     AL_result: {
       Subject1: {
         Name: { type: String, required: true },
-        result: { type: String, required: true },
+        Result: { type: String, required: true },
       },
       Subject2: {
         Name: { type: String, required: true },
-        result: { type: String, required: true },
+        Result: { type: String, required: true },
       },
       Subject3: {
         Name: { type: String, required: true },
-        result: { type: String, required: true },
+        Result: { type: String, required: true },
       },
     },
   },
@@ -79,7 +79,6 @@ const userSchema = new mongoose.Schema({
     gender: { type: String, required: true },
     civil_status: { type: String, required: true },
     religion: { type: String, required: true },
-    nationality: { type: String, required: true },
     birth_date: { type: String, required: true },
     age: { type: String, required: true },
     citizenship: { type: String, required: true },

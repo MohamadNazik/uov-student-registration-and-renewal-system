@@ -4,20 +4,41 @@ import SecondaryButton from "../../components/SecondaryButton";
 import StudentIDCard from "../../components/StudentIDCard";
 import { useFormContext } from "../../utils/FormContext";
 import axios from "axios";
-import { openDB } from "idb";
 
 function VerifyID() {
-  // const dbPromise = openDB("fileDB", 1, {
-  //   upgrade(db) {
-  //     if (!db.objectStoreNames.contains("files")) {
-  //       db.createObjectStore("files");
-  //     }
-  //   },
-  // });
   const { formData } = useFormContext();
   const navigate = useNavigate();
 
-  console.log(formData);
+  // console.log(formData);
+  const deleteIndexedDB = async () => {
+    try {
+      const dbName = "fileDB"; // Your IndexedDB name
+      const dbs = await indexedDB.databases();
+
+      if (dbs.some((db) => db.name === dbName)) {
+        const request = indexedDB.deleteDatabase(dbName);
+
+        request.onsuccess = () => {
+          console.log(`Database "${dbName}" deleted successfully.`);
+        };
+
+        request.onerror = (event) => {
+          console.error(
+            `Error deleting database "${dbName}":`,
+            event.target.error
+          );
+        };
+
+        request.onblocked = () => {
+          console.warn(
+            `Deletion of "${dbName}" is blocked. Close all tabs using it and try again.`
+          );
+        };
+      }
+    } catch (error) {
+      console.error("Error deleting IndexedDB:", error);
+    }
+  };
 
   useEffect(() => {
     const checkDocuments = () => {
@@ -34,20 +55,46 @@ function VerifyID() {
 
   const handleSubmit = async () => {
     try {
-      await axios
-        .post("http://localhost:8080/api/users/add-student", formData)
-        .then((res) => {
-          console.log(res.data);
-          if (res.data.success) {
-            // sessionStorage.removeItem("formData");
-            // localStorage.removeItem("student");
-            // localStorage.removeItem("regDetails");
-            // navigate("/reg-success");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+      const submissionData = new FormData();
+
+      // Append simple fields
+      Object.entries(formData).forEach(([key, value]) => {
+        if (typeof value === "object" && value !== null) {
+          submissionData.append(key, JSON.stringify(value)); // Convert nested objects to JSON
+        } else {
+          submissionData.append(key, value);
+        }
+      });
+
+      // Append files
+      if (formData.Documents) {
+        Object.entries(formData.Documents).forEach(([key, file]) => {
+          if (file) submissionData.append(key, file);
         });
+      }
+
+      if (formData.profile_photo)
+        submissionData.append("profile_photo", formData.profile_photo);
+      if (formData.signature)
+        submissionData.append("signature", formData.signature);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/users/add-student",
+        submissionData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if (response.data.success) {
+        await deleteIndexedDB();
+
+        sessionStorage.removeItem("formData");
+        localStorage.removeItem("student");
+        localStorage.removeItem("regDetails");
+
+        navigate("/reg-success");
+      }
     } catch (error) {
       console.log(error);
     }
