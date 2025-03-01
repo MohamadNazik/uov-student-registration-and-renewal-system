@@ -15,7 +15,7 @@ import {
   handleUGCLetterFile,
 } from "../../utils/VerifyDocumentFunctions";
 import SecondaryButton from "../../components/SecondaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
 import PdfContainer from "../../components/PdfContainer";
 import { openDB } from "idb";
@@ -50,6 +50,8 @@ function UploadDocuments() {
   const [documentURLs, setDocumentURLs] = useState({});
 
   const { updateDocumentFile, formData } = useFormContext();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleNextButton = () => {
@@ -101,6 +103,50 @@ function UploadDocuments() {
     };
     loadDocuments();
   }, [formData]);
+
+  useEffect(() => {
+    if (
+      formData.Enrollment_Number === "" ||
+      formData.Name_with_Initials === "" ||
+      formData.Name_denoted_by_Initials === "" ||
+      formData.Address.Permenant_Address === "" ||
+      formData.Address.Province === "" ||
+      formData.Address.District === "" ||
+      formData.Address.Divisional_Secretarial === "" ||
+      formData.Address.NIC === "" ||
+      formData.Address.Phone_Number === "" ||
+      formData.Address.Email === "" ||
+      formData.Title === "" ||
+      formData.Educational_Qualifications.AL_year === "" ||
+      formData.Educational_Qualifications.Index_AL === "" ||
+      formData.Educational_Qualifications.Zscore === "" ||
+      formData.Educational_Qualifications.AL_result.Subject1.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject1.Result === "" ||
+      formData.Educational_Qualifications.AL_result.Subject2.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject2.Result === "" ||
+      formData.Educational_Qualifications.AL_result.Subject3.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject3.Result === "" ||
+      formData.Details_of_Citizen.race === "" ||
+      formData.Details_of_Citizen.PI === "" ||
+      formData.Details_of_Citizen.country === "" ||
+      formData.Details_of_Citizen.gender === "" ||
+      formData.Details_of_Citizen.civil_status === "" ||
+      formData.Details_of_Citizen.religion === "" ||
+      formData.Details_of_Citizen.birth_date === "" ||
+      formData.Details_of_Citizen.age === "" ||
+      formData.Details_of_Citizen.citizenship === "" ||
+      formData.Details_of_Parents_or_Guardians.Name === "" ||
+      formData.Details_of_Parents_or_Guardians.Occupation === "" ||
+      formData.Details_of_Parents_or_Guardians.Phone_Number === "" ||
+      formData.Emergency_Person.Name === "" ||
+      formData.Emergency_Person.Relationship === "" ||
+      formData.Emergency_Person.Address === "" ||
+      formData.Emergency_Person.Phone_Number === ""
+    ) {
+      alert("Please fill all the details");
+      navigate("/a1-from-part-1");
+    }
+  }, []);
 
   return (
     <>

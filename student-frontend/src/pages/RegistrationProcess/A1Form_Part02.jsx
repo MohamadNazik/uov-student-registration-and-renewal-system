@@ -7,13 +7,7 @@ import { Link } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
 
 function A1Form_Part02() {
-  const {
-    formData,
-    updateFormData,
-    updateNestedFormData,
-    updateFile,
-    setFormData,
-  } = useFormContext();
+  const { formData, updateNestedFormData, setFormData } = useFormContext();
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
@@ -30,6 +24,8 @@ function A1Form_Part02() {
         formData.Educational_Qualifications.AL_result.Subject3.Name === "" ||
         formData.Educational_Qualifications.AL_result.Subject3.Result === "" ||
         formData.Details_of_Citizen.race === "" ||
+        formData.Details_of_Citizen.PI === "" ||
+        formData.Details_of_Citizen.country === "" ||
         formData.Details_of_Citizen.gender === "" ||
         formData.Details_of_Citizen.civil_status === "" ||
         formData.Details_of_Citizen.religion === "" ||
