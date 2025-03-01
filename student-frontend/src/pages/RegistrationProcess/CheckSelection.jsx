@@ -99,7 +99,8 @@ function CheckSelection() {
         localStorage.setItem("student", JSON.stringify(student));
         navigate("/confirm-selection");
       } else {
-        setErr(true);
+        setIsLoading(false);
+        navigate("/already-reg-submitted");
       }
     } catch (error) {
       setErr(true);
