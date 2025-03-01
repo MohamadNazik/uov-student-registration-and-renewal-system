@@ -83,7 +83,7 @@ const userSchema = new mongoose.Schema({
     age: { type: String, required: true },
     citizenship: { type: String, required: true },
     country: { type: String, required: true },
-    citizenship_from: { type: String, required: true },
+    citizenship_from: { type: String, required: false },
     PI: { type: String, required: true },
   },
   Details_of_Parents_or_Guardians: {

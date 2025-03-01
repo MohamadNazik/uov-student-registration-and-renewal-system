@@ -4,40 +4,34 @@ import SecondaryButton from "../../components/SecondaryButton";
 import StudentIDCard from "../../components/StudentIDCard";
 import { useFormContext } from "../../utils/FormContext";
 import axios from "axios";
+import { openDB } from "idb";
 
 function VerifyID() {
   const { formData } = useFormContext();
   const navigate = useNavigate();
 
   // console.log(formData);
-  const deleteIndexedDB = async () => {
-    try {
-      const dbName = "fileDB"; // Your IndexedDB name
-      const dbs = await indexedDB.databases();
+  const clearIndexedDBFiles = async () => {
+    const dbName = "fileDB";
+    const db = await openDB(dbName, 1);
 
-      if (dbs.some((db) => db.name === dbName)) {
-        const request = indexedDB.deleteDatabase(dbName);
-
-        request.onsuccess = () => {
-          console.log(`Database "${dbName}" deleted successfully.`);
-        };
-
-        request.onerror = (event) => {
-          console.error(
-            `Error deleting database "${dbName}":`,
-            event.target.error
-          );
-        };
-
-        request.onblocked = () => {
-          console.warn(
-            `Deletion of "${dbName}" is blocked. Close all tabs using it and try again.`
-          );
-        };
-      }
-    } catch (error) {
-      console.error("Error deleting IndexedDB:", error);
+    if (!db.objectStoreNames.contains("files")) {
+      console.warn("No 'files' store found in IndexedDB.");
+      return;
     }
+
+    const tx = db.transaction("files", "readwrite");
+    const store = tx.objectStore("files");
+
+    const clearRequest = store.clear();
+
+    clearRequest.onsuccess = () => {
+      console.log("All files cleared from IndexedDB 'files' store.");
+    };
+
+    clearRequest.onerror = (event) => {
+      console.error("Error clearing IndexedDB files:", event.target.error);
+    };
   };
 
   useEffect(() => {
@@ -87,7 +81,7 @@ function VerifyID() {
       );
 
       if (response.data.success) {
-        await deleteIndexedDB();
+        await clearIndexedDBFiles();
 
         sessionStorage.removeItem("formData");
         localStorage.removeItem("student");
