@@ -92,6 +92,20 @@ export const FormProvider = ({ children }) => {
     sessionStorage.setItem("formData", JSON.stringify(rest));
   }, [formData]);
 
+  useEffect(() => {
+    const checkAlreadyVerify = () => {
+      const student = localStorage.getItem("student");
+      if (!student) {
+        sessionStorage.removeItem("formData");
+        localStorage.removeItem("student");
+        localStorage.removeItem("regDetails");
+        navigate("/");
+      }
+    };
+
+    checkAlreadyVerify();
+  }, []);
+
   // Load files and documentURLs from IndexedDB and sessionStorage on first render
   useEffect(() => {
     const loadFiles = async () => {

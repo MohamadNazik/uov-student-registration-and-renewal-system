@@ -67,8 +67,15 @@ function CheckSelection() {
         navigate("/confirm-selection");
       }
     };
+    const checkSession = () => {
+      const savedData = sessionStorage.getItem("formData");
+      if (savedData) {
+        navigate("/a1-from-part-1");
+      }
+    };
 
     handleRegistration();
+    checkSession();
 
     checkAlreadyVerify();
   }, [navigate]);

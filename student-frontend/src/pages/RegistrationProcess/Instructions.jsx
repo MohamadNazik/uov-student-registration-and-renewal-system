@@ -14,6 +14,12 @@ import Attestationform from "../../assets/documents/Attestationform.pdf";
 function Instructions() {
   const navigate = useNavigate();
   useEffect(() => {
+    const checkSession = () => {
+      const savedData = sessionStorage.getItem("formData");
+      if (savedData) {
+        navigate("/a1-from-part-1");
+      }
+    };
     const checkAlreadyVerify = () => {
       const student = localStorage.getItem("student");
       if (!student) {
@@ -22,6 +28,7 @@ function Instructions() {
     };
 
     checkAlreadyVerify();
+    checkSession();
   }, [navigate]);
   const [isUnderstood, setIsUnderstood] = useState(false);
   return (

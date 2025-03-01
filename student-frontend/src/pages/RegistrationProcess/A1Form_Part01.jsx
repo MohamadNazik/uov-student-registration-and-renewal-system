@@ -93,7 +93,7 @@ function A1Form_Part01() {
         formData.Address.Permenant_Address === "" ||
         formData.Address.Province === "" ||
         formData.Address.District === "" ||
-        formData.Address.Divional_Secretarial === "" ||
+        formData.Address.Divisional_Secretarial === "" ||
         formData.Address.NIC === "" ||
         formData.Address.Phone_Number === "" ||
         formData.Address.Email === "" ||
@@ -113,42 +113,43 @@ function A1Form_Part01() {
   }, [formData, stImage]);
 
   const provinces = [
-    "Central Province",
-    "Eastern Province",
-    "North Central Province",
-    "Northern Province",
-    "North Western Province",
-    "Sabaragamuwa Province",
-    "Southern Province",
-    "Uva Province",
-    "Western Province",
+    "CENTRAL PROVINCE",
+    "EASTERN PROVINCE",
+    "NORTH CENTRAL PROVINCE",
+    "NORTHERN PROVINCE",
+    "NORTH WESTERN PROVINCE",
+    "SABARAGAMUWA PROVINCE",
+    "SOUTHERN PROVINCE",
+    "UVA PROVINCE",
+    "WESTERN PROVINCE",
   ];
+
   const districts = [
-    "Ampara",
-    "Anuradhapura",
-    "Badulla",
-    "Batticaloa",
-    "Colombo",
-    "Galle",
-    "Gampaha",
-    "Hambantota",
-    "Jaffna",
-    "Kalutara",
-    "Kandy",
-    "Kegalle",
-    "Kilinochchi",
-    "Kurunegala",
-    "Mannar",
-    "Matale",
-    "Matara",
-    "Monaragala",
-    "Mullaitivu",
-    "Nuwara Eliya",
-    "Polonnaruwa",
-    "Puttalam",
-    "Ratnapura",
-    "Trincomalee",
-    "Vavuniya",
+    "AMPARA",
+    "ANURADHAPURA",
+    "BADULLA",
+    "BATTICALOA",
+    "COLOMBO",
+    "GALLE",
+    "GAMPAHA",
+    "HAMBANTOTA",
+    "JAFFNA",
+    "KALUTARA",
+    "KANDY",
+    "KEGALLE",
+    "KILINOCHCHI",
+    "KURUNEGALA",
+    "MANNAR",
+    "MATALE",
+    "MATARA",
+    "MONARAGALA",
+    "MULLAITIVU",
+    "NUWARA ELIYA",
+    "POLONNARUWA",
+    "PUTTALAM",
+    "RATNAPURA",
+    "TRINCOMALEE",
+    "VAVUNIYA",
   ];
 
   const profilePhotoHandle = async (e) => {
@@ -429,7 +430,7 @@ function A1Form_Part01() {
               <input
                 type="text"
                 name="Divisional_Secretarial"
-                value={formData.Address.Divional_Secretarial}
+                value={formData.Address.Divisional_Secretarial}
                 onChange={(e) =>
                   updateNestedFormData(
                     "Address",

@@ -4,6 +4,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import Banner from "../../components/Banner";
 import axios from "axios";
+import { openDB } from "idb";
 
 function Home() {
   const navigate = useNavigate();
@@ -21,10 +22,38 @@ function Home() {
     } catch (error) {}
   };
   useEffect(() => {
+    const clearIndexedDBFiles = async () => {
+      const dbName = "fileDB";
+      const db = await openDB(dbName, 1);
+
+      if (!db.objectStoreNames.contains("files")) {
+        console.warn("No 'files' store found in IndexedDB.");
+        return;
+      }
+
+      const tx = db.transaction("files", "readwrite");
+      const store = tx.objectStore("files");
+
+      const clearRequest = store.clear();
+
+      clearRequest.onsuccess = () => {
+        console.log("All files cleared from IndexedDB 'files' store.");
+      };
+
+      clearRequest.onerror = (event) => {
+        console.error("Error clearing IndexedDB files:", event.target.error);
+      };
+    };
     const removeLocalStorage = () => {
       localStorage.removeItem("regDetails");
+      localStorage.removeItem("student");
     };
+    const removeSessionStorage = () => {
+      sessionStorage.removeItem("formData");
+    };
+    removeSessionStorage();
     removeLocalStorage();
+    clearIndexedDBFiles();
   }, []);
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
