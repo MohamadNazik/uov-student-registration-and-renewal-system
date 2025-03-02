@@ -3,13 +3,61 @@
 }
 import React, { useEffect, useState } from "react";
 import SecondaryButton from "../../components/SecondaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
+import { openDB } from "idb";
 
 function A1Form_Part02() {
   const { formData, updateNestedFormData, setFormData } = useFormContext();
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  const navigate = useNavigate();
+
+  const dbPromise = openDB("fileDB", 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files");
+      }
+    },
+  });
+
+  useEffect(() => {
+    const loadProfilePhoto = async () => {
+      const db = await dbPromise;
+      const storedProfile = await db.get("files", "profile_photo");
+
+      if (!storedProfile) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    const loadSignature = async () => {
+      const db = await dbPromise;
+      const storedSignature = await db.get("files", "signature");
+
+      if (!storedSignature) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    if (
+      formData.Enrollment_Number === "" ||
+      formData.Name_with_Initials === "" ||
+      formData.Name_denoted_by_Initials === "" ||
+      formData.Address.Permenant_Address === "" ||
+      formData.Address.Province === "" ||
+      formData.Address.District === "" ||
+      formData.Address.Divisional_Secretarial === "" ||
+      formData.Address.NIC === "" ||
+      formData.Address.Phone_Number === "" ||
+      formData.Address.Email === "" ||
+      formData.Title === ""
+    ) {
+      navigate("/a1-from-part-1");
+    } else {
+      loadProfilePhoto();
+      loadSignature();
+    }
+  }, []);
 
   useEffect(() => {
     const handleNextButton = () => {

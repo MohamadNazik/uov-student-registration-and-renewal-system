@@ -121,11 +121,61 @@ export const FormProvider = ({ children }) => {
       updatedFiles.signature = await db.get("files", "signature");
 
       // Load all document files from IndexedDB
-      const documentKeys = Object.keys(formData.Documents || {});
-      for (const key of documentKeys) {
-        const file = await db.get("files", key);
-        updatedFiles.Documents[key] = file;
+      const ugcLtrFile = await db.get("files", "UGC_Letter");
+      if (ugcLtrFile) {
+        updatedFiles.Documents["UGC_Letter"] = ugcLtrFile;
       }
+
+      const bcFile = await db.get("files", "BC");
+      if (bcFile) {
+        updatedFiles.Documents["BC"] = bcFile;
+      }
+
+      const nicFile = await db.get("files", "NIC");
+      if (nicFile) {
+        updatedFiles.Documents["NIC"] = nicFile;
+      }
+
+      const olFile = await db.get("files", "OL");
+      if (olFile) {
+        updatedFiles.Documents["OL"] = olFile;
+      }
+
+      const alFile = await db.get("files", "AL");
+      if (alFile) {
+        updatedFiles.Documents["AL"] = alFile;
+      }
+
+      const a3File = await db.get("files", "A3");
+      if (a3File) {
+        updatedFiles.Documents["A3"] = a3File;
+      }
+
+      const a4File = await db.get("files", "A4");
+      if (a4File) {
+        updatedFiles.Documents["A4"] = a4File;
+      }
+
+      const a5File = await db.get("files", "A5");
+      if (a5File) {
+        updatedFiles.Documents["A5"] = a5File;
+      }
+
+      const a6File = await db.get("files", "A6");
+      if (a6File) {
+        updatedFiles.Documents["A6"] = a6File;
+      }
+
+      const attestationFile = await db.get("files", "Attestation");
+      if (attestationFile) {
+        updatedFiles.Documents["Attestation"] = attestationFile;
+      }
+
+      // const documentKeys = Object.keys(formData.Documents || {});
+      // for (const key of documentKeys) {
+      //   const file = await db.get("files", key);
+      //   updatedFiles.Documents[key] = file;
+      // }
 
       // Merge the loaded files into formData
       setFormData((prev) => ({

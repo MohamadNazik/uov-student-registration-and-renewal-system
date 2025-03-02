@@ -1,11 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import { useFormContext } from "../../utils/FormContext";
 
 function A1Form_Part03() {
   const { formData, updateNestedFormData } = useFormContext();
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      formData.Educational_Qualifications.AL_year === "" ||
+      formData.Educational_Qualifications.Index_AL === "" ||
+      formData.Educational_Qualifications.Zscore === "" ||
+      formData.Educational_Qualifications.AL_result.Subject1.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject1.Result === "" ||
+      formData.Educational_Qualifications.AL_result.Subject2.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject2.Result === "" ||
+      formData.Educational_Qualifications.AL_result.Subject3.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject3.Result === "" ||
+      formData.Details_of_Citizen.race === "" ||
+      formData.Details_of_Citizen.PI === "" ||
+      formData.Details_of_Citizen.country === "" ||
+      formData.Details_of_Citizen.gender === "" ||
+      formData.Details_of_Citizen.civil_status === "" ||
+      formData.Details_of_Citizen.religion === "" ||
+      formData.Details_of_Citizen.birth_date === "" ||
+      formData.Details_of_Citizen.age === "" ||
+      formData.Details_of_Citizen.citizenship === ""
+    ) {
+      navigate("/a1-from-part-2");
+    } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
+      if (formData.Details_of_Citizen.citizenship_from === "") {
+        navigate("/a1-from-part-2");
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const handleNextButton = () => {

@@ -91,32 +91,106 @@ function UploadDocuments() {
     const loadDocuments = async () => {
       const updatedURLs = {};
       const db = await dbPromise;
-      const documentKeys = Object.keys(formData.Documents || {});
-      for (const key of documentKeys) {
-        const file = await db.get("files", key);
-        if (file) {
-          const fileURL = URL.createObjectURL(file);
-          updatedURLs[key] = fileURL;
-        }
+      const ugcLtrFile = await db.get("files", "UGC_Letter");
+      if (ugcLtrFile) {
+        setIsUgcLtr(true);
+        updatedURLs["UGC_Letter"] = URL.createObjectURL(ugcLtrFile);
       }
+
+      const bcFile = await db.get("files", "BC");
+      if (bcFile) {
+        setIsBC(true);
+        updatedURLs["BC"] = URL.createObjectURL(bcFile);
+      }
+
+      const nicFile = await db.get("files", "NIC");
+      if (nicFile) {
+        setIsNic(true);
+        updatedURLs["NIC"] = URL.createObjectURL(nicFile);
+      }
+
+      const olFile = await db.get("files", "OL");
+      if (olFile) {
+        setIsOl(true);
+        updatedURLs["OL"] = URL.createObjectURL(olFile);
+      }
+
+      const alFile = await db.get("files", "AL");
+      if (alFile) {
+        setIsAl(true);
+        updatedURLs["AL"] = URL.createObjectURL(alFile);
+      }
+
+      const a3File = await db.get("files", "A3");
+      if (a3File) {
+        setIsA3(true);
+        updatedURLs["A3"] = URL.createObjectURL(a3File);
+      }
+
+      const a4File = await db.get("files", "A4");
+      if (a4File) {
+        setIsA4(true);
+        updatedURLs["A4"] = URL.createObjectURL(a4File);
+      }
+
+      const a5File = await db.get("files", "A5");
+      if (a5File) {
+        setIsA5(true);
+        updatedURLs["A5"] = URL.createObjectURL(a5File);
+      }
+
+      const a6File = await db.get("files", "A6");
+      if (a6File) {
+        setIsA6(true);
+        updatedURLs["A6"] = URL.createObjectURL(a6File);
+      }
+
+      const attestationFile = await db.get("files", "Attestation");
+      if (attestationFile) {
+        setIsAttestation(true);
+        updatedURLs["Attestation"] = URL.createObjectURL(attestationFile);
+      }
+
+      // for (const key of documentKeys) {
+      //   const file = await db.get("files", key);
+      //   if (file) {
+      //     const fileURL = URL.createObjectURL(file);
+      //     updatedURLs[key] = fileURL;
+      //   }
+      // }
       setDocumentURLs((prev) => ({ ...prev, ...updatedURLs }));
     };
     loadDocuments();
-  }, [formData]);
+  }, [formData.Documents]);
 
   useEffect(() => {
+    const loadProfilePhoto = async () => {
+      const db = await dbPromise;
+      const storedProfile = await db.get("files", "profile_photo");
+
+      if (!storedProfile) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    const loadSignature = async () => {
+      const db = await dbPromise;
+      const storedSignature = await db.get("files", "signature");
+
+      if (!storedSignature) {
+        navigate("/a1-from-part-1");
+      }
+    };
     if (
-      formData.Enrollment_Number === "" ||
-      formData.Name_with_Initials === "" ||
-      formData.Name_denoted_by_Initials === "" ||
-      formData.Address.Permenant_Address === "" ||
-      formData.Address.Province === "" ||
-      formData.Address.District === "" ||
-      formData.Address.Divisional_Secretarial === "" ||
-      formData.Address.NIC === "" ||
-      formData.Address.Phone_Number === "" ||
-      formData.Address.Email === "" ||
-      formData.Title === "" ||
+      formData.Details_of_Parents_or_Guardians.Name === "" ||
+      formData.Details_of_Parents_or_Guardians.Occupation === "" ||
+      formData.Details_of_Parents_or_Guardians.Phone_Number === "" ||
+      formData.Emergency_Person.Name === "" ||
+      formData.Emergency_Person.Relationship === "" ||
+      formData.Emergency_Person.Address === "" ||
+      formData.Emergency_Person.Phone_Number === ""
+    ) {
+      navigate("/a1-from-part-3");
+    } else if (
       formData.Educational_Qualifications.AL_year === "" ||
       formData.Educational_Qualifications.Index_AL === "" ||
       formData.Educational_Qualifications.Zscore === "" ||
@@ -134,18 +208,30 @@ function UploadDocuments() {
       formData.Details_of_Citizen.religion === "" ||
       formData.Details_of_Citizen.birth_date === "" ||
       formData.Details_of_Citizen.age === "" ||
-      formData.Details_of_Citizen.citizenship === "" ||
-      formData.Details_of_Parents_or_Guardians.Name === "" ||
-      formData.Details_of_Parents_or_Guardians.Occupation === "" ||
-      formData.Details_of_Parents_or_Guardians.Phone_Number === "" ||
-      formData.Emergency_Person.Name === "" ||
-      formData.Emergency_Person.Relationship === "" ||
-      formData.Emergency_Person.Address === "" ||
-      formData.Emergency_Person.Phone_Number === ""
+      formData.Details_of_Citizen.citizenship === ""
     ) {
-      alert("Please fill all the details");
+      navigate("/a1-from-part-2");
+    } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
+      if (formData.Details_of_Citizen.citizenship_from === "") {
+        navigate("/a1-from-part-2");
+      }
+    } else if (
+      formData.Enrollment_Number === "" ||
+      formData.Name_with_Initials === "" ||
+      formData.Name_denoted_by_Initials === "" ||
+      formData.Address.Permenant_Address === "" ||
+      formData.Address.Province === "" ||
+      formData.Address.District === "" ||
+      formData.Address.Divisional_Secretarial === "" ||
+      formData.Address.NIC === "" ||
+      formData.Address.Phone_Number === "" ||
+      formData.Address.Email === "" ||
+      formData.Title === ""
+    ) {
       navigate("/a1-from-part-1");
     }
+    loadProfilePhoto();
+    loadSignature();
   }, []);
 
   return (
