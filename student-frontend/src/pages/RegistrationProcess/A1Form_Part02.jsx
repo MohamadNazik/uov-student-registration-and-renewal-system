@@ -1,19 +1,107 @@
 {
   /* A1 form part 02*/
 }
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SecondaryButton from "../../components/SecondaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
+import { openDB } from "idb";
 
 function A1Form_Part02() {
-  const {
-    formData,
-    updateFormData,
-    updateNestedFormData,
-    updateFile,
-    setFormData,
-  } = useFormContext();
+  const { formData, updateNestedFormData, setFormData } = useFormContext();
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  const navigate = useNavigate();
+
+  const dbPromise = openDB("fileDB", 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files");
+      }
+    },
+  });
+
+  useEffect(() => {
+    const loadProfilePhoto = async () => {
+      const db = await dbPromise;
+      const storedProfile = await db.get("files", "profile_photo");
+
+      if (!storedProfile) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    const loadSignature = async () => {
+      const db = await dbPromise;
+      const storedSignature = await db.get("files", "signature");
+
+      if (!storedSignature) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    if (
+      formData.Enrollment_Number === "" ||
+      formData.Name_with_Initials === "" ||
+      formData.Name_denoted_by_Initials === "" ||
+      formData.Address.Permenant_Address === "" ||
+      formData.Address.Province === "" ||
+      formData.Address.District === "" ||
+      formData.Address.Divisional_Secretarial === "" ||
+      formData.Address.NIC === "" ||
+      formData.Address.Phone_Number === "" ||
+      formData.Address.Email === "" ||
+      formData.Title === ""
+    ) {
+      navigate("/a1-from-part-1");
+    } else {
+      loadProfilePhoto();
+      loadSignature();
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        formData.Educational_Qualifications.AL_year === "" ||
+        formData.Educational_Qualifications.Index_AL === "" ||
+        formData.Educational_Qualifications.Zscore === "" ||
+        formData.Educational_Qualifications.AL_result.Subject1.Name === "" ||
+        formData.Educational_Qualifications.AL_result.Subject1.Result === "" ||
+        formData.Educational_Qualifications.AL_result.Subject2.Name === "" ||
+        formData.Educational_Qualifications.AL_result.Subject2.Result === "" ||
+        formData.Educational_Qualifications.AL_result.Subject3.Name === "" ||
+        formData.Educational_Qualifications.AL_result.Subject3.Result === "" ||
+        formData.Details_of_Citizen.race === "" ||
+        formData.Details_of_Citizen.PI === "" ||
+        formData.Details_of_Citizen.country === "" ||
+        formData.Details_of_Citizen.gender === "" ||
+        formData.Details_of_Citizen.civil_status === "" ||
+        formData.Details_of_Citizen.religion === "" ||
+        formData.Details_of_Citizen.birth_date === "" ||
+        formData.Details_of_Citizen.age === "" ||
+        formData.Details_of_Citizen.citizenship === ""
+      ) {
+        setNextButtonDisabled(true);
+      } else {
+        if (formData.Details_of_Citizen.race === "OTHERS") {
+          formData.Details_of_Citizen.PI === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
+          formData.Details_of_Citizen.citizenship_from === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else if (formData.Details_of_Citizen.citizenship === "FOREIGNER") {
+          formData.Details_of_Citizen.country === ""
+            ? setNextButtonDisabled(true)
+            : setNextButtonDisabled(false);
+        } else {
+          setNextButtonDisabled(false);
+        }
+      }
+    };
+    handleNextButton();
+  }, [formData]);
 
   const updateALResult = (subjectKey, field, value) => {
     setFormData((prev) => ({
@@ -539,6 +627,7 @@ function A1Form_Part02() {
               text="Next"
               color="bg-green-700"
               hoverColor="hover:bg-green-800"
+              isDisabled={nextButtonDisabled}
             />
           </Link>
         </div>

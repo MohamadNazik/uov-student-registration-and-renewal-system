@@ -1,12 +1,20 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { openDB } from "idb";
 
 const FormContext = createContext();
 
+// Initialize IndexedDB for file storage
+const dbPromise = openDB("fileDB", 1, {
+  upgrade(db) {
+    db.createObjectStore("files");
+  },
+});
+
 export const FormProvider = ({ children }) => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState(() => {
-    // Load form data from sessionStorage (if available)
     const savedData = sessionStorage.getItem("formData");
     return savedData
       ? JSON.parse(savedData)
@@ -15,11 +23,14 @@ export const FormProvider = ({ children }) => {
           Title: "",
           Name_with_Initials: "",
           Name_denoted_by_Initials: "",
+          Enrollment_Date: "",
+          ID_IssueDate: "",
+          AcademicYear: "",
           Address: {
             Permenant_Address: "",
             Province: "",
             District: "",
-            Divional_Secretarial: "",
+            Divisional_Secretarial: "",
             NIC: "",
             Phone_Number: "",
             Email: "",
@@ -59,6 +70,7 @@ export const FormProvider = ({ children }) => {
             Address: "",
           },
           profile_photo: null,
+          signature: null,
           Documents: {
             UGC_Letter: null,
             BC: null,
@@ -74,24 +86,132 @@ export const FormProvider = ({ children }) => {
         };
   });
 
-  // Save data to sessionStorage whenever formData changes
+  // Save form data (excluding files) to sessionStorage whenever it changes
   useEffect(() => {
-    sessionStorage.setItem("formData", JSON.stringify(formData));
+    const { profile_photo, signature, Documents, ...rest } = formData;
+    sessionStorage.setItem("formData", JSON.stringify(rest));
   }, [formData]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const checkAlreadyVerify = () => {
+      const student = localStorage.getItem("student");
+      if (!student) {
+        sessionStorage.removeItem("formData");
+        localStorage.removeItem("student");
+        localStorage.removeItem("regDetails");
+        navigate("/");
+      }
+    };
+
+    checkAlreadyVerify();
+  }, []);
+
+  // Load files and documentURLs from IndexedDB and sessionStorage on first render
+  useEffect(() => {
+    const loadFiles = async () => {
+      const db = await dbPromise;
+      const updatedFiles = {
+        profile_photo: null,
+        signature: null,
+        Documents: {},
+      };
+
+      // Load profile photo and signature from IndexedDB
+      updatedFiles.profile_photo = await db.get("files", "profile_photo");
+      updatedFiles.signature = await db.get("files", "signature");
+
+      // Load all document files from IndexedDB
+      const ugcLtrFile = await db.get("files", "UGC_Letter");
+      if (ugcLtrFile) {
+        updatedFiles.Documents["UGC_Letter"] = ugcLtrFile;
+      }
+
+      const bcFile = await db.get("files", "BC");
+      if (bcFile) {
+        updatedFiles.Documents["BC"] = bcFile;
+      }
+
+      const nicFile = await db.get("files", "NIC");
+      if (nicFile) {
+        updatedFiles.Documents["NIC"] = nicFile;
+      }
+
+      const olFile = await db.get("files", "OL");
+      if (olFile) {
+        updatedFiles.Documents["OL"] = olFile;
+      }
+
+      const alFile = await db.get("files", "AL");
+      if (alFile) {
+        updatedFiles.Documents["AL"] = alFile;
+      }
+
+      const a3File = await db.get("files", "A3");
+      if (a3File) {
+        updatedFiles.Documents["A3"] = a3File;
+      }
+
+      const a4File = await db.get("files", "A4");
+      if (a4File) {
+        updatedFiles.Documents["A4"] = a4File;
+      }
+
+      const a5File = await db.get("files", "A5");
+      if (a5File) {
+        updatedFiles.Documents["A5"] = a5File;
+      }
+
+      const a6File = await db.get("files", "A6");
+      if (a6File) {
+        updatedFiles.Documents["A6"] = a6File;
+      }
+
+      const attestationFile = await db.get("files", "Attestation");
+      if (attestationFile) {
+        updatedFiles.Documents["Attestation"] = attestationFile;
+      }
+
+      // const documentKeys = Object.keys(formData.Documents || {});
+      // for (const key of documentKeys) {
+      //   const file = await db.get("files", key);
+      //   updatedFiles.Documents[key] = file;
+      // }
+
+      // Merge the loaded files into formData
+      setFormData((prev) => ({
+        ...prev,
+        ...updatedFiles,
+        Documents: {
+          ...prev.Documents,
+          ...updatedFiles.Documents,
+        },
+      }));
+    };
+
+    loadFiles();
+  }, []);
+
+  // Automatically clear session and files after 90 minutes
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
       sessionStorage.removeItem("formData");
+      sessionStorage.removeItem("documentURLs"); // Clear documentURLs from sessionStorage
+      const db = await dbPromise;
+      await db.clear("files"); // Remove all stored files
+
       setFormData({
         Enrollment_Number: "",
         Title: "",
         Name_with_Initials: "",
         Name_denoted_by_Initials: "",
+        Enrollment_Date: "",
+        ID_IssueDate: "",
+        AcademicYear: "",
         Address: {
           Permenant_Address: "",
           Province: "",
           District: "",
-          Divional_Secretarial: "",
+          Divisional_Secretarial: "",
           NIC: "",
           Phone_Number: "",
           Email: "",
@@ -131,6 +251,7 @@ export const FormProvider = ({ children }) => {
           Address: "",
         },
         profile_photo: null,
+        signature: null,
         Documents: {
           UGC_Letter: null,
           BC: null,
@@ -144,6 +265,7 @@ export const FormProvider = ({ children }) => {
           Attestation: null,
         },
       });
+
       alert("Session expired! Please restart the form.");
       navigate("/instructions");
     }, 90 * 60 * 1000); // 90 minutes
@@ -151,9 +273,7 @@ export const FormProvider = ({ children }) => {
     return () => clearTimeout(timeout);
   }, [navigate]);
 
-  console.log(formData);
-
-  // Function to update text inputs
+  // Update text inputs
   const updateFormData = (name, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -161,7 +281,7 @@ export const FormProvider = ({ children }) => {
     }));
   };
 
-  // Function to update nested objects like Address
+  // Update nested fields
   const updateNestedFormData = (parent, name, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -172,16 +292,35 @@ export const FormProvider = ({ children }) => {
     }));
   };
 
-  // Function to handle file uploads
-  const updateFile = (parent, name, file) => {
+  // Save files to IndexedDB
+  const updateFile = async (name, file) => {
+    const db = await dbPromise;
+    await db.put("files", file, name);
+
     setFormData((prev) => ({
       ...prev,
-      [parent]: {
-        ...prev[parent],
-        [name]: file,
+      [name]: file,
+    }));
+  };
+
+  // Save document files separately and persist in sessionStorage
+  const updateDocumentFile = async (docName, file) => {
+    const db = await dbPromise;
+
+    // Save the file to IndexedDB
+    await db.put("files", file, docName);
+
+    // Update formData state
+    setFormData((prev) => ({
+      ...prev,
+      Documents: {
+        ...prev.Documents,
+        [docName]: file,
       },
     }));
   };
+
+  // console.log(formData);
 
   return (
     <FormContext.Provider
@@ -190,6 +329,7 @@ export const FormProvider = ({ children }) => {
         updateFormData,
         updateNestedFormData,
         updateFile,
+        updateDocumentFile,
         setFormData,
       }}
     >

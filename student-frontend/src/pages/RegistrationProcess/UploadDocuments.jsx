@@ -15,10 +15,20 @@ import {
   handleUGCLetterFile,
 } from "../../utils/VerifyDocumentFunctions";
 import SecondaryButton from "../../components/SecondaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormContext } from "../../utils/FormContext";
+import PdfContainer from "../../components/PdfContainer";
+import { openDB } from "idb";
 
 function UploadDocuments() {
+  const dbPromise = openDB("fileDB", 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files");
+      }
+    },
+  });
+
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
   const [formDataVerify, setFormDataverify] = useState(new FormData());
@@ -37,7 +47,11 @@ function UploadDocuments() {
   const [isAttestation, setIsAttestation] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
-  const { updateFile } = useFormContext();
+  const [documentURLs, setDocumentURLs] = useState({});
+
+  const { updateDocumentFile, formData } = useFormContext();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleNextButton = () => {
@@ -73,6 +87,153 @@ function UploadDocuments() {
     isAttestation,
   ]);
 
+  useEffect(() => {
+    const loadDocuments = async () => {
+      const updatedURLs = {};
+      const db = await dbPromise;
+      const ugcLtrFile = await db.get("files", "UGC_Letter");
+      if (ugcLtrFile) {
+        setIsUgcLtr(true);
+        updatedURLs["UGC_Letter"] = URL.createObjectURL(ugcLtrFile);
+      }
+
+      const bcFile = await db.get("files", "BC");
+      if (bcFile) {
+        setIsBC(true);
+        updatedURLs["BC"] = URL.createObjectURL(bcFile);
+      }
+
+      const nicFile = await db.get("files", "NIC");
+      if (nicFile) {
+        setIsNic(true);
+        updatedURLs["NIC"] = URL.createObjectURL(nicFile);
+      }
+
+      const olFile = await db.get("files", "OL");
+      if (olFile) {
+        setIsOl(true);
+        updatedURLs["OL"] = URL.createObjectURL(olFile);
+      }
+
+      const alFile = await db.get("files", "AL");
+      if (alFile) {
+        setIsAl(true);
+        updatedURLs["AL"] = URL.createObjectURL(alFile);
+      }
+
+      const a3File = await db.get("files", "A3");
+      if (a3File) {
+        setIsA3(true);
+        updatedURLs["A3"] = URL.createObjectURL(a3File);
+      }
+
+      const a4File = await db.get("files", "A4");
+      if (a4File) {
+        setIsA4(true);
+        updatedURLs["A4"] = URL.createObjectURL(a4File);
+      }
+
+      const a5File = await db.get("files", "A5");
+      if (a5File) {
+        setIsA5(true);
+        updatedURLs["A5"] = URL.createObjectURL(a5File);
+      }
+
+      const a6File = await db.get("files", "A6");
+      if (a6File) {
+        setIsA6(true);
+        updatedURLs["A6"] = URL.createObjectURL(a6File);
+      }
+
+      const attestationFile = await db.get("files", "Attestation");
+      if (attestationFile) {
+        setIsAttestation(true);
+        updatedURLs["Attestation"] = URL.createObjectURL(attestationFile);
+      }
+
+      // for (const key of documentKeys) {
+      //   const file = await db.get("files", key);
+      //   if (file) {
+      //     const fileURL = URL.createObjectURL(file);
+      //     updatedURLs[key] = fileURL;
+      //   }
+      // }
+      setDocumentURLs((prev) => ({ ...prev, ...updatedURLs }));
+    };
+    loadDocuments();
+  }, [formData.Documents]);
+
+  useEffect(() => {
+    const loadProfilePhoto = async () => {
+      const db = await dbPromise;
+      const storedProfile = await db.get("files", "profile_photo");
+
+      if (!storedProfile) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    const loadSignature = async () => {
+      const db = await dbPromise;
+      const storedSignature = await db.get("files", "signature");
+
+      if (!storedSignature) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    if (
+      formData.Details_of_Parents_or_Guardians.Name === "" ||
+      formData.Details_of_Parents_or_Guardians.Occupation === "" ||
+      formData.Details_of_Parents_or_Guardians.Phone_Number === "" ||
+      formData.Emergency_Person.Name === "" ||
+      formData.Emergency_Person.Relationship === "" ||
+      formData.Emergency_Person.Address === "" ||
+      formData.Emergency_Person.Phone_Number === ""
+    ) {
+      navigate("/a1-from-part-3");
+    } else if (
+      formData.Educational_Qualifications.AL_year === "" ||
+      formData.Educational_Qualifications.Index_AL === "" ||
+      formData.Educational_Qualifications.Zscore === "" ||
+      formData.Educational_Qualifications.AL_result.Subject1.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject1.Result === "" ||
+      formData.Educational_Qualifications.AL_result.Subject2.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject2.Result === "" ||
+      formData.Educational_Qualifications.AL_result.Subject3.Name === "" ||
+      formData.Educational_Qualifications.AL_result.Subject3.Result === "" ||
+      formData.Details_of_Citizen.race === "" ||
+      formData.Details_of_Citizen.PI === "" ||
+      formData.Details_of_Citizen.country === "" ||
+      formData.Details_of_Citizen.gender === "" ||
+      formData.Details_of_Citizen.civil_status === "" ||
+      formData.Details_of_Citizen.religion === "" ||
+      formData.Details_of_Citizen.birth_date === "" ||
+      formData.Details_of_Citizen.age === "" ||
+      formData.Details_of_Citizen.citizenship === ""
+    ) {
+      navigate("/a1-from-part-2");
+    } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
+      if (formData.Details_of_Citizen.citizenship_from === "") {
+        navigate("/a1-from-part-2");
+      }
+    } else if (
+      formData.Enrollment_Number === "" ||
+      formData.Name_with_Initials === "" ||
+      formData.Name_denoted_by_Initials === "" ||
+      formData.Address.Permenant_Address === "" ||
+      formData.Address.Province === "" ||
+      formData.Address.District === "" ||
+      formData.Address.Divisional_Secretarial === "" ||
+      formData.Address.NIC === "" ||
+      formData.Address.Phone_Number === "" ||
+      formData.Address.Email === "" ||
+      formData.Title === ""
+    ) {
+      navigate("/a1-from-part-1");
+    }
+    loadProfilePhoto();
+    loadSignature();
+  }, []);
+
   return (
     <>
       <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex flex-col justify-start gap-3 xl:gap-5">
@@ -99,7 +260,7 @@ function UploadDocuments() {
                   setIsUgcLtr,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 );
               }}
               accept="application/pdf"
@@ -149,7 +310,7 @@ function UploadDocuments() {
                   setIsBC,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -215,7 +376,7 @@ function UploadDocuments() {
                   setIsNic,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -265,7 +426,7 @@ function UploadDocuments() {
                   setIsOl,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -315,7 +476,7 @@ function UploadDocuments() {
                   setIsAl,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -379,7 +540,7 @@ function UploadDocuments() {
                   setIsA3,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -429,7 +590,7 @@ function UploadDocuments() {
                   setIsA4,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -479,7 +640,7 @@ function UploadDocuments() {
                   setIsA5,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -529,7 +690,7 @@ function UploadDocuments() {
                   setIsA6,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -579,7 +740,7 @@ function UploadDocuments() {
                   setIsAttestation,
                   formDataVerify,
                   setFormDataverify,
-                  updateFile
+                  updateDocumentFile
                 )
               }
               accept="application/pdf"
@@ -613,6 +774,30 @@ function UploadDocuments() {
                 <></>
               )}
             </div>
+          </div>
+        </div>
+        <div>
+          <p className="text-lg font-medium text-black mt-8 mb-6">
+            Documents that you are going to submit. Pleace check wheather all
+            documents are correct.
+            <br />
+            <span className="text-red-600">Click the document to view</span>
+          </p>
+          <div className="flex flex-col gap-5">
+            {Object.entries(documentURLs).map(([key, fileURL], index) =>
+              fileURL ? (
+                <div key={key} className="flex items-center">
+                  <span className="font-semibold mr-4">{index + 1}.</span>
+                  <a href={fileURL} target="_blank" className="block">
+                    <PdfContainer text={key} />
+                  </a>
+                  <div className="-mt-2 sm:-mt-0 sm:text-sm xl:text-lg ml-1 text-xs font-medium text-green-600 flex items-center gap-1">
+                    <MdVerified />
+                    <p>Identified</p>
+                  </div>
+                </div>
+              ) : null
+            )}
           </div>
         </div>
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">

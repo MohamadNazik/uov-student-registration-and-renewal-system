@@ -8,7 +8,7 @@ export const handleOlFile = async (
   setIsOl,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -29,13 +29,13 @@ export const handleOlFile = async (
         setIsOl(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "OL", file);
+        updateDocumentFile("OL", file);
         setFormDataVerify(new FormData());
       } else {
         setIsOl(false);
         setError("ol");
         setLoading("");
-        updateFile("Documents", "OL", null);
+        updateDocumentFile("OL", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -55,7 +55,7 @@ export const handleBirthCertificateFile = async (
   setIsBC,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -76,13 +76,13 @@ export const handleBirthCertificateFile = async (
         setIsBC(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "BC", file);
+        updateDocumentFile("BC", file);
         setFormDataVerify(new FormData());
       } else {
         setIsBC(false);
         setError("bc");
         setLoading("");
-        updateFile("Documents", "BC", null);
+        updateDocumentFile("BC", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -102,7 +102,7 @@ export const handleNICFile = async (
   setIsNic,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -123,13 +123,13 @@ export const handleNICFile = async (
         setIsNic(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "NIC", file);
+        updateDocumentFile("NIC", file);
         setFormDataVerify(new FormData());
       } else {
         setIsNic(false);
         setError("nic");
         setLoading("");
-        updateFile("Documents", "NIC", null);
+        updateDocumentFile("NIC", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -149,7 +149,7 @@ export const handleAlFile = async (
   setIsAl,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -170,13 +170,13 @@ export const handleAlFile = async (
         setIsAl(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "AL", file);
+        updateDocumentFile("AL", file);
         setFormDataVerify(new FormData());
       } else {
         setIsAl(false);
         setError("al");
         setLoading("");
-        updateFile("Documents", "AL", null);
+        updateDocumentFile("AL", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -196,7 +196,7 @@ export const handleUGCLetterFile = async (
   setIsUgcLtr,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -218,14 +218,14 @@ export const handleUGCLetterFile = async (
         setError("");
         setLoading("");
         setFormDataVerify(new FormData());
-        updateFile("Documents", "UGC_Letter", file);
+        updateDocumentFile("UGC_Letter", file);
       } else {
         setIsUgcLtr(false);
         setError("ugc-letter");
         setLoading("");
         setFormDataVerify(new FormData());
         e.target.value = "";
-        updateFile("Documents", "UGC_Letter", null);
+        updateDocumentFile("UGC_Letter", null);
       }
     })
     .catch((err) => {
@@ -243,7 +243,7 @@ export const handleA3formFile = async (
   setIsA3,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -264,13 +264,13 @@ export const handleA3formFile = async (
         setIsA3(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "A3", file);
+        updateDocumentFile("A3", file);
         setFormDataVerify(new FormData());
       } else {
         setIsA3(false);
         setError("a3form");
         setLoading("");
-        updateFile("Documents", "A3", null);
+        updateDocumentFile("A3", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -290,7 +290,7 @@ export const handleA4formFile = async (
   setIsA4,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -311,13 +311,13 @@ export const handleA4formFile = async (
         setIsA4(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "A4", file);
+        updateDocumentFile("A4", file);
         setFormDataVerify(new FormData());
       } else {
         setIsA4(false);
         setError("a4form");
         setLoading("");
-        updateFile("Documents", "A4", null);
+        updateDocumentFile("A4", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -337,7 +337,7 @@ export const handleA5formFile = async (
   setIsA5,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -358,13 +358,13 @@ export const handleA5formFile = async (
         setIsA5(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "A5", file);
+        updateDocumentFile("A5", file);
         setFormDataVerify(new FormData());
       } else {
         setIsA5(false);
         setError("a5form");
         setLoading("");
-        updateFile("Documents", "A5", null);
+        updateDocumentFile("A5", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -384,7 +384,7 @@ export const handleA6formFile = async (
   setIsA6,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -405,13 +405,13 @@ export const handleA6formFile = async (
         setIsA6(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "A6", file);
+        updateDocumentFile("A6", file);
         setFormDataVerify(new FormData());
       } else {
         setIsA6(false);
         setError("a6form");
         setLoading("");
-        updateFile("Documents", "A6", null);
+        updateDocumentFile("A6", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }
@@ -431,7 +431,7 @@ export const handleAttestationformFile = async (
   setIsAttestation,
   formDataVerify,
   setFormDataVerify,
-  updateFile
+  updateDocumentFile
 ) => {
   const file = e.target.files[0];
 
@@ -456,13 +456,13 @@ export const handleAttestationformFile = async (
         setIsAttestation(true);
         setError("");
         setLoading("");
-        updateFile("Documents", "Attestation", file);
+        updateDocumentFile("Attestation", file);
         setFormDataVerify(new FormData());
       } else {
         setIsAttestation(false);
         setError("attestation");
         setLoading("");
-        updateFile("Documents", "Attestation", null);
+        updateDocumentFile("Attestation", null);
         setFormDataVerify(new FormData());
         e.target.value = "";
       }

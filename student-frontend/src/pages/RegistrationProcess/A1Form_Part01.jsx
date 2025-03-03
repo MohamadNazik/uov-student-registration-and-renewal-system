@@ -1,57 +1,177 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import uov_logo from "../../assets/uov_logo.png";
 import upload_area from "../../assets/upload_image.jpg";
 import { Link } from "react-router-dom";
 import SecondaryButton from "../../components/SecondaryButton";
 import { useFormContext } from "../../utils/FormContext";
+import { openDB } from "idb";
 
 function A1Form_Part01() {
   const { formData, updateFormData, updateFile, updateNestedFormData } =
     useFormContext();
-  const [stImage, setStImage] = useState(false);
+
+  const dbPromise = openDB("fileDB", 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files");
+      }
+    },
+  });
+
+  const [stImage, setStImage] = useState("");
+  const [signature, setSignature] = useState("");
+  const [enrollment_Number, setEnrollment_Number] = useState(() => {
+    const RegNo = localStorage.getItem("student");
+    return RegNo ? JSON.parse(RegNo).Enrollment_No : null;
+  });
+  const [nic, setNic] = useState(() => {
+    const nic = localStorage.getItem("student");
+    return nic ? JSON.parse(nic).NIC : null;
+  });
+
+  const [enrollmentDate, setEnrollmentDate] = useState(() => {
+    const regDetails = localStorage.getItem("regDetails");
+    return regDetails ? JSON.parse(regDetails).EnrollmentDate : null;
+  });
+  const [idIssueDate, setIDIssueDate] = useState(() => {
+    const regDetails = localStorage.getItem("regDetails");
+    return regDetails ? JSON.parse(regDetails).ID_IssueDate : null;
+  });
+  const [academicYear, setAcademicYear] = useState(() => {
+    const regDetails = localStorage.getItem("regDetails");
+    return regDetails ? JSON.parse(regDetails).AcademicYear : null;
+  });
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const loadProfilePhoto = async () => {
+      const db = await dbPromise;
+      const storedFile = await db.get("files", "profile_photo");
+
+      if (storedFile) {
+        setStImage(storedFile);
+      }
+    };
+    const loadSignature = async () => {
+      const db = await dbPromise;
+      const storedFile = await db.get("files", "signature");
+
+      if (storedFile) {
+        setSignature(storedFile);
+      }
+    };
+
+    const preAssignValues = () => {
+      if (enrollment_Number) {
+        updateFormData("Enrollment_Number", enrollment_Number);
+      }
+      if (nic) {
+        updateNestedFormData("Address", "NIC", nic);
+      }
+      if (enrollmentDate) {
+        updateFormData("Enrollment_Date", enrollmentDate);
+      }
+      if (idIssueDate) {
+        updateFormData("ID_IssueDate", idIssueDate);
+      }
+      if (academicYear) {
+        updateFormData("AcademicYear", academicYear);
+      }
+    };
+    preAssignValues();
+    loadProfilePhoto();
+    loadSignature();
+  }, []);
+
+  useEffect(() => {
+    const handleNextButton = () => {
+      if (
+        formData.Enrollment_Number === "" ||
+        formData.Name_with_Initials === "" ||
+        formData.Name_denoted_by_Initials === "" ||
+        formData.Address.Permenant_Address === "" ||
+        formData.Address.Province === "" ||
+        formData.Address.District === "" ||
+        formData.Address.Divisional_Secretarial === "" ||
+        formData.Address.NIC === "" ||
+        formData.Address.Phone_Number === "" ||
+        formData.Address.Email === "" ||
+        formData.Title === ""
+      ) {
+        setNextButtonDisabled(true);
+      } else if (formData.Title === "Other") {
+        formData.OtherTitle === ""
+          ? setNextButtonDisabled(true)
+          : setNextButtonDisabled(false);
+      } else {
+        setNextButtonDisabled(stImage === null || stImage === "");
+        setNextButtonDisabled(signature === null || signature === "");
+      }
+    };
+    handleNextButton();
+  }, [formData, stImage]);
 
   const provinces = [
-    "Central Province",
-    "Eastern Province",
-    "North Central Province",
-    "Northern Province",
-    "North Western Province",
-    "Sabaragamuwa Province",
-    "Southern Province",
-    "Uva Province",
-    "Western Province",
-  ];
-  const districts = [
-    "Ampara",
-    "Anuradhapura",
-    "Badulla",
-    "Batticaloa",
-    "Colombo",
-    "Galle",
-    "Gampaha",
-    "Hambantota",
-    "Jaffna",
-    "Kalutara",
-    "Kandy",
-    "Kegalle",
-    "Kilinochchi",
-    "Kurunegala",
-    "Mannar",
-    "Matale",
-    "Matara",
-    "Monaragala",
-    "Mullaitivu",
-    "Nuwara Eliya",
-    "Polonnaruwa",
-    "Puttalam",
-    "Ratnapura",
-    "Trincomalee",
-    "Vavuniya",
+    "CENTRAL PROVINCE",
+    "EASTERN PROVINCE",
+    "NORTH CENTRAL PROVINCE",
+    "NORTHERN PROVINCE",
+    "NORTH WESTERN PROVINCE",
+    "SABARAGAMUWA PROVINCE",
+    "SOUTHERN PROVINCE",
+    "UVA PROVINCE",
+    "WESTERN PROVINCE",
   ];
 
-  const profilePhotoHandle = (e) => {
-    setStImage(e.target.files[0]);
+  const districts = [
+    "AMPARA",
+    "ANURADHAPURA",
+    "BADULLA",
+    "BATTICALOA",
+    "COLOMBO",
+    "GALLE",
+    "GAMPAHA",
+    "HAMBANTOTA",
+    "JAFFNA",
+    "KALUTARA",
+    "KANDY",
+    "KEGALLE",
+    "KILINOCHCHI",
+    "KURUNEGALA",
+    "MANNAR",
+    "MATALE",
+    "MATARA",
+    "MONARAGALA",
+    "MULLAITIVU",
+    "NUWARA ELIYA",
+    "POLONNARUWA",
+    "PUTTALAM",
+    "RATNAPURA",
+    "TRINCOMALEE",
+    "VAVUNIYA",
+  ];
+
+  const profilePhotoHandle = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const db = await dbPromise;
+    await db.put("files", file, "profile_photo"); // Save to IndexedDB
+
+    setStImage(file); // Update state
     updateFile("profile_photo", e.target.files[0]);
+  };
+
+  const signatureHandle = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const db = await dbPromise;
+    await db.put("files", file, "signature"); // Save to IndexedDB
+
+    setSignature(file); // Update state
+    updateFile("signature", e.target.files[0]);
   };
 
   return (
@@ -88,7 +208,7 @@ function A1Form_Part01() {
               <img
                 src={stImage ? URL.createObjectURL(stImage) : upload_area}
                 alt="your Image"
-                className={`w-[50px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 md:mt-0 border border-black rounded-lg ${
+                className={`w-[50px] sm:w-[120px] md:h-[130px] mx-auto mb-2 mt-2 md:mt-0 border border-black rounded-lg cursor-pointer ${
                   stImage ? "object-contain" : ""
                 }`}
               />
@@ -112,13 +232,8 @@ function A1Form_Part01() {
               type="text"
               name="Enrollment_Number"
               value={formData.Enrollment_Number}
-              onChange={(e) =>
-                updateFormData(
-                  "Enrollment_Number",
-                  e.target.value.toUpperCase()
-                )
-              }
-              className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
+              disabled
+              className="border-2 rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1 uppercase cursor-not-allowed border-gray-400"
             />
           </div>
 
@@ -210,6 +325,26 @@ function A1Form_Part01() {
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
               />
             </div>
+            <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
+              <label className="text-sm sm:text-lg xl:text-xl font-medium ml-12">
+                (iv). Upload your signature :-
+              </label>
+              <label htmlFor="signature-input">
+                <img
+                  src={signature ? URL.createObjectURL(signature) : upload_area}
+                  alt="your signature"
+                  className={`w-[50px] sm:w-[120px] md:h-[130px] mb-2 mt-2 md:mt-0 border border-black rounded-lg cursor-pointer ${
+                    signature ? "object-contain" : ""
+                  }`}
+                />
+              </label>
+              <input
+                onChange={(e) => signatureHandle(e)}
+                type="file"
+                id="signature-input"
+                hidden
+              />
+            </div>
           </div>
           {/* Address */}
           <div className="flex flex-wrap gap-2 justify-between items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -294,12 +429,12 @@ function A1Form_Part01() {
               </label>
               <input
                 type="text"
-                name="Divional_Secretarial"
-                value={formData.Address.Divional_Secretarial}
+                name="Divisional_Secretarial"
+                value={formData.Address.Divisional_Secretarial}
                 onChange={(e) =>
                   updateNestedFormData(
                     "Address",
-                    "Divional_Secretarial",
+                    "Divisional_Secretarial",
                     e.target.value.toUpperCase()
                   )
                 }
@@ -314,14 +449,8 @@ function A1Form_Part01() {
                 type="text"
                 name="NIC"
                 value={formData.Address.NIC}
-                onChange={(e) =>
-                  updateNestedFormData(
-                    "Address",
-                    "NIC",
-                    e.target.value.toUpperCase()
-                  )
-                }
-                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase"
+                disabled
+                className="border-2 rounded-md focus:outline-1 focus:outline-black px-2 w-[220px] sm:w-[420px] xl:w-[650px] text-sm sm:text-lg xl:text-2xl py-1 uppercase cursor-not-allowed border-gray-400"
               />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-4 items-center w-[255px] sm:w-[673px] xl:w-[1115px]">
@@ -367,6 +496,7 @@ function A1Form_Part01() {
           <Link to="/a1-from-part-2">
             <SecondaryButton
               text="Next"
+              isDisabled={nextButtonDisabled}
               color="bg-green-700"
               hoverColor="hover:bg-green-800"
             />

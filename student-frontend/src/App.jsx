@@ -24,66 +24,73 @@ import AlreadyRegSubmitted from "./pages/RegistrationProcess/AlreadyRegSubmitted
 import { FormProvider } from "./utils/FormContext";
 import RegNotOpen from "./pages/RegistrationProcess/RegNotOpen";
 
-const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  { path: "/login", element: <Login /> },
-  { path: "/user-dashboard", element: <UserDashboard /> },
-  { path: "/student-id", element: <StudentID /> },
-  { path: "/record-book", element: <RecordBook /> },
-  { path: "/renewal", element: <Renewal /> },
-  { path: "/change-password", element: <ChangePassword /> },
-  { path: "/forgot-password", element: <ForgotPassword /> },
-  { path: "/verify-otp", element: <VerifyOTP /> },
-  { path: "/re-success", element: <RenewalSuccess /> },
-  { path: "/re-submitted", element: <AlreadyRenewalSubmitted /> },
-  { path: "/check-selection", element: <CheckSelection /> },
-  { path: "/confirm-selection", element: <ConfirmSelection /> },
-  { path: "/instructions", element: <Instructions /> },
+const router = createBrowserRouter(
+  [
+    { path: "/", element: <Home /> },
+    { path: "/login", element: <Login /> },
+    { path: "/user-dashboard", element: <UserDashboard /> },
+    { path: "/student-id", element: <StudentID /> },
+    { path: "/record-book", element: <RecordBook /> },
+    { path: "/renewal", element: <Renewal /> },
+    { path: "/change-password", element: <ChangePassword /> },
+    { path: "/forgot-password", element: <ForgotPassword /> },
+    { path: "/verify-otp", element: <VerifyOTP /> },
+    { path: "/re-success", element: <RenewalSuccess /> },
+    { path: "/re-submitted", element: <AlreadyRenewalSubmitted /> },
+    { path: "/check-selection", element: <CheckSelection /> },
+    { path: "/confirm-selection", element: <ConfirmSelection /> },
+    { path: "/instructions", element: <Instructions /> },
+    {
+      path: "/a1-from-part-1",
+      element: (
+        <FormProvider>
+          <A1Form_Part01 />
+        </FormProvider>
+      ),
+    },
+    {
+      path: "/a1-from-part-2",
+      element: (
+        <FormProvider>
+          <A1Form_Part02 />
+        </FormProvider>
+      ),
+    },
+    {
+      path: "/a1-from-part-3",
+      element: (
+        <FormProvider>
+          <A1Form_Part03 />
+        </FormProvider>
+      ),
+    },
+    {
+      path: "/upload-documents",
+      element: (
+        <FormProvider>
+          <UploadDocuments />
+        </FormProvider>
+      ),
+    },
+    {
+      path: "/verify-id",
+      element: (
+        <FormProvider>
+          <VerifyID />
+        </FormProvider>
+      ),
+    },
+    { path: "/reg-success", element: <RegSuccess /> },
+    { path: "/already-reg-submitted", element: <AlreadyRegSubmitted /> },
+    { path: "/reg-not-open", element: <RegNotOpen /> },
+    { path: "/*", element: <Home /> },
+  ],
   {
-    path: "/a1-from-part-1",
-    element: (
-      <FormProvider>
-        <A1Form_Part01 />
-      </FormProvider>
-    ),
-  },
-  {
-    path: "/a1-from-part-2",
-    element: (
-      <FormProvider>
-        <A1Form_Part02 />
-      </FormProvider>
-    ),
-  },
-  {
-    path: "/a1-from-part-3",
-    element: (
-      <FormProvider>
-        <A1Form_Part03 />
-      </FormProvider>
-    ),
-  },
-  {
-    path: "/upload-documents",
-    element: (
-      <FormProvider>
-        <UploadDocuments />
-      </FormProvider>
-    ),
-  },
-  {
-    path: "/verify-id",
-    element: (
-      <FormProvider>
-        <VerifyID />
-      </FormProvider>
-    ),
-  },
-  { path: "/reg-success", element: <RegSuccess /> },
-  { path: "/already-reg-submitted", element: <AlreadyRegSubmitted /> },
-  { path: "/reg-not-open", element: <RegNotOpen /> },
-  { path: "/*", element: <Home /> },
-]);
+    future: {
+      v7_skipActionErrorRevalidation: true,
+    },
+  }
+);
 
 function App() {
   return (

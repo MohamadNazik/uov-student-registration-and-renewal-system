@@ -13,12 +13,69 @@ function CheckSelection() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const handleRegistration = async () => {
+      try {
+        await axios
+          .get("http://localhost:8080/api/common/registration-available")
+          .then((res) => {
+            if (!res.data.success) {
+              navigate("/reg-not-open");
+            } else {
+              // console.log(res.data.data[0]);
+
+              const EnrollmentDate = new Date(res.data.data[0].enrollmentDate);
+
+              // Extract day, month, and year
+              const Eday = String(EnrollmentDate.getDate()).padStart(2, "0");
+              const Emonth = String(EnrollmentDate.getMonth() + 1).padStart(
+                2,
+                "0"
+              ); // Months are 0-indexed
+              const Eyear = EnrollmentDate.getFullYear();
+
+              const formattedEnrollmentDate = `${Eday}/${Emonth}/${Eyear}`;
+
+              const IdIssueDate = new Date(res.data.data[0].idCardIssueDate);
+
+              // Extract day, month, and year
+              const Iday = String(IdIssueDate.getDate()).padStart(2, "0");
+              const Imonth = String(IdIssueDate.getMonth() + 1).padStart(
+                2,
+                "0"
+              ); // Months are 0-indexed
+              const Iyear = IdIssueDate.getFullYear();
+
+              const formattedIDDate = `${Iday}/${Imonth}/${Iyear}`;
+
+              const regDetails = {
+                EnrollmentDate: formattedEnrollmentDate,
+                ID_IssueDate: formattedIDDate,
+                AcademicYear: res.data.data[0].academicYear[0],
+              };
+
+              localStorage.setItem("regDetails", JSON.stringify(regDetails));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {}
+    };
     const checkAlreadyVerify = () => {
       const student = localStorage.getItem("student");
       if (student) {
         navigate("/confirm-selection");
       }
     };
+    const checkSession = () => {
+      const savedData = sessionStorage.getItem("formData");
+      if (savedData) {
+        navigate("/a1-from-part-1");
+      }
+    };
+
+    handleRegistration();
+    checkSession();
 
     checkAlreadyVerify();
   }, [navigate]);
@@ -41,18 +98,26 @@ function CheckSelection() {
         setIsLoading(false);
         setErr(false);
         const student = {
+          NIC: res.data.data.NIC,
+          Enrollment_No: res.data.data.RegNo,
           course: res.data.data.course,
           department: res.data.data.department,
         };
         localStorage.setItem("student", JSON.stringify(student));
         navigate("/confirm-selection");
       } else {
-        setErr(true);
+        setIsLoading(false);
+        navigate("/already-reg-submitted");
       }
     } catch (error) {
       setErr(true);
       setIsLoading(false);
     }
+  };
+
+  const handleGoHome = () => {
+    localStorage.removeItem("regDetails");
+    navigate("/");
   };
 
   return (
@@ -94,7 +159,7 @@ function CheckSelection() {
           text="Go Back to Home"
           color="bg-red-700"
           hoverColor="hover:bg-red-800"
-          onClick={() => navigate("/")}
+          onClick={handleGoHome}
         />
       </div>
 

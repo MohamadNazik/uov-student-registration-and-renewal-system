@@ -10,6 +10,13 @@ function ConfirmSelection() {
     if (!studentDet) {
       navigate("/check-selection");
     }
+    const checkSession = () => {
+      const savedData = sessionStorage.getItem("formData");
+      if (savedData) {
+        navigate("/a1-from-part-1");
+      }
+    };
+    checkSession();
   }, [studentDet, navigate]);
 
   const handleBack = () => {

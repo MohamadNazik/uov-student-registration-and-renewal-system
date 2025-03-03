@@ -35,3 +35,6 @@ uploads/
 
 # Temporary files
 *.tmp
+
+
+controllers/Documents
