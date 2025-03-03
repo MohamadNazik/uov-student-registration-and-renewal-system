@@ -34,7 +34,7 @@ function Dashboard() {
         {/* SAR Role Options */}
         {adminRole === "sar" && (
           <>
-            <Link to="/new-registration">
+            <Link to="/new-registrations">
               <TextCard text="New Registration" />
             </Link>
             <Link to="/registered-students">
