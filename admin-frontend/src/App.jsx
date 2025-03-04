@@ -8,7 +8,7 @@ const router = createBrowserRouter([
   { path: "/", element: <LoginPage /> },
   { path: "/dashboard", element: <Dashboard /> },
   {path:'/new-registrations',element:<NewRegistrations />},
-  {path:'/new-registrations',element:<RegisteredStudents/>}
+  {path:'/registered-students',element:<RegisteredStudents/>}
 ]);
 
 function App() {
