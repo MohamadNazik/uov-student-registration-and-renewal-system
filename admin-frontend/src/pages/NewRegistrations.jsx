@@ -27,7 +27,7 @@ function NewRegistrations() {
     };
 
     fetchStudents();
-  }, []);
+  }, [students]);
 
   const handleOpenModal = (student) => {
     setSelectedStudent(student);
