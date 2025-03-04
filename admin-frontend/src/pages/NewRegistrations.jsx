@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
+import ApprovalModal from "../components/ApprovalModal";
 
 function NewRegistrations() {
   const [students, setStudents] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -26,7 +29,10 @@ function NewRegistrations() {
     fetchStudents();
   }, []);
 
-  console.log(students);
+  const handleOpenModal = (student) => {
+    setSelectedStudent(student);
+    setOpenModal(true);
+  };
 
   return (
     <div>
@@ -73,12 +79,12 @@ function NewRegistrations() {
                       <td className="px-6 py-4">{student.course}</td>
                       <td className="px-6 py-4">{student.Enrollment_Date}</td>
                       <td className="px-6 py-4">
-                        <a
-                          href="#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        <button
+                          className="gap-2 px-[15px] sm:px-[22px] w-fit py-[8px] sm:py-[3px] rounded-2xl text-white text-[10px] sm:text-[14px] font-semibold bg-[#391031] hover:bg-[#4a1340] flex items-center justify-center tracking-wider uppercase"
+                          onClick={() => handleOpenModal(student)}
                         >
-                          Edit
-                        </a>
+                          View Details
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -97,6 +103,13 @@ function NewRegistrations() {
           </div>
         </div>
       </div>
+      {openModal && (
+        <ApprovalModal
+          show={openModal}
+          onClose={() => setOpenModal(false)}
+          student={selectedStudent}
+        />
+      )}
     </div>
   );
 }
