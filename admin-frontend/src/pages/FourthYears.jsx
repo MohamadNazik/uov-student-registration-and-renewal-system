@@ -4,7 +4,6 @@ import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 
 function FourthYears() {
-    const [students, setStudents] = useState([]);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
@@ -13,7 +12,7 @@ function FourthYears() {
         const fetchStudents = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:8080/api/admin/get-not-approved-students"
+                    //"http://localhost:8080/api/admin/get-not-approved-students"
                 );
 
                 if (response.data.success) {
