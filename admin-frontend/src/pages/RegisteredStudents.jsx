@@ -8,7 +8,7 @@ function RegisteredStudents() {
     return (
         <div>
             <Header title="Registered Students Dashboard" />
-            <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
+            <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-20">
                 <Link to="/first-year">
                     <TextCard  text="For First Year  " />
                 </Link>
@@ -21,7 +21,7 @@ function RegisteredStudents() {
                 <Link to="/fourth-year">
                     <TextCard text="For Fourth Year" />
                 </Link>
-                <Link to="/fourth-year">
+                <Link to="/dashboard">
                     <PrimaryButton text="Go To Dashboard" />
                 </Link>
             </div>
