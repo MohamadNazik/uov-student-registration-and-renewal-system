@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import TextCard from "../components/TextCard";
 import { Link } from "react-router-dom";
 
-function UserDashboard() {
+function RegisteredStudents() {
     return (
         <div>
             <Header title="Registered Students Dashboard" />
@@ -24,3 +24,5 @@ function UserDashboard() {
         </div>
     );
 }
+
+export default RegisteredStudents;
