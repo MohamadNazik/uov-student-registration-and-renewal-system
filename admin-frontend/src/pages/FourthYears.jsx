@@ -4,6 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 
 function FourthYears() {
+    const [students, setStudents] = useState([]);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
