@@ -1,12 +1,8 @@
-import { CircularProgress } from "@mui/material";
 import React from "react";
+import { CircularProgress } from "@mui/material";
 
 function Loading() {
-  return (
-    <div className="bg-[#391031] bg-opacity-60 absolute w-screen h-screen backdrop-blur-[4px] z-10 flex items-center justify-center text-white">
-      <CircularProgress size="50px" color="#ffffff" />
-    </div>
-  );
+  return <CircularProgress size="50px" color="#ffffff" />;
 }
 
 export default Loading;
