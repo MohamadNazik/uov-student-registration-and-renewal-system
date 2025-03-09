@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import ApprovalModal from "../components/ApprovalModal";
+import { Link } from "react-router-dom";
 
 function NewRegistrations() {
   const [students, setStudents] = useState([]);
@@ -39,7 +40,9 @@ function NewRegistrations() {
       <Header title="New Registrations" />
 
       <div className="flex flex-col items-left gap-5 sm:gap-8 mt-8 sm:mt-12 m-10">
-        <PrimaryButton text={"Go to Dashboard"} />
+        <Link to="/dashboard">
+          <PrimaryButton text={"Go to Dashboard"} />
+        </Link>
 
         <div className="bg-white px-10 py-3 w-full text-sm sm:text-xl font-semibold rounded-2xl shadow-lg">
           <div className="flex flex-col gap-2 sm:gap-5 xl:gap-14">
@@ -49,8 +52,8 @@ function NewRegistrations() {
           </div>
 
           <div className="relative overflow-x-auto mt-5">
-            <table className="w-full text-sm text-left text-black dark:text-gray-400">
-              <thead className="text-xs text-black uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-sm text-left text-black">
+              <thead className="text-xs text-black uppercase bg-gray-200">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     name
@@ -71,9 +74,9 @@ function NewRegistrations() {
                   students.map((student) => (
                     <tr
                       key={student._id}
-                      className="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700"
+                      className="bg-white border-b border-gray-300"
                     >
-                      <td className="px-6 py-4 font-medium text-black dark:text-white">
+                      <td className="px-6 py-4 font-medium text-black">
                         {student.Name_with_Initials}
                       </td>
                       <td className="px-6 py-4">{student.course}</td>

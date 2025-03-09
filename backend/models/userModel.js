@@ -110,6 +110,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  department: {
+    type: String,
+    required: true,
+  },
+  year_of_study: {
+    type: Number,
+    required: true,
+  },
   Documents: {
     UGC_Letter: {
       Name: { type: String, required: true },

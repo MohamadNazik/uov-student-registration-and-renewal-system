@@ -111,6 +111,7 @@ export const addStudentController = async (req, res) => {
       RegNo: Enrollment_Number,
     });
     const course = courseDetails.course;
+    const department = courseDetails.department;
 
     const newUser = new User({
       Enrollment_Number,
@@ -128,6 +129,8 @@ export const addStudentController = async (req, res) => {
       profile_photo: documentPaths.profile_photo?.path || "default_profile.png",
       signature: documentPaths.signature?.path || "default_signature.png",
       course: course,
+      department: department,
+      year_of_study: 1, // default year of study
       Documents: documentPaths,
     });
 
