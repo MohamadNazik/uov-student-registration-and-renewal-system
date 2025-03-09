@@ -3,7 +3,7 @@ import uni_logo from "../assets/uov_logo.png";
 import logout_icon from "../assets/icons/logout_icon.png";
 import { Link } from "react-router-dom";
 
-function Header({ title }) {
+function Header({ title, logOutFunc }) {
   return (
     <div className="w-full bg-[#391031] flex items-center justify-between px-[25px] md:px-[100px] py-3 sm:py-6">
       <img
@@ -16,13 +16,12 @@ function Header({ title }) {
         {title}
       </h1>
 
-      <Link to="/">
-        <img
-          src={logout_icon}
-          alt="logout_icon"
-          className="w-h-6 h-6 sm:w-10 sm:h-10 cursor-pointer"
-        />
-      </Link>
+      <img
+        src={logout_icon}
+        alt="logout_icon"
+        className="w-h-6 h-6 sm:w-10 sm:h-10 cursor-pointer"
+        onClick={logOutFunc}
+      />
     </div>
   );
 }
