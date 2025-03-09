@@ -17,7 +17,7 @@ function Instructions() {
     const checkSession = () => {
       const savedData = sessionStorage.getItem("formData");
       if (savedData) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
     const checkAlreadyVerify = () => {
@@ -107,7 +107,7 @@ function Instructions() {
       </div>
 
       <div className="pb-3 sm:pb-8">
-        <Link to="/a1-from-part-1">
+        <Link to="/a1-form-part-1">
           <SecondaryButton
             text="continue to registration"
             color="bg-green-700"

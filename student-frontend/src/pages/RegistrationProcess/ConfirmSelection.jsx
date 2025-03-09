@@ -13,7 +13,7 @@ function ConfirmSelection() {
     const checkSession = () => {
       const savedData = sessionStorage.getItem("formData");
       if (savedData) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
     checkSession();

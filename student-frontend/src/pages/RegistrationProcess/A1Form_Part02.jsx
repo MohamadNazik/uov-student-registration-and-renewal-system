@@ -28,7 +28,7 @@ function A1Form_Part02() {
       const storedProfile = await db.get("files", "profile_photo");
 
       if (!storedProfile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
     const loadSignature = async () => {
@@ -36,7 +36,7 @@ function A1Form_Part02() {
       const storedSignature = await db.get("files", "signature");
 
       if (!storedSignature) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
     if (
@@ -52,7 +52,7 @@ function A1Form_Part02() {
       formData.Address.Email === "" ||
       formData.Title === ""
     ) {
-      navigate("/a1-from-part-1");
+      navigate("/a1-form-part-1");
     } else {
       loadProfilePhoto();
       loadSignature();
@@ -622,7 +622,7 @@ function A1Form_Part02() {
         </div>
 
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
-          <Link to="/a1-from-part-3">
+          <Link to="/a1-form-part-3">
             <SecondaryButton
               text="Next"
               color="bg-green-700"

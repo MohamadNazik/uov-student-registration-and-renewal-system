@@ -41,7 +41,7 @@ const router = createBrowserRouter(
     { path: "/confirm-selection", element: <ConfirmSelection /> },
     { path: "/instructions", element: <Instructions /> },
     {
-      path: "/a1-from-part-1",
+      path: "/a1-form-part-1",
       element: (
         <FormProvider>
           <A1Form_Part01 />
@@ -49,7 +49,7 @@ const router = createBrowserRouter(
       ),
     },
     {
-      path: "/a1-from-part-2",
+      path: "/a1-form-part-2",
       element: (
         <FormProvider>
           <A1Form_Part02 />
@@ -57,7 +57,7 @@ const router = createBrowserRouter(
       ),
     },
     {
-      path: "/a1-from-part-3",
+      path: "/a1-form-part-3",
       element: (
         <FormProvider>
           <A1Form_Part03 />

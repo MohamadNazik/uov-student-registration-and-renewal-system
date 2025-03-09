@@ -44,69 +44,69 @@ function VerifyID() {
     };
   };
 
-  console.log(formData);
+  // console.log(formData);
 
   useEffect(() => {
     const loadFiles = async () => {
       const db = await dbPromise;
       const ugcLtrFile = await db.get("files", "UGC_Letter");
       if (!ugcLtrFile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const bcFile = await db.get("files", "BC");
       if (!bcFile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const nicFile = await db.get("files", "NIC");
       if (!nicFile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const olFile = await db.get("files", "OL");
       if (!olFile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const alFile = await db.get("files", "AL");
       if (!alFile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const a3File = await db.get("files", "A3");
       if (!a3File) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const a4File = await db.get("files", "A4");
       if (!a4File) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const a5File = await db.get("files", "A5");
       if (!a5File) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const a6File = await db.get("files", "A6");
       if (!a6File) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const attestationFile = await db.get("files", "Attestation");
       if (!attestationFile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const storedProfile = await db.get("files", "profile_photo");
       if (!storedProfile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
 
       const storedSignature = await db.get("files", "signature");
       if (!storedSignature) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
 
@@ -148,10 +148,10 @@ function VerifyID() {
       formData.Emergency_Person.Address === "" ||
       formData.Emergency_Person.Phone_Number === ""
     ) {
-      navigate("/a1-from-part-1");
+      navigate("/a1-form-part-1");
     } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
       if (formData.Details_of_Citizen.citizenship_from === "") {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     }
     loadFiles();
@@ -234,7 +234,7 @@ function VerifyID() {
 
         {/* Buttons */}
         <div className="flex gap-8 mt-2 sm:gap-10 sm:mt-8 justify-center">
-          <Link to="/a1-from-part-1">
+          <Link to="/a1-form-part-1">
             <SecondaryButton
               text="Not Correct"
               color="bg-red-700"

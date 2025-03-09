@@ -30,10 +30,10 @@ function A1Form_Part03() {
       formData.Details_of_Citizen.age === "" ||
       formData.Details_of_Citizen.citizenship === ""
     ) {
-      navigate("/a1-from-part-2");
+      navigate("/a1-form-part-2");
     } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
       if (formData.Details_of_Citizen.citizenship_from === "") {
-        navigate("/a1-from-part-2");
+        navigate("/a1-form-part-2");
       }
     }
   }, []);
