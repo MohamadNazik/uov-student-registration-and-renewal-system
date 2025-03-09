@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import ApprovalModal from "../components/ApprovalModal";
+import { Link } from "react-router-dom";
 
 function NewRegistrations() {
   const [students, setStudents] = useState([]);
@@ -39,7 +40,9 @@ function NewRegistrations() {
       <Header title="New Registrations" />
 
       <div className="flex flex-col items-left gap-5 sm:gap-8 mt-8 sm:mt-12 m-10">
-        <PrimaryButton text={"Go to Dashboard"} />
+        <Link to="/dashboard">
+          <PrimaryButton text={"Go to Dashboard"} />
+        </Link>
 
         <div className="bg-white px-10 py-3 w-full text-sm sm:text-xl font-semibold rounded-2xl shadow-lg">
           <div className="flex flex-col gap-2 sm:gap-5 xl:gap-14">
