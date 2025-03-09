@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PrimaryButton from "../components/PrimaryButton";
@@ -9,6 +9,13 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const adminToken = sessionStorage.getItem("adminToken");
+    if (adminToken) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
