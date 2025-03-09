@@ -493,7 +493,7 @@ function A1Form_Part01() {
         </form>
         {/* Next Button */}
         <div className="flex gap-8 mt-2 sm:gap-20 sm:mt-8 justify-end">
-          <Link to="/a1-from-part-2">
+          <Link to="/a1-form-part-2">
             <SecondaryButton
               text="Next"
               isDisabled={nextButtonDisabled}

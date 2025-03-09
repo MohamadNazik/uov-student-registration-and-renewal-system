@@ -169,7 +169,7 @@ function UploadDocuments() {
       const storedProfile = await db.get("files", "profile_photo");
 
       if (!storedProfile) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
     const loadSignature = async () => {
@@ -177,7 +177,7 @@ function UploadDocuments() {
       const storedSignature = await db.get("files", "signature");
 
       if (!storedSignature) {
-        navigate("/a1-from-part-1");
+        navigate("/a1-form-part-1");
       }
     };
     if (
@@ -189,7 +189,7 @@ function UploadDocuments() {
       formData.Emergency_Person.Address === "" ||
       formData.Emergency_Person.Phone_Number === ""
     ) {
-      navigate("/a1-from-part-3");
+      navigate("/a1-form-part-3");
     } else if (
       formData.Educational_Qualifications.AL_year === "" ||
       formData.Educational_Qualifications.Index_AL === "" ||
@@ -210,10 +210,10 @@ function UploadDocuments() {
       formData.Details_of_Citizen.age === "" ||
       formData.Details_of_Citizen.citizenship === ""
     ) {
-      navigate("/a1-from-part-2");
+      navigate("/a1-form-part-2");
     } else if (formData.Details_of_Citizen.citizenship === "SRILANKAN") {
       if (formData.Details_of_Citizen.citizenship_from === "") {
-        navigate("/a1-from-part-2");
+        navigate("/a1-form-part-2");
       }
     } else if (
       formData.Enrollment_Number === "" ||
@@ -228,7 +228,7 @@ function UploadDocuments() {
       formData.Address.Email === "" ||
       formData.Title === ""
     ) {
-      navigate("/a1-from-part-1");
+      navigate("/a1-form-part-1");
     }
     loadProfilePhoto();
     loadSignature();
