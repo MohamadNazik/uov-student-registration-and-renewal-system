@@ -11,7 +11,7 @@ function Dashboard() {
     if (adminData) {
       try {
         const parsedData = JSON.parse(adminData);
-        return parsedData.data.role;
+        return parsedData.admin.role;
       } catch (error) {
         console.error("Error parsing adminData:", error);
         return null;
@@ -27,9 +27,15 @@ function Dashboard() {
       navigate("/");
     }
   }, []);
+
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
+  };
   return (
     <div>
-      <Header title="Admin Dashboard" />
+      <Header title="Admin Dashboard" logOutFunc={logoutAdmin} />
       <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
         {/* SAR Role Options */}
         {adminRole === "sar" && (

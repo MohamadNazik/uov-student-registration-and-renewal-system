@@ -32,12 +32,18 @@ function LoginPage() {
 
       if (response.data.success) {
         const { token, data } = response.data;
+        const admin = {
+          name: data.name,
+          email: data.email,
+          role: data.role,
+          permissions: data.permissions,
+        };
         const expireTime = Date.now() + 5 * 60 * 60 * 1000;
         sessionStorage.setItem(
           "adminToken",
           JSON.stringify({ token, expireTime })
         );
-        sessionStorage.setItem("adminData", JSON.stringify({ data }));
+        sessionStorage.setItem("adminData", JSON.stringify({ admin }));
         navigate("/dashboard");
       } else {
         setErr(response.data.message);
