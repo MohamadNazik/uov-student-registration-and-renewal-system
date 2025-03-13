@@ -25,6 +25,7 @@ export const studentApprovalController = async (req, res) => {
     }
 
     const defaultPassword = generateDefaultPassword();
+    console.log(defaultPassword);
 
     const hashedPassword = await hashPassword(defaultPassword);
 
