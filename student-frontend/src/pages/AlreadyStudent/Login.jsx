@@ -1,9 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryButton from "../../components/PrimaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Banner from "../../components/Banner";
+import axios from "axios";
+import Loading from "../../components/Loading";
 
 function Login() {
+  const [regNo, setRegNo] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  // console.log(`Reg no = ${regNo} Password = ${password}`);
+
+  useEffect(() => {
+    const availableToken = sessionStorage.getItem("token");
+    if (availableToken) {
+      navigate("/user-dashboard");
+    }
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        "http://localhost:8080/api/users/login",
+        {
+          Enrollment_Number: regNo,
+          password: password,
+        }
+      );
+
+      // console.log(response.data);
+
+      if (response.data.success) {
+        setIsLoading(false);
+        sessionStorage.setItem("token", response.data.token);
+        navigate("/user-dashboard");
+      }
+    } catch (error) {
+      // console.log(error);
+      setIsLoading(false);
+      setError("Invalid Enrollment Number or Password");
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col gap-3 sm:gap-5 justify-center items-center">
       <Banner />
@@ -15,8 +58,10 @@ function Login() {
           <input
             type="text"
             id="regno"
+            value={regNo}
             className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[20rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
             placeholder=" "
+            onChange={(e) => setRegNo(e.target.value)}
           />
           <label
             htmlFor="regno"
@@ -29,8 +74,10 @@ function Login() {
           <input
             type="password"
             id="password"
+            value={password}
             className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[20rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
             placeholder=" "
+            onChange={(e) => setPassword(e.target.value)}
           />
           <label
             htmlFor="password"
@@ -39,13 +86,18 @@ function Login() {
             Password
           </label>
         </div>
+        {error && (
+          <p className="text-xs font-medium text-red-600 text-center">
+            {error}
+          </p>
+        )}
         <p className="text-red-600 text-xs sm:text-sm font-medium -mt-2 sm:-mt-4 text-center">
           Forgot password?
         </p>
-        <Link to="/user-dashboard">
-          <PrimaryButton text="LOGIN" />
-        </Link>
+
+        <PrimaryButton text="LOGIN" onClick={handleLogin} />
       </div>
+      {isLoading && <Loading />}
     </div>
   );
 }
