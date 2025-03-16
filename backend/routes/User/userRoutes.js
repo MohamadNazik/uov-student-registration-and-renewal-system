@@ -104,6 +104,6 @@ router.post("/add-student", documentUploadMiddleware, addStudentController);
 router.post("/login", studentLoginController);
 router.post("/change-password", changePasswordController);
 router.get("/get-student-details", getStudentDetails);
-router.post('/submit-renewal',documentUploadMiddleware,submitRenewalController);
+router.post('/submit-renewal',upload.single("pdf"),fileUploadAndVerifyController,submitRenewalController);
 
 export default router;
