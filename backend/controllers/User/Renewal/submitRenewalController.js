@@ -11,7 +11,8 @@ export const submitRenewalController = async (req, res) => {
       current_academic_year,
     } = req.body;
 
-    const receipt = req.files?.receipt ? req.files.receipt[0] : null;
+    const receipt = req.file;
+    const extractedText = req.extractedText; 
 
     if (
       !Enrollment_Number ||
@@ -32,13 +33,25 @@ export const submitRenewalController = async (req, res) => {
       });
     }
 
-    const currentYear = parseInt(current_year_of_study);
-    const student = await renewalModel.find({ Enrollment_Number });
+    if (!extractedText) {
+      return res.status(400).send({
+        success: false,
+        message: "Failed to extract text from receipt",
+      });
+    }
 
-    if (
-      student.length > 0 &&
-      student[0].current_year_of_study === currentYear
-    ) {
+
+    if (!extractedText.includes(receipt_number)) {
+      return res.status(400).send({
+        success: false,
+        message: "Receipt number does not match the extracted text",
+      });
+    }
+
+    const currentYear = parseInt(current_year_of_study);
+    const student = await renewalModel.findOne({ Enrollment_Number });
+
+    if (student && student.current_year_of_study === currentYear) {
       return res.status(400).send({
         success: false,
         message: "Student already submitted the renewal",
@@ -46,7 +59,6 @@ export const submitRenewalController = async (req, res) => {
     }
 
     const incrementedYear = currentYear + 1;
-
     const studentFolder = documents/${Enrollment_Number.replace(/\//g, "")};
     const receiptUpload = await uploadFileToS3(receipt, studentFolder);
 
