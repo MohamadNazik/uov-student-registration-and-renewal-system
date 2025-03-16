@@ -12,7 +12,7 @@ export const submitRenewalController = async (req, res) => {
     } = req.body;
 
     const receipt = req.file;
-    const extractedText = req.extractedText; 
+    const extractedText = req.extractedText;
 
     if (
       !Enrollment_Number ||
@@ -40,7 +40,6 @@ export const submitRenewalController = async (req, res) => {
       });
     }
 
-
     if (!extractedText.includes(receipt_number)) {
       return res.status(400).send({
         success: false,
@@ -59,7 +58,7 @@ export const submitRenewalController = async (req, res) => {
     }
 
     const incrementedYear = currentYear + 1;
-    const studentFolder = documents/${Enrollment_Number.replace(/\//g, "")};
+    const studentFolder = `documents/${Enrollment_Number.replace(/\//g, "")}`;
     const receiptUpload = await uploadFileToS3(receipt, studentFolder);
 
     const newRenewal = new renewalModel({
