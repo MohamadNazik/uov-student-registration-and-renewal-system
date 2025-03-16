@@ -1,14 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StudentIDCard from "../../components/StudentIDCard";
 import Header from "../../components/Header";
 import PrimaryButton from "../../components/PrimaryButton";
 import download_icon from "../../assets/icons/download_icon.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function StudentID() {
+  const navigate = useNavigate();
+  const [student, setStudent] = useState(null);
+  const availableToken = sessionStorage.getItem("token");
+
+  useEffect(() => {
+    const getStudentDetails = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/users/get-student-details",
+          {
+            headers: { Authorization: `Bearer ${availableToken}` },
+          }
+        );
+
+        if (response.data.success) {
+          setStudent(response.data.student);
+        }
+      } catch (error) {
+        console.error("Error fetching student details:", error);
+
+        if (error.response?.status === 401) {
+          sessionStorage.removeItem("token");
+          navigate("/login");
+        }
+      }
+    };
+
+    if (availableToken) {
+      getStudentDetails();
+    } else {
+      navigate("/login");
+    }
+  }, [availableToken, navigate]);
+
+  const logOutFunc = () => {
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <>
-      <Header title="Student ID" />
+      <Header title="Student ID" logOutFunc={logOutFunc} />
       <div className="flex justify-between px-4 sm:px-[100px] mt-5 xl:mt-10">
         <Link to="/user-dashboard">
           <PrimaryButton text="Go Back To Dashboard" />
@@ -16,7 +56,17 @@ function StudentID() {
         <PrimaryButton text="Download" iconSrc={download_icon} />
       </div>
       <div className="flex w-full justify-center py-5 xl:py-16">
-        <StudentIDCard />
+        <StudentIDCard
+          image={student?.profile_photo}
+          Name_with_Initials={student?.Name_with_Initials}
+          Enrollment_Number={student?.Enrollment_Number}
+          NIC={student?.Address.NIC}
+          Enrollment_Date={student?.Enrollment_Date}
+          Address={student?.Address.Permenant_Address}
+          Date_of_Issue={student?.ID_IssueDate}
+          Acedamic_Year={student?.AcademicYear}
+          stSignature={student?.signature}
+        />
       </div>
     </>
   );

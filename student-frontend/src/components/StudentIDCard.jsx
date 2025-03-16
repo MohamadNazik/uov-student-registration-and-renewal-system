@@ -40,15 +40,26 @@ function StudentIDCard({
           </div>
         </div>
         <div className="flex gap-2 sm:gap-4 px-6 py-2">
-          <img
-            src={
-              image && image instanceof File
-                ? URL.createObjectURL(image)
-                : student_img
-            }
-            alt="student_image"
-            className="w-16 h-32 sm:w-[105px] border-[1px] border-black"
-          />
+          {image && image instanceof File ? (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="student_image"
+              className="w-16 h-32 sm:w-[105px] border-[1px] border-black"
+            />
+          ) : typeof image === "string" ? (
+            <img
+              src={image}
+              alt="student_image"
+              className="w-16 h-32 sm:w-[105px] border-[1px] border-black"
+            />
+          ) : (
+            <img
+              src={student_img}
+              alt="student_image"
+              className="w-16 h-32 sm:w-[105px] border-[1px] border-black"
+            />
+          )}
+
           <div className="flex flex-col justify-between">
             <div className="flex gap-2">
               <div className="flex gap-[59px] sm:gap-[88px]">
@@ -139,15 +150,30 @@ function StudentIDCard({
 
           <div className="flex justify-between px-6 py-1 pt-2 sm:pt-4 items-center">
             <div className="flex flex-col items-center">
-              <img
-                src={
-                  stSignature && stSignature instanceof File
-                    ? URL.createObjectURL(stSignature)
-                    : holder_signature
-                }
-                alt="holder_signature"
-                className="w-9 sm:w-16"
-              />
+              {stSignature && stSignature instanceof File ? (
+                <img
+                  src={
+                    stSignature && stSignature instanceof File
+                      ? URL.createObjectURL(stSignature)
+                      : holder_signature
+                  }
+                  alt="holder_signature"
+                  className="w-9 sm:w-16"
+                />
+              ) : stSignature && typeof stSignature === "string" ? (
+                <img
+                  src={stSignature}
+                  alt="holder_signature"
+                  className="w-9 sm:w-16"
+                />
+              ) : (
+                <img
+                  src={holder_signature}
+                  alt="holder_signature"
+                  className="w-9 sm:w-16"
+                />
+              )}
+
               <p className="text-[8px] -mt-1 sm:text-[12px] sm:-mt-2">
                 ...............................................
               </p>
