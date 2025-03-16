@@ -20,6 +20,7 @@ import { UgcLetterVerify } from "../../controllers/User/DocumentsVerify/UGCLette
 import { studentLoginController } from "../../controllers/User/studentLoginController.js";
 import { changePasswordController } from "../../controllers/User/changePasswordController.js";
 import { getStudentDetails } from "../../controllers/User/getStudentdetail.js";
+import { submitRenewalController } from "../../controllers/User/Renewal/submitRenewalController.js";
 
 const router = express.Router();
 
@@ -103,5 +104,6 @@ router.post("/add-student", documentUploadMiddleware, addStudentController);
 router.post("/login", studentLoginController);
 router.post("/change-password", changePasswordController);
 router.get("/get-student-details", getStudentDetails);
+router.post('/submit-renewal',documentUploadMiddleware,submitRenewalController);
 
 export default router;
