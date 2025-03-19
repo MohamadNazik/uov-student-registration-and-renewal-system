@@ -22,6 +22,12 @@ function Home() {
     } catch (error) {}
   };
   useEffect(() => {
+    const availableToken = sessionStorage.getItem("token");
+    if (availableToken) {
+      navigate("/user-dashboard");
+    }
+  }, []);
+  useEffect(() => {
     const clearIndexedDBFiles = async () => {
       const dbName = "fileDB";
       const db = await openDB(dbName, 1);
