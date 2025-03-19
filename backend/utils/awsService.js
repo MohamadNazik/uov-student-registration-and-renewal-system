@@ -18,7 +18,7 @@ export const uploadFileToS3 = async (file, folder) => {
 
   const bucketName = process.env.AWS_BUCKET_NAME;
   const region = process.env.AWS_REGION;
-  const filePath = ${folder}/${file.originalname};
+  const filePath = `${folder}/${file.originalname}`;
 
   const uploadParams = {
     Bucket: bucketName,
@@ -32,7 +32,7 @@ export const uploadFileToS3 = async (file, folder) => {
 
   return {
     Name: file.originalname,
-    path: https://${bucketName}.s3.${region}.amazonaws.com/${filePath},
+    path: `https://${bucketName}.s3.${region}.amazonaws.com/${filePath}`,
   };
 };
 
