@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Banner from "../../components/Banner";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import SecondaryButton from "../../components/SecondaryButton";
 
 function Login() {
   const [regNo, setRegNo] = useState("");
@@ -95,7 +96,15 @@ function Login() {
           Forgot password?
         </p>
 
-        <PrimaryButton text="LOGIN" onClick={handleLogin} />
+        <div className="flex gap-10">
+          <SecondaryButton
+            text="Home"
+            color="bg-red-700"
+            hoverColor="hover:bg-red-800"
+            onClick={() => {}}
+          />
+          <PrimaryButton text="LOGIN" onClick={handleLogin} />
+        </div>
       </div>
       {isLoading && <Loading />}
     </div>
