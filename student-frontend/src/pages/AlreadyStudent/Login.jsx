@@ -101,7 +101,9 @@ function Login() {
             text="Home"
             color="bg-red-700"
             hoverColor="hover:bg-red-800"
-            onClick={() => {}}
+            onClick={() => {
+              navigate("/");
+            }}
           />
           <PrimaryButton text="LOGIN" onClick={handleLogin} />
         </div>
