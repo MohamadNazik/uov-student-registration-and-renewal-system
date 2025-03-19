@@ -1,17 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import holder_signature from "../../assets/signature.png";
 import SecondaryButton from "../../components/SecondaryButton";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Loading from "../../components/Loading";
 
 function Renewal() {
   const navigate = useNavigate();
+  const [student, setStudent] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const availableToken = sessionStorage.getItem("token");
+
   useEffect(() => {
-    const availableToken = sessionStorage.getItem("token");
-    if (!availableToken) {
+    const getStudentDetails = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          "http://localhost:8080/api/users/get-student-details",
+          {
+            headers: { Authorization: `Bearer ${availableToken}` },
+          }
+        );
+
+        console.log(response.data.student);
+
+        if (response.data.success) {
+          setIsLoading(false);
+          setStudent(response.data.student);
+        }
+      } catch (error) {
+        console.error("Error fetching student details:", error);
+        setIsLoading(false);
+
+        if (error.response?.status === 401) {
+          sessionStorage.removeItem("token");
+          navigate("/login");
+          setIsLoading(false);
+        }
+      }
+    };
+
+    if (availableToken) {
+      getStudentDetails();
+    } else {
       navigate("/login");
     }
-  }, []);
+  }, [availableToken, navigate]);
 
   const logOutFunc = () => {
     sessionStorage.removeItem("token");
@@ -25,6 +60,7 @@ function Renewal() {
   return (
     <>
       <Header title="Renewal of Registration" logOutFunc={logOutFunc} />
+      {isLoading && <Loading />}
       <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex justify-center">
         <form
           onSubmit={(e) => handleSubmit(e)}
@@ -52,6 +88,7 @@ function Renewal() {
                   type="text"
                   name="faculty"
                   value="Faculty of Applied Science"
+                  disabled
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[145px] sm:w-[215px] xl:w-[465px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
@@ -63,6 +100,8 @@ function Renewal() {
                 <input
                   type="text"
                   name="course"
+                  disabled
+                  value={student?.course || ""}
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[145px] sm:w-[215px] xl:w-[465px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
@@ -89,6 +128,8 @@ function Renewal() {
                   <input
                     type="text"
                     name="regno"
+                    disabled
+                    value={student?.Enrollment_Number || ""}
                     className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[145px] sm:w-[215px] xl:w-[300px] text-sm sm:text-lg xl:text-2xl py-1"
                   />
                 </div>
@@ -148,49 +189,23 @@ function Renewal() {
               </label>
               <input
                 type="text"
-                name="academic-year"
+                name="name_with_initials"
+                disabled
+                value={student?.Name_with_Initials || ""}
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[285px] sm:w-[455px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-7 w-[255px] sm:w-[673px] xl:w-[1115px]">
+            <div className="flex flex-col items-center sm:flex-row gap-2 sm:gap-7 w-[255px] sm:w-[673px] xl:w-[1115px]">
               <label className="text-sm sm:text-lg xl:text-2xl font-medium">
                 &nbsp;&nbsp;&nbsp;(b) State whether :
               </label>
-              <div className="flex gap-2 sm:gap-7 ml-9">
-                <label className="flex items-center space-x-1 sm:space-x-2 xl:space-x-4">
-                  <input
-                    type="radio"
-                    name="state"
-                    value="Mr"
-                    className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
-                  />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
-                    Mr.
-                  </span>
-                </label>
-                <label className="flex items-center space-x-1 sm:space-x-2 xl:space-x-4">
-                  <input
-                    type="radio"
-                    name="state"
-                    value="Mrs"
-                    className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
-                  />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
-                    Mrs.
-                  </span>
-                </label>
-                <label className="flex items-center space-x-1 sm:space-x-2 xl:space-x-4">
-                  <input
-                    type="radio"
-                    name="state"
-                    value="Miss"
-                    className="w-3 h-3 sm:w-[14px] sm:h-[14px] xl:w-[16px] xl:h-[16px] rounded-full accent-[#391031]"
-                  />
-                  <span className="text-sm sm:text-lg xl:text-2xl font-semibold">
-                    Miss.
-                  </span>
-                </label>
-              </div>
+              <input
+                type="text"
+                name="title"
+                disabled
+                value={student?.Title || ""}
+                className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[285px] sm:w-[455px] xl:w-[825px] text-sm sm:text-lg xl:text-2xl py-1"
+              />
             </div>
 
             {/* 2 */}
@@ -201,6 +216,8 @@ function Renewal() {
               <input
                 type="text"
                 name="nic"
+                disabled
+                value={student?.Address?.NIC || ""}
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[253px] sm:w-[375px] xl:w-[725px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
@@ -214,6 +231,8 @@ function Renewal() {
               <input
                 type="text"
                 name="permanent-address"
+                disabled
+                value={student?.Address?.Permenant_Address || ""}
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[253px] sm:w-[355px] xl:w-[700px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
@@ -237,6 +256,8 @@ function Renewal() {
               <input
                 type="text"
                 name="mobile-no"
+                disabled
+                value={student?.Address?.Phone_Number || ""}
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[253px] sm:w-[443px] xl:w-[810px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
@@ -249,6 +270,8 @@ function Renewal() {
               <input
                 type="text"
                 name="email"
+                disabled
+                value={student?.Address?.Email || ""}
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[253px] sm:w-[518px] xl:w-[910px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
