@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import holder_signature from "../../assets/signature.png";
 import SecondaryButton from "../../components/SecondaryButton";
+import { useNavigate } from "react-router-dom";
 
 function Renewal() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const availableToken = sessionStorage.getItem("token");
+    if (!availableToken) {
+      navigate("/login");
+    }
+  }, []);
+
+  const logOutFunc = () => {
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
     <>
-      <Header title="Renewal of Registration" />
+      <Header title="Renewal of Registration" logOutFunc={logOutFunc} />
       <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex justify-center">
         <form
           onSubmit={(e) => handleSubmit(e)}
