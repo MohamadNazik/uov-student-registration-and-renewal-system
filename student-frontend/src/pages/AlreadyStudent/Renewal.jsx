@@ -346,7 +346,7 @@ function Renewal() {
               <div className="flex flex-wrap gap-2 xl:gap-4 items-center mt-5 sm:mt-0">
                 <div className="flex flex-col items-center">
                   <img
-                    src={holder_signature}
+                    src={student?.signature || holder_signature}
                     alt="holder_signature"
                     className="w-20 sm:w-32"
                   />
