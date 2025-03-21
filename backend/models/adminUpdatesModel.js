@@ -29,7 +29,7 @@ const adminUpdatesSchema = new mongoose.Schema(
       required: false,
     },
     academicYear: {
-      type: [String],
+      type: String,
       required: true,
     },
   },

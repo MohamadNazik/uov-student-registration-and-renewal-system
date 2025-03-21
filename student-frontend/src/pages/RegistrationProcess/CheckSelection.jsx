@@ -50,7 +50,7 @@ function CheckSelection() {
               const regDetails = {
                 EnrollmentDate: formattedEnrollmentDate,
                 ID_IssueDate: formattedIDDate,
-                AcademicYear: res.data.data[0].academicYear[0],
+                AcademicYear: res.data.data[0].academicYear,
               };
 
               localStorage.setItem("regDetails", JSON.stringify(regDetails));

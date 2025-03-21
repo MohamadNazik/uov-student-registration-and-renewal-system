@@ -2,17 +2,37 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import holder_signature from "../../assets/signature.png";
 import SecondaryButton from "../../components/SecondaryButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
 
 function Renewal() {
   const navigate = useNavigate();
+  const [academicYear, setAcademicYear] = useState("");
   const [student, setStudent] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const availableToken = sessionStorage.getItem("token");
 
   useEffect(() => {
+    const handleRenewal = async () => {
+      try {
+        await axios
+          .get("http://localhost:8080/api/common/renewal-available")
+          .then((res) => {
+            // console.log(res.data.success);
+            if (!res.data.success) {
+              navigate("/renewal-not-open");
+            } else {
+              const AcademicYear = res.data.data[0].academicYear;
+              setAcademicYear(AcademicYear);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {}
+    };
+
     const getStudentDetails = async () => {
       try {
         setIsLoading(true);
@@ -23,7 +43,7 @@ function Renewal() {
           }
         );
 
-        console.log(response.data.student);
+        // console.log(response.data.student);
 
         if (response.data.success) {
           setIsLoading(false);
@@ -40,6 +60,8 @@ function Renewal() {
         }
       }
     };
+
+    handleRenewal();
 
     if (availableToken) {
       getStudentDetails();
@@ -76,6 +98,8 @@ function Renewal() {
                 <input
                   type="text"
                   name="academic-year"
+                  disabled
+                  value={academicYear}
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[145px] sm:w-[215px] xl:w-[465px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
@@ -368,11 +392,13 @@ function Renewal() {
               color="bg-green-700"
               hoverColor="hover:bg-green-800"
             />
-            <SecondaryButton
-              text="Cancel"
-              color="bg-red-700"
-              hoverColor="hover:bg-red-800"
-            />
+            <Link to="/user-dashboard">
+              <SecondaryButton
+                text="Cancel"
+                color="bg-red-700"
+                hoverColor="hover:bg-red-800"
+              />
+            </Link>
           </div>
         </form>
       </div>

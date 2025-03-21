@@ -23,6 +23,7 @@ import RegSuccess from "./pages/RegistrationProcess/RegSuccess";
 import AlreadyRegSubmitted from "./pages/RegistrationProcess/AlreadyRegSubmitted";
 import { FormProvider } from "./utils/FormContext";
 import RegNotOpen from "./pages/RegistrationProcess/RegNotOpen";
+import RenNotOpen from "./pages/AlreadyStudent/RenNotOpen";
 
 const router = createBrowserRouter(
   [
@@ -83,6 +84,7 @@ const router = createBrowserRouter(
     { path: "/reg-success", element: <RegSuccess /> },
     { path: "/already-reg-submitted", element: <AlreadyRegSubmitted /> },
     { path: "/reg-not-open", element: <RegNotOpen /> },
+    { path: "/renewal-not-open", element: <RenNotOpen /> },
     { path: "/*", element: <Home /> },
   ],
   {
