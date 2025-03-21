@@ -1,4 +1,5 @@
 import renewalModel from "../../../models/renewalModel.js";
+import userModel from "../../../models/userModel.js";
 import { uploadFileToS3 } from "../../../utils/awsService.js";
 
 export const submitRenewalController = async (req, res) => {
@@ -8,7 +9,6 @@ export const submitRenewalController = async (req, res) => {
       receipt_number,
       payment_date,
       current_year_of_study,
-      current_academic_year,
     } = req.body;
 
     const receipt = req.file;
@@ -17,7 +17,6 @@ export const submitRenewalController = async (req, res) => {
     if (
       !Enrollment_Number ||
       !payment_date ||
-      !current_academic_year ||
       !current_year_of_study ||
       !receipt_number
     ) {
@@ -25,7 +24,14 @@ export const submitRenewalController = async (req, res) => {
         message: "Please provide all necessary data",
       });
     }
+  const user = await userModel.findOne({ Enrollment_Number });
 
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "Student not found",
+      });
+    }
     if (!receipt) {
       return res.status(400).send({
         success: false,
@@ -57,7 +63,7 @@ export const submitRenewalController = async (req, res) => {
       });
     }
 
-    const incrementedYear = currentYear + 1;
+ 
     const studentFolder = `documents/${Enrollment_Number.replace(/\//g, "")}`;
     const receiptUpload = await uploadFileToS3(receipt, studentFolder);
 
@@ -66,8 +72,6 @@ export const submitRenewalController = async (req, res) => {
       receipt_number,
       payment_date,
       receipt: receiptUpload,
-      current_year_of_study: incrementedYear,
-      current_academic_year,
       renewal_approved: false,
     });
 
