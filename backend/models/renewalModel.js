@@ -25,11 +25,11 @@ const renewalSchema = new mongoose.Schema({
     },
     current_year_of_study:{
         type: Number,
-        required: true,
+        required: false,
     },
     current_academic_year:{
         type: String,
-        required: true,
+        required: false,
     },
     renewal_approved:{
         type: Boolean,
