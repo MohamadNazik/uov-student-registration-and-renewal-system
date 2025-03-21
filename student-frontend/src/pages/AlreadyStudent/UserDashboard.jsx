@@ -8,6 +8,7 @@ function UserDashboard() {
   const navigate = useNavigate();
   useEffect(() => {
     const availableToken = sessionStorage.getItem("token");
+    sessionStorage.removeItem("formData");
     if (!availableToken) {
       navigate("/login");
     }

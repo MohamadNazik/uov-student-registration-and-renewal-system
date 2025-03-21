@@ -18,6 +18,7 @@ function Login() {
 
   useEffect(() => {
     const availableToken = sessionStorage.getItem("token");
+    sessionStorage.removeItem("formData");
     if (availableToken) {
       navigate("/user-dashboard");
     }
