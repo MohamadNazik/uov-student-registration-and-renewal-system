@@ -12,7 +12,10 @@ export const RenewalProvider = ({ children }) => {
       ? JSON.parse(savedData)
       : {
           Enrollment_Number: "",
+          specialization: "",
+          present_address: "",
           receipt_number: "",
+          submission_date: "",
           payment_date: "",
           current_year_of_study: "",
           receipt: null,
@@ -30,7 +33,10 @@ export const RenewalProvider = ({ children }) => {
 
       setFormData({
         Enrollment_Number: "",
+        specialization: "",
+        present_address: "",
         receipt_number: "",
+        submission_date: "",
         payment_date: "",
         current_year_of_study: "",
         receipt: null,

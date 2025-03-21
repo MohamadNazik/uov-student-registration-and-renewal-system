@@ -24,6 +24,7 @@ import AlreadyRegSubmitted from "./pages/RegistrationProcess/AlreadyRegSubmitted
 import { FormProvider } from "./utils/FormContext";
 import RegNotOpen from "./pages/RegistrationProcess/RegNotOpen";
 import RenNotOpen from "./pages/AlreadyStudent/RenNotOpen";
+import { RenewalProvider } from "./utils/RenewalContext";
 
 const router = createBrowserRouter(
   [
@@ -32,7 +33,14 @@ const router = createBrowserRouter(
     { path: "/user-dashboard", element: <UserDashboard /> },
     { path: "/student-id", element: <StudentID /> },
     { path: "/record-book", element: <RecordBook /> },
-    { path: "/renewal", element: <Renewal /> },
+    {
+      path: "/renewal",
+      element: (
+        <RenewalProvider>
+          <Renewal />
+        </RenewalProvider>
+      ),
+    },
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/verify-otp", element: <VerifyOTP /> },

@@ -5,8 +5,10 @@ import SecondaryButton from "../../components/SecondaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import { useRenewalContext } from "../../utils/RenewalContext";
 
 function Renewal() {
+  const { formData, updateFormData, updateFile } = useRenewalContext();
   const navigate = useNavigate();
   const [academicYear, setAcademicYear] = useState("");
   const [student, setStudent] = useState({});
@@ -48,6 +50,11 @@ function Renewal() {
         if (response.data.success) {
           setIsLoading(false);
           setStudent(response.data.student);
+          // const student = {
+          //   Enrollment_Number: response.data.student.Enrollment_Number,
+          //   Year_of_Study: response.data.student.year_of_study,
+          // };
+          // sessionStorage.setItem("student", JSON.stringify(student));
         }
       } catch (error) {
         console.error("Error fetching student details:", error);
@@ -160,7 +167,7 @@ function Renewal() {
               </div>
 
               {/* Year */}
-              <div className="flex items-start sm:flex-col sm:gap-0 gap-5 xl:gap-2 py-1">
+              {/* <div className="flex items-start sm:flex-col sm:gap-0 gap-5 xl:gap-2 py-1">
                 <p className="text-sm sm:text-lg xl:text-2xl font-medium">
                   Year :
                 </p>
@@ -201,7 +208,7 @@ function Renewal() {
                     </span>
                   </label>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -315,6 +322,10 @@ function Renewal() {
                 <input
                   type="text"
                   name="receipt-no"
+                  value={formData.receipt_number}
+                  onChange={(e) => {
+                    updateFormData("receipt_number", e.target.value);
+                  }}
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[140px] sm:w-[200px] xl:w-[300px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
