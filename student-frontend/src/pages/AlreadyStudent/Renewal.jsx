@@ -93,22 +93,57 @@ function Renewal() {
       }
     };
     checkSubmitActive();
-  }, [formData]);
+  }, [formData, receipt]);
 
   const logOutFunc = () => {
     sessionStorage.removeItem("token");
     navigate("/login");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const submissionData = new FormData();
+
+      submissionData.append("Enrollment_Number", student?.Enrollment_Number);
+      submissionData.append("current_year_of_study", student?.year_of_study);
+      submissionData.append("course", student?.course);
+      submissionData.append("department", student?.department);
+      submissionData.append("renwal_academic_year", academicYear);
+      // Append simple fields
+      Object.entries(formData).forEach(([key, value]) => {
+        submissionData.append(key, value);
+      });
+      // Append file
+      if (receipt) {
+        submissionData.append("pdf", receipt);
+      }
+
+      setIsLoading(true);
+      const response = await axios.post(
+        "http://localhost:8080/api/users/submit-renewal",
+        submissionData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      console.log(response);
+      // if (response.data.success) {
+      //   setIsLoading(false);
+      //   sessionStorage.removeItem("formData");
+      //   navigate("/re-success");
+      // }
+    } catch (error) {
+      console.log(error.response.data);
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
       <Header title="Renewal of Registration" logOutFunc={logOutFunc} />
-      {isLoading && <Loading />}
-      <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex justify-center">
+      <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex justify-center relative h-full">
+        {isLoading && <Loading />}
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="flex flex-col items-center gap-5"
@@ -443,6 +478,7 @@ function Renewal() {
               text="Submit"
               color="bg-green-700"
               isDisabled={isSubmitActive}
+              type="submit"
               hoverColor="hover:bg-green-800"
             />
             <Link to="/user-dashboard">
