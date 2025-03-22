@@ -3,18 +3,27 @@ import jwt from "jsonwebtoken";
 
 export const getStudentDetails = async (req, res) => {
   try {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).send({
         success: false,
         message: "Unauthorized: No token provided",
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token = authHeader.split(" ")[1]; // Extract actual token
 
-    if (!decoded) {
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      if (error.name === "TokenExpiredError") {
+        return res.status(401).send({
+          success: false,
+          message: "Unauthorized: Token has expired",
+        });
+      }
       return res.status(401).send({
         success: false,
         message: "Unauthorized: Invalid token",
@@ -36,9 +45,9 @@ export const getStudentDetails = async (req, res) => {
       student,
     });
   } catch (error) {
+    console.error("Error fetching student details:", error);
     res.status(500).send({
       success: false,
-      error,
       message: "Error fetching student details",
     });
   }
