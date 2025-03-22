@@ -11,13 +11,11 @@ export const RenewalProvider = ({ children }) => {
     return savedData
       ? JSON.parse(savedData)
       : {
-          Enrollment_Number: "",
           specialization: "",
           present_address: "",
           receipt_number: "",
           submission_date: "",
           payment_date: "",
-          current_year_of_study: "",
           receipt: null,
         };
   });
@@ -32,13 +30,11 @@ export const RenewalProvider = ({ children }) => {
       sessionStorage.removeItem("formData");
 
       setFormData({
-        Enrollment_Number: "",
         specialization: "",
         present_address: "",
         receipt_number: "",
         submission_date: "",
         payment_date: "",
-        current_year_of_study: "",
         receipt: null,
       });
 

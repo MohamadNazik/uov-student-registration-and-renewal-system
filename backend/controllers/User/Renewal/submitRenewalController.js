@@ -6,9 +6,15 @@ export const submitRenewalController = async (req, res) => {
   try {
     const {
       Enrollment_Number,
+      course,
+      department,
+      specialization,
+      present_address,
       receipt_number,
+      submission_date,
       payment_date,
       current_year_of_study,
+      renwal_academic_year,
     } = req.body;
 
     const receipt = req.file;
@@ -18,13 +24,18 @@ export const submitRenewalController = async (req, res) => {
       !Enrollment_Number ||
       !payment_date ||
       !current_year_of_study ||
-      !receipt_number
+      !receipt_number ||
+      !course ||
+      !department ||
+      !present_address ||
+      !submission_date ||
+      !renwal_academic_year
     ) {
       return res.status(400).send({
         message: "Please provide all necessary data",
       });
     }
-  const user = await userModel.findOne({ Enrollment_Number });
+    const user = await userModel.findOne({ Enrollment_Number });
 
     if (!user) {
       return res.status(404).send({
@@ -63,15 +74,20 @@ export const submitRenewalController = async (req, res) => {
       });
     }
 
- 
     const studentFolder = `documents/${Enrollment_Number.replace(/\//g, "")}`;
     const receiptUpload = await uploadFileToS3(receipt, studentFolder);
 
     const newRenewal = new renewalModel({
       Enrollment_Number,
+      course,
+      department,
+      specialization,
+      present_address,
       receipt_number,
+      submission_date,
       payment_date,
       receipt: receiptUpload,
+      renwal_academic_year,
       renewal_approved: false,
     });
 
