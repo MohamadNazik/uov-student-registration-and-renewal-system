@@ -16,7 +16,6 @@ export const RenewalProvider = ({ children }) => {
           receipt_number: "",
           submission_date: "",
           payment_date: "",
-          receipt: null,
         };
   });
 
@@ -35,7 +34,6 @@ export const RenewalProvider = ({ children }) => {
         receipt_number: "",
         submission_date: "",
         payment_date: "",
-        receipt: null,
       });
 
       alert("Session expired! Please restart the renewal process.");
@@ -53,12 +51,12 @@ export const RenewalProvider = ({ children }) => {
     }));
   };
 
-  const updateFile = async (name, file) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: file,
-    }));
-  };
+  // const updateFile = async (name, file) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: file,
+  //   }));
+  // };
 
   // console.log(formData);
 
@@ -67,7 +65,7 @@ export const RenewalProvider = ({ children }) => {
       value={{
         formData,
         updateFormData,
-        updateFile,
+        // updateFile,
         setFormData,
       }}
     >

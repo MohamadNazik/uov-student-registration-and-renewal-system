@@ -13,7 +13,10 @@ function Renewal() {
   const [academicYear, setAcademicYear] = useState("");
   const [student, setStudent] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitActive, setIsSubmitActive] = useState(true);
   const availableToken = sessionStorage.getItem("token");
+
+  const [receipt, setReceipt] = useState(null);
 
   useEffect(() => {
     const handleRenewal = async () => {
@@ -76,6 +79,21 @@ function Renewal() {
       navigate("/login");
     }
   }, [availableToken, navigate]);
+
+  useEffect(() => {
+    const checkSubmitActive = () => {
+      if (
+        formData.present_address !== "" &&
+        formData.receipt_number !== "" &&
+        formData.submission_date !== "" &&
+        formData.payment_date !== "" &&
+        receipt !== null
+      ) {
+        setIsSubmitActive(false);
+      }
+    };
+    checkSubmitActive();
+  }, [formData]);
 
   const logOutFunc = () => {
     sessionStorage.removeItem("token");
@@ -144,6 +162,13 @@ function Renewal() {
                 <input
                   type="text"
                   name="specialization"
+                  value={formData.specialization}
+                  onChange={(e) =>
+                    updateFormData(
+                      "specialization",
+                      e.target.value.toUpperCase()
+                    )
+                  }
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[145px] sm:w-[215px] xl:w-[465px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
@@ -275,6 +300,13 @@ function Renewal() {
               <input
                 type="text"
                 name="present-address"
+                value={formData.present_address}
+                onChange={(e) =>
+                  updateFormData(
+                    "present_address",
+                    e.target.value.toUpperCase()
+                  )
+                }
                 className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[253px] sm:w-[475px] xl:w-[855px] text-sm sm:text-lg xl:text-2xl py-1"
               />
             </div>
@@ -336,6 +368,10 @@ function Renewal() {
                 <input
                   type="date"
                   name="dop"
+                  value={formData.payment_date}
+                  onChange={(e) =>
+                    updateFormData("payment_date", e.target.value)
+                  }
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[100px] sm:w-[200px] xl:w-[300px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
@@ -346,6 +382,7 @@ function Renewal() {
                 <input
                   type="file"
                   name="slip"
+                  onChange={(e) => setReceipt(e.target.files[0])}
                   className="ml-3 sm:ml-0 border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[240px] sm:w-[350px] xl:w-[550px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
                 <span className="text-[12px] sm:text-[15px] xl:text-[18px] font-normal sm:font-medium text-gray-600 italic -mt-1 ml-4 sm:ml-[245px] xl:-mt-0 xl:ml-0">
@@ -374,7 +411,11 @@ function Renewal() {
                 </label>
                 <input
                   type="date"
-                  name="receipt-no"
+                  name="submission_date"
+                  value={formData.submission_date}
+                  onChange={(e) =>
+                    updateFormData("submission_date", e.target.value)
+                  }
                   className="border-2 border-black rounded-md focus:outline-1 focus:outline-black px-2 w-[140px] sm:w-[200px] xl:w-[300px] text-sm sm:text-lg xl:text-2xl py-1"
                 />
               </div>
@@ -401,6 +442,7 @@ function Renewal() {
             <SecondaryButton
               text="Submit"
               color="bg-green-700"
+              isDisabled={isSubmitActive}
               hoverColor="hover:bg-green-800"
             />
             <Link to="/user-dashboard">
