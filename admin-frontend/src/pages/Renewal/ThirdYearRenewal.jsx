@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import PrimaryButton from "../components/PrimaryButton";
-import Pay_slip from "../assets/slip.jpeg";
+import Header from "../../components/Header";
+import PrimaryButton from "../../components/PrimaryButton";
+import Pay_slip from "../../assets/slip.jpeg";
 
-function SecondYearRenewal() {
+function ThirdYearRenewal() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("information-technology");
     const [selectedStudent, setSelectedStudent] = useState(null);
@@ -26,21 +26,21 @@ function SecondYearRenewal() {
                         name: "JOHN DOE",
                         regNo: "2020ICT01",
                         department: "PHYSICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     },
                     {
                         id: "2",
                         name: "ALICE SMITH",
                         regNo: "2020ICT02",
                         department: "PHYSICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     },
                     {
                         id: "3",
                         name: "PETER HARIS",
                         regNo: "2020ICT03",
                         department: "PHYSICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     }
                 ]);
             } else if (activeTab === "computer-science") {
@@ -50,21 +50,21 @@ function SecondYearRenewal() {
                         name: "MICHAEL JOHNSON",
                         regNo: "2020CS01",
                         department: "PHYSICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     },
                     {
                         id: "5",
                         name: "SARAH WILLIAMS",
                         regNo: "2020CS02",
                         department: "PHYSICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     },
                     {
                         id: "6",
                         name: "DAVID BROWN",
                         regNo: "2020ASP01",
                         department: "PHYSICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     }
                 ]);
             } else if (activeTab === "environmental-science") {
@@ -74,21 +74,21 @@ function SecondYearRenewal() {
                         name: "EMMA DAVIS",
                         regNo: "2020ASB01",
                         department: "BIOLOGICAL",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     },
                     {
                         id: "8",
                         name: "JAMES WILSON",
                         regNo: "2020ASB02",
                         department: "BIOLOGICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     },
                     {
                         id: "9",
                         name: "OLIVIA TAYLOR",
                         regNo: "2020ASB03",
                         department: "BIOLOGICAL SCIENCE",
-                        year: "SECOND YEAR"
+                        year: "THIRD YEAR"
                     }
                 ]);
             }
@@ -147,7 +147,7 @@ function SecondYearRenewal() {
                 <div className="flex flex-col md:flex-row gap-4">
                     {/* Student list */}
                     <div className="bg-white rounded-lg shadow-md p-4 md:w-1/2">
-                        <h2 className="text-lg font-semibold mb-4">STUDENT LIST(SECOND YEAR)</h2>
+                        <h2 className="text-lg font-semibold mb-4">STUDENT LIST(THIRD YEAR)</h2>
 
                         {loading ? (
                             <div className="p-4 text-center">Loading students...</div>
@@ -177,7 +177,7 @@ function SecondYearRenewal() {
                     {/* Student details */}
                     {selectedStudent ? (
                         <div className="bg-white rounded-lg shadow-md p-4 md:w-1/2">
-                            <h2 className="text-lg font-semibold mb-4">STUDENT LIST(SECOND YEAR)</h2>
+                            <h2 className="text-lg font-semibold mb-4">STUDENT LIST(THIRD YEAR)</h2>
 
                             <div className="mb-6">
                                 <h3 className="text-sm font-bold mb-2">PERSONAL INFORMATION</h3>
@@ -248,4 +248,4 @@ function SecondYearRenewal() {
     );
 }
 
-export default SecondYearRenewal;
+export default ThirdYearRenewal;

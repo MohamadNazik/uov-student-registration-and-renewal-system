@@ -12,7 +12,8 @@ import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOTP from "./pages/VerifyOTP";
 import RenewalDashboard from "./pages/RenewalDashboard";
-import SecondYearRenewal from "./pages/SecondYearRenewal";
+import SecondYearRenewal from "./pages/Renewal/SecondYearRenewal";
+import ThirdYearRenewal from "./pages/Renewal/ThirdYearRenewal";
 
 const router = createBrowserRouter([
   { path: "/", element: <LoginPage /> },
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
   { path: "/verify-otp", element: <VerifyOTP /> },
   { path: "/renewal-dashboard", element: <RenewalDashboard /> },
   { path: "/second-year-renewal", element: <SecondYearRenewal /> },
+  { path: "/third-year-renewal", element: <ThirdYearRenewal /> },
 
 ]);
 
