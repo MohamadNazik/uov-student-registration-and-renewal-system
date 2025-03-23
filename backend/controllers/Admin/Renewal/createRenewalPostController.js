@@ -2,20 +2,9 @@ import adminUpdatesModel from "../../../models/adminUpdatesModel.js";
 
 export const createRenewalPostController = async (req, res) => {
   try {
-    const {
-      adminId,
-      updateType,
-      updateMessage,
-      expireDate,
-      academicYear,
-    } = req.body;
+    const { adminId, updateType, expireDate, academicYear } = req.body;
 
-    if (
-      !updateType ||
-      !updateMessage ||
-      !expireDate ||
-      !academicYear
-    ) {
+    if (!updateType || !expireDate || !academicYear) {
       return res.status(400).send({
         success: false,
         message: "All fields are required",
@@ -30,7 +19,6 @@ export const createRenewalPostController = async (req, res) => {
         const registrationPost = new adminUpdatesModel({
           adminId,
           updateType,
-          updateMessage,
           expireDate,
           academicYear,
         });

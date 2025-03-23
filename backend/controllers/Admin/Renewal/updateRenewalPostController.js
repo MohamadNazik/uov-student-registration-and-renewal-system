@@ -1,15 +1,9 @@
 import adminUpdatesModel from "../../../models/adminUpdatesModel.js";
 
-
 export const updateRenewalPostController = async (req, res) => {
   try {
-    const {
-      id,
-      updateType,
-      updateMessage,
-      expireDate,
-      academicYear,
-    } = req.body;
+    const { id, updateType, updateMessage, expireDate, academicYear } =
+      req.body;
 
     if (!id) {
       return res.status(400).send({

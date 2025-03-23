@@ -3,9 +3,9 @@ import adminUpdatesModel from "../../../models/adminUpdatesModel.js";
 
 export const createRegistrationPostController = async(req,res)=>{
     try {
-        const {adminId,updateType,updateMessage,expireDate,enrollmentDate,idCardIssueDate,academicYear} = req.body;
+        const {adminId,updateType,expireDate,enrollmentDate,idCardIssueDate,academicYear} = req.body;
 
-        if(!updateType ||!updateMessage ||!expireDate ||!enrollmentDate ||!academicYear || !idCardIssueDate){
+        if(!updateType  ||!expireDate ||!enrollmentDate ||!academicYear || !idCardIssueDate){
             return res.status(400).send({
                 success: false,
                 message: "All fields are required"
@@ -20,7 +20,6 @@ export const createRegistrationPostController = async(req,res)=>{
                 const registrationPost = new adminUpdatesModel({
                     adminId,
                     updateType,
-                    updateMessage,
                     expireDate,
                     idCardIssueDate,
                     enrollmentDate,

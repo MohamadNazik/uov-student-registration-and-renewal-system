@@ -47,7 +47,7 @@ function Dashboard() {
               <TextCard text="Registered Students" />
             </Link>
             <Link to="/system-settings">
-              <TextCard text="System Settings" />
+              <TextCard text="Admin Updates" />
             </Link>
           </>
         )}
