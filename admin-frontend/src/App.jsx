@@ -11,6 +11,7 @@ import Settings from "./pages/Settings";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOTP from "./pages/VerifyOTP";
+import RenewalDashboard from "./pages/RenewalDashboard";
 
 const router = createBrowserRouter([
   { path: "/", element: <LoginPage /> },
@@ -25,6 +26,8 @@ const router = createBrowserRouter([
   { path: "/change-password", element: <ChangePassword /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/verify-otp", element: <VerifyOTP /> },
+  { path: "/renewal-dashboard", element: <RenewalDashboard /> },
+
 ]);
 
 function App() {
