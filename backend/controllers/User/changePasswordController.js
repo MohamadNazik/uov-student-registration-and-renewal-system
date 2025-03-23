@@ -17,7 +17,7 @@ export const changePasswordController = async (req, res) => {
         message: "All fields are required",
       });
     } else {
-      const student = await userModel.findById({
+      const student = await userModel.findOne({
         Enrollment_Number: Enrollment_Number,
       });
 
@@ -34,7 +34,7 @@ export const changePasswordController = async (req, res) => {
         if (!isMatch) {
           return res.status(401).send({
             success: false,
-            message: "Invalid current password",
+            message: "Invalid old password",
           });
         } else {
           if (new_password !== confirm_password) {
