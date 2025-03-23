@@ -5,11 +5,13 @@ import Banner from "../../components/Banner";
 import axios from "axios";
 import Loading from "../../components/Loading";
 import SecondaryButton from "../../components/SecondaryButton";
+import { toast, Bounce } from "react-toastify";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function Login() {
   const [regNo, setRegNo] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -27,25 +29,45 @@ function Login() {
   const handleLogin = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "http://localhost:8080/api/users/login",
-        {
-          Enrollment_Number: regNo,
-          password: password,
-        }
-      );
+      const response = await axios.post(`${backendUrl}/users/login`, {
+        Enrollment_Number: regNo,
+        password: password,
+      });
 
       // console.log(response.data);
 
       if (response.data.success) {
+        const message = `You have logged in as ${response.data.data.Enrollment_Number}`;
+        toast.success(message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
         setIsLoading(false);
         sessionStorage.setItem("token", response.data.token);
         navigate("/user-dashboard");
       }
     } catch (error) {
       // console.log(error);
+      const message = error.response?.data.message;
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
       setIsLoading(false);
-      setError("Invalid Enrollment Number or Password");
     }
   };
 
@@ -88,11 +110,7 @@ function Login() {
             Password
           </label>
         </div>
-        {error && (
-          <p className="text-xs font-medium text-red-600 text-center">
-            {error}
-          </p>
-        )}
+
         <p className="text-red-600 text-xs sm:text-sm font-medium -mt-2 sm:-mt-4 text-center">
           Forgot password?
         </p>

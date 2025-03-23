@@ -2,11 +2,11 @@ import Swal from "sweetalert2";
 
 export const logout = (confirmFunc) => {
   Swal.fire({
-    title: "Do you want to logout?",
+    title: "Do you want to Logout?",
     icon: "question",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#391031",
+    cancelButtonColor: "#d32f2f",
     confirmButtonText: "Yes",
     cancelButtonText: "No",
   }).then((result) => {

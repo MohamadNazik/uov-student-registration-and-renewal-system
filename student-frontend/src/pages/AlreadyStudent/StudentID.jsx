@@ -14,12 +14,14 @@ function StudentID() {
   const [isLoading, setIsLoading] = useState(false);
   const availableToken = sessionStorage.getItem("token");
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     const getStudentDetails = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:8080/api/users/get-student-details",
+          `${backendUrl}/users/get-student-details`,
           {
             headers: { Authorization: `Bearer ${availableToken}` },
           }
@@ -30,7 +32,7 @@ function StudentID() {
           setStudent(response.data.student);
         }
       } catch (error) {
-        console.error("Error fetching student details:", error);
+        // console.error("Error fetching student details:", error);
         setIsLoading(false);
 
         if (error.response?.status === 401) {
