@@ -31,7 +31,7 @@ const sendOTP = async (email, res) => {
       from: process.env.APP_EMAIL,
       to: email,
       subject: "Password Reset OTP",
-      text:`Your OTP for password reset is: ${otp}. It expires in 5 minutes.`,
+      text: `Your OTP for password reset is: ${otp}. It expires in 5 minutes.`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -59,8 +59,8 @@ export const forgotPasswordController = async (req, res) => {
     let user = await userModel.findOne({ "Address.Email": email });
     let admin = await adminModel.findOne({ email });
 
-    if (!user && !admin) {
-      return res.status(404).send({ message: "Email not found" });
+    if (!user) {
+      return res.status(404).send({ message: "Invalid Email" });
     }
 
     sendOTP(email, res);
@@ -149,7 +149,7 @@ export const resetPasswordController = async (req, res) => {
         let user = await userModel.findOne({ "Address.Email": email });
         let admin = await adminModel.findOne({ email });
 
-if (!user && !admin) {
+        if (!user && !admin) {
           return res.status(404).send({ message: "User not found" });
         }
 
