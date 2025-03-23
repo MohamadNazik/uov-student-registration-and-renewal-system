@@ -8,12 +8,7 @@ function RenewalDashboard() {
   return (
     <div>
       <Header title="RENEWAL SUBMISSIONS DASHBOARD" />
-      <div className="flex flex-col items-left gap-5 sm:gap-8 mt-8 sm:mt-12 m-10">
-        <Link to="/admin-dashboard">
-          <PrimaryButton text="GO TO DASHBOARD" />
-        </Link>
-      </div>
-      <div className="flex flex-col items-center gap-5 sm:gap-8">
+      <div className="flex flex-col items-center gap-5 sm:gap-8 mt-14">
         <Link to="/second-year-renewal">
           <TextCard text="Second Year Renewal Submissions" />
         </Link>
@@ -22,6 +17,9 @@ function RenewalDashboard() {
         </Link>
         <Link to="/fourth-year-renewal">
           <TextCard text="Fourth Year Renewal Submissions" />
+        </Link>
+        <Link to="/dashboard">
+          <PrimaryButton text="GO TO DASHBOARD" />
         </Link>
       </div>
     </div>
