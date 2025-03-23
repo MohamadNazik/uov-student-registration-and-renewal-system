@@ -14,34 +14,91 @@ function SecondYearRenewal() {
     // Simulated data - replace with actual API calls
     useEffect(() => {
         setLoading(true);
-        // Simulate API fetch
+        // Reset selected student when changing tabs
+        setSelectedStudent(null);
+        
+        // Simulate API fetch with different students based on the active tab
         setTimeout(() => {
-            setStudents([
-                {
-                    id: "1",
-                    name: "JOHN DOE",
-                    regNo: "2020ICT01",
-                    department: "INFORMATION TECHNOLOGY",
-                    year: "SECOND YEAR"
-                },
-                {
-                    id: "2",
-                    name: "ALICE SMITH",
-                    regNo: "2020ICT02",
-                    department: "INFORMATION TECHNOLOGY",
-                    year: "SECOND YEAR"
-                },
-                {
-                    id: "3",
-                    name: "PETER HARIS",
-                    regNo: "2020ICT03",
-                    department: "INFORMATION TECHNOLOGY",
-                    year: "SECOND YEAR"
-                }
-            ]);
+            if (activeTab === "information-technology") {
+                setStudents([
+                    {
+                        id: "1",
+                        name: "JOHN DOE",
+                        regNo: "2020ICT01",
+                        department: "PHYSICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    },
+                    {
+                        id: "2",
+                        name: "ALICE SMITH",
+                        regNo: "2020ICT02",
+                        department: "PHYSICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    },
+                    {
+                        id: "3",
+                        name: "PETER HARIS",
+                        regNo: "2020ICT03",
+                        department: "PHYSICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    }
+                ]);
+            } else if (activeTab === "computer-science") {
+                setStudents([
+                    {
+                        id: "4",
+                        name: "MICHAEL JOHNSON",
+                        regNo: "2020CS01",
+                        department: "PHYSICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    },
+                    {
+                        id: "5",
+                        name: "SARAH WILLIAMS",
+                        regNo: "2020CS02",
+                        department: "PHYSICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    },
+                    {
+                        id: "6",
+                        name: "DAVID BROWN",
+                        regNo: "2020ASP01",
+                        department: "PHYSICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    }
+                ]);
+            } else if (activeTab === "environmental-science") {
+                setStudents([
+                    {
+                        id: "7",
+                        name: "EMMA DAVIS",
+                        regNo: "2020ASB01",
+                        department: "BIOLOGICAL",
+                        year: "SECOND YEAR"
+                    },
+                    {
+                        id: "8",
+                        name: "JAMES WILSON",
+                        regNo: "2020ASB02",
+                        department: "BIOLOGICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    },
+                    {
+                        id: "9",
+                        name: "OLIVIA TAYLOR",
+                        regNo: "2020ASB03",
+                        department: "BIOLOGICAL SCIENCE",
+                        year: "SECOND YEAR"
+                    }
+                ]);
+            }
             setLoading(false);
         }, 500);
     }, [activeTab]);
+
+    const handleTabChange = (tabName) => {
+        setActiveTab(tabName);
+    };
 
     const handleStudentClick = (student) => {
         setSelectedStudent(student);
@@ -64,19 +121,19 @@ function SecondYearRenewal() {
                     <div className="flex flex-wrap gap-2">
                         <PrimaryButton
                             text="INFORMATION TECHNOLOGY"
-                            onClick={() => setActiveTab("information-technology")}
+                            onClick={() => handleTabChange("information-technology")}
                             className={`${activeTab === "information-technology" ? "bg-blue-600" : "bg-blue-500 hover:bg-blue-600"}`}
                         />
 
                         <PrimaryButton
-                            text="COMPUTER SCIENCE"
-                            onClick={() => setActiveTab("computer-science")}
+                            text="COMPUTER SCIENCE / AMC"
+                            onClick={() => handleTabChange("computer-science")}
                             className={`${activeTab === "computer-science" ? "bg-blue-600" : "bg-blue-500 hover:bg-blue-600"}`}
                         />
 
                         <PrimaryButton
                             text="ENVIRONMENTAL SCIENCE"
-                            onClick={() => setActiveTab("environmental-science")}
+                            onClick={() => handleTabChange("environmental-science")}
                             className={`${activeTab === "environmental-science" ? "bg-blue-600" : "bg-blue-500 hover:bg-blue-600"}`}
                         />
                     </div>
@@ -129,7 +186,7 @@ function SecondYearRenewal() {
                                     <p className="mb-1"><span className="font-medium">REG NO: </span>{selectedStudent.regNo}</p>
                                     <p className="mb-1">
                                         <span className="font-medium">DEPARTMENT: </span>
-                                        PHYSICAL SCIENCE
+                                        {selectedStudent.department}
                                     </p>
                                 </div>
                             </div>
@@ -147,11 +204,11 @@ function SecondYearRenewal() {
                                     </p>
                                     <p className="mb-1">
                                         <span className="font-medium">DEGREE - DEPARTMENT: </span>
-                                        PHYSICAL SCIENCE
+                                        {selectedStudent.department}
                                     </p>
                                     <p className="mb-1">
                                         <span className="font-medium">YEAR: </span>
-                                        SECOND YEAR
+                                        {selectedStudent.year}
                                     </p>
                                 </div>
                             </div>
