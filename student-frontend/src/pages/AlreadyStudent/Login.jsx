@@ -26,6 +26,11 @@ function Login() {
     } else {
       sessionStorage.removeItem("Enrollment_Number");
     }
+    const removeLocalStorage = () => {
+      localStorage.removeItem("regDetails");
+      localStorage.removeItem("student");
+    };
+    removeLocalStorage();
   }, []);
 
   const handleLogin = async () => {
