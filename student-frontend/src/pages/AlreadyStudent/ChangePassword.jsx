@@ -1,73 +1,71 @@
 import React from "react";
 import PrimaryButton from "../../components/PrimaryButton";
-import Header from "../../components/Header"; 
+import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 
 function ChangePassword() {
   return (
     <div className="h-screen flex flex-col bg-gray-100">
-  
-      <Header />
+      <Header title="CHANGE PASSWORD" />
+
+      <div className="flex justify-between px-4 sm:px-[100px] mt-5 xl:mt-10">
+        <Link to="/user-dashboard">
+          <PrimaryButton text="Go Back To Dashboard" />
+        </Link>
+      </div>
 
       <div className="flex flex-col justify-center items-center flex-grow">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white bg-purple-900 py-4 px-6 rounded-md shadow-md mb-8">
-          CHANGE PASSWORD
-        </h1>
-
-        
-        <div className="bg-white p-8 sm:p-12 rounded-3xl shadow-lg w-11/12 max-w-md flex flex-col gap-5">
-          
-            <div className="flex flex-col">
-              <label htmlFor="oldPassword" className="text-gray-700 font-medium">
-                Old Password
-              </label>
+        <div className="bg-white p-8 sm:p-12 rounded-3xl shadow-lg w-11/12 max-w-md flex flex-col gap-5 items-center">
+          <div className="flex flex-col">
+            <label htmlFor="oldPassword" className="text-gray-700 font-medium">
+              Old Password
+            </label>
+            <div className="relative mt-3">
               <input
-                type="password"
-                id="oldPassword"
-                placeholder="Enter old password"
-                className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                type="text"
+                id="old-password"
+                className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[22rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
+                placeholder=" "
               />
             </div>
-           
-            
-            <div className="flex flex-col">
-              <label htmlFor="newPassword" className="text-gray-700 font-medium">
-                New Password
-              </label>
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="newPassword" className="text-gray-700 font-medium">
+              New Password
+            </label>
+            <div className="relative mt-3">
               <input
-                type="password"
-                id="newPassword"
-                placeholder="Enter new password"
-                className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                type="text"
+                id="new-password"
+                className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[22rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
+                placeholder=" "
               />
             </div>
+          </div>
 
-  
-            <div className="flex flex-col">
-              <label htmlFor="confirmPassword" className="text-gray-700 font-medium">
-                Confirm New Password
-              </label>
+          <div className="flex flex-col">
+            <label
+              htmlFor="confirmPassword"
+              className="text-gray-700 font-medium"
+            >
+              Confirm New Password
+            </label>
+            <div className="relative mt-3">
               <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirm new password"
-                className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                type="text"
+                id="confirm-password"
+                className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[22rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
+                placeholder=" "
               />
             </div>
+          </div>
 
-          
-            <PrimaryButton text="CHANGE" />
-
-          
-          <div className="mt-4 text-center">
-            <Link to="/dashboard" className="text-purple-700 hover:underline">
-              Back to dashboard
-            </Link>
-          </div> 
-        </div> 
+          <PrimaryButton text="CHANGE" />
+        </div>
       </div>
     </div>
   );
 }
-            
+
 export default ChangePassword;
