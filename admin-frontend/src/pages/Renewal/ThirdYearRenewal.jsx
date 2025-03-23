@@ -48,21 +48,21 @@ function ThirdYearRenewal() {
                     {
                         id: "4",
                         name: "MICHAEL JOHNSON",
-                        regNo: "2020CS01",
+                        regNo: "2020ASP01",
                         department: "PHYSICAL SCIENCE",
                         year: "THIRD YEAR"
                     },
                     {
                         id: "5",
                         name: "SARAH WILLIAMS",
-                        regNo: "2020CS02",
+                        regNo: "2020ASP02",
                         department: "PHYSICAL SCIENCE",
                         year: "THIRD YEAR"
                     },
                     {
                         id: "6",
                         name: "DAVID BROWN",
-                        regNo: "2020ASP01",
+                        regNo: "2020ASP03",
                         department: "PHYSICAL SCIENCE",
                         year: "THIRD YEAR"
                     }
