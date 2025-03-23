@@ -6,6 +6,7 @@ import download_icon from "../../assets/icons/download_icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import { logout } from "../../utils/SwatAleart";
 
 function StudentID() {
   const navigate = useNavigate();
@@ -47,14 +48,14 @@ function StudentID() {
     }
   }, [availableToken, navigate]);
 
-  const logOutFunc = () => {
+  const confirmFunc = () => {
     sessionStorage.removeItem("token");
     navigate("/login");
   };
 
   return (
     <>
-      <Header title="Student ID" logOutFunc={logOutFunc} />
+      <Header title="Student ID" logOutFunc={() => logout(confirmFunc)} />
       {isLoading && <Loading />}
       <div className="flex justify-between px-4 sm:px-[100px] mt-5 xl:mt-10">
         <Link to="/user-dashboard">

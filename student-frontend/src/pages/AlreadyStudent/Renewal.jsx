@@ -196,7 +196,7 @@ function Renewal() {
 
   const confirmFunc = () => {
     sessionStorage.removeItem("token");
-    navigate("/");
+    navigate("/login");
   };
 
   return (
