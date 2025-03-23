@@ -142,7 +142,32 @@ function Renewal() {
       if (response.data.success) {
         setIsLoading(false);
         sessionStorage.removeItem("formData");
-        navigate("/re-success");
+        navigate("/user-dashboard");
+        toast.success("Successfully submitted the Renewal", {
+          position: "top-right",
+          autoClose: 4500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        toast.success(
+          "You will receive confirmation email when your renewal get approved.",
+          {
+            position: "top-right",
+            autoClose: 4500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          }
+        );
       }
     } catch (error) {
       // console.log(error.response.data);
@@ -175,7 +200,7 @@ function Renewal() {
           transition: Bounce,
         });
         setIsLoading(false);
-        navigate("/re-submitted");
+        navigate("/user-dashboard");
       } else {
         toast.error(message, {
           position: "top-right",

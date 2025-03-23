@@ -45,8 +45,8 @@ const router = createBrowserRouter(
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/verify-otp", element: <VerifyOTP /> },
-    { path: "/re-success", element: <RenewalSuccess /> },
-    { path: "/re-submitted", element: <AlreadyRenewalSubmitted /> },
+    // { path: "/re-success", element: <RenewalSuccess /> },
+    // { path: "/re-submitted", element: <AlreadyRenewalSubmitted /> },
     { path: "/check-selection", element: <CheckSelection /> },
     { path: "/confirm-selection", element: <ConfirmSelection /> },
     { path: "/instructions", element: <Instructions /> },
@@ -111,7 +111,6 @@ function App() {
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
-        newestOnTop
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
