@@ -1,16 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import SecondaryButton from "../../components/SecondaryButton";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function AlreadyRegSubmitted() {
-  const availableToken = sessionStorage.getItem("token");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!availableToken) {
-      navigate("/login");
-    }
-  }, [availableToken]);
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="flex flex-col gap-2 sm:gap-5 bg-white rounded-2xl w-fit h-fit p-5 sm:p-12 shadow-xl items-center">
@@ -22,7 +14,7 @@ function AlreadyRegSubmitted() {
           <br />
           registration got approved.
         </p>
-        <Link to="/use-dashboard">
+        <Link to="/">
           <SecondaryButton
             text="ok"
             color="bg-green-700"
