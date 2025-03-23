@@ -8,10 +8,10 @@ export const changePasswordController = async (req, res) => {
       Enrollment_Number,
       permanent_password,
       new_password,
-      conform_password,
+      confirm_password,
     } = req.body;
 
-    if (!permanent_password || !new_password || !conform_password) {
+    if (!permanent_password || !new_password || !confirm_password) {
       return res.status(400).send({
         success: false,
         message: "All fields are required",
@@ -37,7 +37,7 @@ export const changePasswordController = async (req, res) => {
             message: "Invalid current password",
           });
         } else {
-          if (new_password !== conform_password) {
+          if (new_password !== confirm_password) {
             return res.status(400).send({
               success: false,
               message: "New password and confirm password do not match",
