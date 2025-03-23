@@ -7,6 +7,9 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 import { useRenewalContext } from "../../utils/RenewalContext";
 import { toast, Bounce } from "react-toastify";
+import { logout } from "../../utils/SwatAleart";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function Renewal() {
   const { formData, updateFormData, updateFile } = useRenewalContext();
@@ -23,7 +26,7 @@ function Renewal() {
     const handleRenewal = async () => {
       try {
         await axios
-          .get("http://localhost:8080/api/common/renewal-available")
+          .get(`${backendUrl}/common/renewal-available`)
           .then((res) => {
             // console.log(res.data.success);
             if (!res.data.success) {
@@ -34,7 +37,19 @@ function Renewal() {
             }
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err.response?.data.message);
+            const message = err.response?.data.message;
+            toast.error(message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              transition: Bounce,
+            });
           });
       } catch (error) {}
     };
@@ -43,7 +58,7 @@ function Renewal() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:8080/api/users/get-student-details",
+          `${backendUrl}/users/get-student-details`,
           {
             headers: { Authorization: `Bearer ${availableToken}` },
           }
@@ -61,7 +76,7 @@ function Renewal() {
           // sessionStorage.setItem("student", JSON.stringify(student));
         }
       } catch (error) {
-        console.error("Error fetching student details:", error);
+        // console.error("Error fetching student details:", error);
         setIsLoading(false);
 
         if (error.response?.status === 401) {
@@ -96,11 +111,6 @@ function Renewal() {
     checkSubmitActive();
   }, [formData, receipt]);
 
-  const logOutFunc = () => {
-    sessionStorage.removeItem("token");
-    navigate("/login");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -122,7 +132,7 @@ function Renewal() {
 
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:8080/api/users/submit-renewal",
+        `${backendUrl}/users/submit-renewal`,
         submissionData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -136,7 +146,7 @@ function Renewal() {
       }
     } catch (error) {
       // console.log(error.response.data);
-      const message = error.response.data.message;
+      const message = error.response?.data.message;
       if (message === "Receipt number does not match") {
         toast.error(
           "Please check the receipt number & the receipt are correct",
@@ -165,7 +175,7 @@ function Renewal() {
           transition: Bounce,
         });
         setIsLoading(false);
-        navigate("/already-reg-submitted");
+        navigate("/re-submitted");
       } else {
         toast.error(message, {
           position: "top-right",
@@ -184,9 +194,17 @@ function Renewal() {
     }
   };
 
+  const confirmFunc = () => {
+    sessionStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <>
-      <Header title="Renewal of Registration" logOutFunc={logOutFunc} />
+      <Header
+        title="Renewal of Registration"
+        logOutFunc={() => logout(confirmFunc)}
+      />
       <div className="bg-white m-2 sm:m-5 xl:m-8 p-4 sm:p-7 xl:p-10 rounded-lg flex justify-center relative h-full">
         {isLoading && <Loading />}
         <form
