@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PrimaryButton from "../../components/PrimaryButton";
 import Header from "../../components/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ChangePassword() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const availableToken = sessionStorage.getItem("token");
+    sessionStorage.removeItem("formData");
+    if (!availableToken) {
+      navigate("/login");
+    }
+  }, []);
   return (
     <div className="h-screen flex flex-col bg-gray-100">
       <Header title="CHANGE PASSWORD" />
