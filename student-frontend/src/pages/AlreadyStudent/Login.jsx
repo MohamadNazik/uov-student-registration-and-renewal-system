@@ -125,7 +125,7 @@ function Login() {
           <SecondaryButton
             text="Home"
             color="bg-red-700"
-            hoverColor="hover:bg-red-800"
+            hoverColor="bg-red-800"
             onClick={() => {
               navigate("/");
             }}
