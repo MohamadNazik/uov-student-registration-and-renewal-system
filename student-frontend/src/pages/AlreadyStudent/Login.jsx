@@ -23,6 +23,8 @@ function Login() {
     sessionStorage.removeItem("formData");
     if (availableToken) {
       navigate("/user-dashboard");
+    } else {
+      sessionStorage.removeItem("Enrollment_Number");
     }
   }, []);
 
@@ -51,6 +53,10 @@ function Login() {
         });
         setIsLoading(false);
         sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem(
+          "Enrollment_Number",
+          response.data.data.Enrollment_Number
+        );
         navigate("/user-dashboard");
       }
     } catch (error) {

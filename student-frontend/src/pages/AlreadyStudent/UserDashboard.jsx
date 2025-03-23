@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../utils/SwatAleart";
 
 function UserDashboard() {
+  const Enrollment_Number = sessionStorage.getItem("Enrollment_Number");
   const navigate = useNavigate();
   useEffect(() => {
     const availableToken = sessionStorage.getItem("token");
@@ -16,11 +17,15 @@ function UserDashboard() {
   }, []);
   const confirmFunc = () => {
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("Enrollment_Number");
     navigate("/login");
   };
   return (
     <div>
-      <Header title="Dashboard" logOutFunc={() => logout(confirmFunc)} />
+      <Header
+        title={Enrollment_Number ? Enrollment_Number : ""}
+        logOutFunc={() => logout(confirmFunc)}
+      />
       <div className="flex flex-col items-center gap-5 sm:gap-8 mt-8 sm:mt-12">
         <Link to="/student-id">
           <TextCard text="Your Student ID" />
