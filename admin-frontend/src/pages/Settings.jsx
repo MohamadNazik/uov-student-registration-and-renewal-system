@@ -3,6 +3,9 @@ import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import SecondaryButton from "./../../../student-frontend/src/components/SecondaryButton";
+import Swal from "sweetalert2";
 
 function Settings() {
   const navigate = useNavigate();
@@ -19,6 +22,8 @@ function Settings() {
   const [renewalDeadline, setRenewalDeadline] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [post, setPost] = useState(null);
+  const storedToken = sessionStorage.getItem("adminToken");
+  const parsedToken = storedToken ? JSON.parse(storedToken).token : null;
 
   useEffect(() => {
     const adminData = sessionStorage.getItem("adminData");
@@ -35,48 +40,109 @@ function Settings() {
     }
   }, [navigate]);
 
-  const storedToken = sessionStorage.getItem("adminToken");
-  const parsedToken = storedToken ? JSON.parse(storedToken).token : null;
-
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/admin/get-admin-details", {
-        headers: {
-          Authorization: `Bearer ${parsedToken}`,
-        },
-      })
-      .then((response) => {
-        setAdminId(response.data.admin._id);
-      })
-      .catch((error) => console.error("Error fetching admin ID:", error));
+    const fetchAdmin = async () => {
+      await axios
+        .get("http://localhost:8080/api/admin/get-admin-details", {
+          headers: {
+            Authorization: `Bearer ${parsedToken}`,
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          if (response.data.success) {
+            setAdminId(response.data.admin._id);
+          }
+        })
+        .catch((error) => console.error("Error fetching admin ID:", error));
+    };
+    fetchAdmin();
   }, []);
-
-  useEffect(() => {
-    if (userRole) {
-      setUpdateType(
-        userRole === "sar" || userRole === "dr" ? "Registration" : "Renewal"
-      );
-    }
-  }, [userRole]);
 
   useEffect(() => {
     const fetchPost = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/admin/get-registration-post"
-        );
-        if (response.data.success) {
-          setPost(response.data.data[0]);
-        } else {
-          console.error("Failed to fetch students.");
+      const adminData = sessionStorage.getItem("adminData");
+      if (adminData) {
+        try {
+          const parsedData = JSON.parse(adminData);
+          if (
+            parsedData.admin.role === "sar" ||
+            parsedData.admin.role === "dr"
+          ) {
+            try {
+              const response = await axios.get(
+                "http://localhost:8080/api/admin/get-registration-post"
+              );
+              if (response.data.success) {
+                setPost(response.data.data[0]);
+              } else {
+                console.error("Failed to fetch registration post.");
+              }
+            } catch (error) {
+              console.error("Error fetching registration post:", error);
+            }
+          } else {
+            try {
+              const response = await axios.get(
+                "http://localhost:8080/api/admin/get-renewal-post"
+              );
+              if (response.data.success) {
+                setPost(response.data.data[0]);
+              } else {
+                console.error("Failed to fetch renewal post.");
+              }
+            } catch (error) {
+              console.error("Error fetching renewal post:", error);
+            }
+          }
+          setUserRole(parsedData.admin.role);
+        } catch (error) {
+          console.error("Error parsing adminData:", error);
         }
-      } catch (error) {
-        console.error("Error fetching students:", error);
       }
+      // console.log(userRole);
     };
+
     fetchPost();
   }, []);
-  console.log(post);
+
+  const handleDelete = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(
+            "http://localhost:8080/api/admin/delete-registration-post",
+            {
+              headers: { "Content-Type": "application/json" },
+              data: { id: post._id },
+            }
+          );
+
+          Swal.fire("Deleted!", "Your post has been deleted.", "success").then(
+            (result) => {
+              if (result.isConfirmed) {
+                setPost((prev) => !prev);
+              }
+            }
+          );
+
+          console.log(response.data);
+        } catch (error) {
+          Swal.fire("Error!", "Something went wrong.", "error");
+          console.error(error);
+        }
+      }
+    });
+  };
+
   const handleSubmit = () => {
     if (!adminId) {
       console.error("Admin ID not available!");
@@ -104,7 +170,7 @@ function Settings() {
         setIsSaving(false);
       });
   };
-  console.log(post);
+
   const renderRoleTitle = () => {
     switch (userRole) {
       case "sar":
@@ -151,8 +217,14 @@ function Settings() {
                     {post.academicYear}
                   </div>
                 </div>
+                <div className="flex justify-end items-end space-x-4">
+                  <SecondaryButton
+                    text="Delete"
+                    color="bg-red-700"
+                    onClick={handleDelete}
+                  />
+                </div>
               </div>
-              <div className="p-6 text-left"></div>
             </div>
           </>
         ) : (
