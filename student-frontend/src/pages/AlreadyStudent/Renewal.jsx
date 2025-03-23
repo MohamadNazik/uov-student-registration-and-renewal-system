@@ -12,7 +12,7 @@ import { logout } from "../../utils/SwatAleart";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function Renewal() {
-  const { formData, updateFormData, updateFile } = useRenewalContext();
+  const { formData, updateFormData } = useRenewalContext();
   const navigate = useNavigate();
   const [academicYear, setAcademicYear] = useState("");
   const [student, setStudent] = useState({});
