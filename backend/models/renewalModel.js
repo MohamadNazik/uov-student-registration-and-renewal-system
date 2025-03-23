@@ -45,7 +45,7 @@ const renewalSchema = new mongoose.Schema({
   },
   current_year_of_study: {
     type: Number,
-    required: false,
+    required: true,
   },
   renwal_academic_year: {
     type: String,

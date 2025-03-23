@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
 import { useRenewalContext } from "../../utils/RenewalContext";
+import { toast, Bounce } from "react-toastify";
 
 function Renewal() {
   const { formData, updateFormData, updateFile } = useRenewalContext();
@@ -127,14 +128,58 @@ function Renewal() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      console.log(response);
-      // if (response.data.success) {
-      //   setIsLoading(false);
-      //   sessionStorage.removeItem("formData");
-      //   navigate("/re-success");
-      // }
+      // console.log(response);
+      if (response.data.success) {
+        setIsLoading(false);
+        sessionStorage.removeItem("formData");
+        navigate("/re-success");
+      }
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
+      const message = error.response.data.message;
+      if (message === "Receipt number does not match") {
+        toast.error(
+          "Please check the receipt number & the receipt are correct",
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          }
+        );
+      } else if (message === "You have already submitted the renewal") {
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setIsLoading(false);
+        navigate("/already-reg-submitted");
+      } else {
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setIsLoading(false);
+      }
       setIsLoading(false);
     }
   };

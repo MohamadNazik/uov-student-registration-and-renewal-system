@@ -60,7 +60,7 @@ export const submitRenewalController = async (req, res) => {
     if (!extractedText.includes(receipt_number)) {
       return res.status(400).send({
         success: false,
-        message: "Receipt number does not match the extracted text",
+        message: "Receipt number does not match",
       });
     }
 
@@ -70,7 +70,7 @@ export const submitRenewalController = async (req, res) => {
     if (student && student.current_year_of_study === currentYear) {
       return res.status(400).send({
         success: false,
-        message: "Student already submitted the renewal",
+        message: "You have already submitted the renewal",
       });
     }
 
@@ -85,6 +85,7 @@ export const submitRenewalController = async (req, res) => {
       present_address,
       receipt_number,
       submission_date,
+      current_year_of_study,
       payment_date,
       receipt: receiptUpload,
       renwal_academic_year,
