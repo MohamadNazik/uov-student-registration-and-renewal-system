@@ -117,9 +117,11 @@ function Login() {
           </label>
         </div>
 
-        <p className="text-red-600 text-xs sm:text-sm font-medium -mt-2 sm:-mt-4 text-center">
-          Forgot password?
-        </p>
+        <Link to="/forgot-password">
+          <p className="text-red-600 text-xs sm:text-sm font-medium -mt-2 sm:-mt-4 text-center cursor-pointer">
+            Forgot password?
+          </p>
+        </Link>
 
         <div className="flex gap-10">
           <SecondaryButton
