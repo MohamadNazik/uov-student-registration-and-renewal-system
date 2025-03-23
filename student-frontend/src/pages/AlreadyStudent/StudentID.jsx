@@ -8,13 +8,13 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 import { logout } from "../../utils/SwatAleart";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 function StudentID() {
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const availableToken = sessionStorage.getItem("token");
-
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const getStudentDetails = async () => {
