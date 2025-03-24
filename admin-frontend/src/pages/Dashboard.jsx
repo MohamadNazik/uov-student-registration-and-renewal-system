@@ -55,7 +55,7 @@ function Dashboard() {
         {/* DR Role Options */}
         {adminRole === "dr" && (
           <>
-            <Link to="/new-registration">
+            <Link to="/new-registrations">
               <TextCard text="New Registration" />
             </Link>
             <Link to="/registered-students">
