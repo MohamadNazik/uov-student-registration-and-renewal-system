@@ -39,16 +39,15 @@ router.post(
 router.post("/login", loginController);
 router.get("/get-not-approved-students", getNotApprovedStudents);
 
-
 //Registration and Renewal
-router.post('/registration-post',createRegistrationPostController);
-router.put('/update-registration-post', updateRegistrationPostController);
-router.delete('/delete-registration-post',deleteRegistrationPostController);
-router.post('/create-renewal-post',createRenewalPostController);
-router.put('/update-renewal-post',updateRenewalPostController);
-router.delete('/delete-renewal-post',deleteRenewalPostController);
-router.get('/get-registration-post',getRegistrationPostController);
-router.get('/get-renewal-post',getRenewalPostController);
-router.post('/approve-renewal',approveRenewalController);
-router.get('/get-admin-details',getAdminDetails)
+router.post("/registration-post", createRegistrationPostController);
+router.put("/update-registration-post", updateRegistrationPostController);
+router.delete("/delete-registration-post", deleteRegistrationPostController);
+router.post("/create-renewal-post", createRenewalPostController);
+router.put("/update-renewal-post", updateRenewalPostController);
+router.delete("/delete-renewal-post", deleteRenewalPostController);
+router.get("/get-registration-post", getRegistrationPostController);
+router.get("/get-renewal-post", getRenewalPostController);
+router.post("/approve-renewal", approveRenewalController);
+router.get("/get-admin-details", getAdminDetails);
 export default router;

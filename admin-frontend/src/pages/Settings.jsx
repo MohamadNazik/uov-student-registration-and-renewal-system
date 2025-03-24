@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import SecondaryButton from "./../../../student-frontend/src/components/SecondaryButton";
 import Swal from "sweetalert2";
+import Loading from "./../../../admin-frontend/src/components/Loading"; 
 
 function Settings() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function Settings() {
   const [renewalDeadline, setRenewalDeadline] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [post, setPost] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); 
   const storedToken = sessionStorage.getItem("adminToken");
   const parsedToken = storedToken ? JSON.parse(storedToken).token : null;
 
@@ -38,10 +40,12 @@ function Settings() {
       console.log("No admin role found, redirecting to login...");
       navigate("/");
     }
+    setIsLoading(false); 
   }, [navigate]);
 
   useEffect(() => {
     const fetchAdmin = async () => {
+      setIsLoading(true); 
       await axios
         .get("http://localhost:8080/api/admin/get-admin-details", {
           headers: {
@@ -49,18 +53,19 @@ function Settings() {
           },
         })
         .then((response) => {
-          // console.log(response.data);
           if (response.data.success) {
             setAdminId(response.data.admin._id);
           }
         })
-        .catch((error) => console.error("Error fetching admin ID:", error));
+        .catch((error) => console.error("Error fetching admin ID:", error))
+        .finally(() => setIsLoading(false)); 
     };
     fetchAdmin();
   }, []);
 
   useEffect(() => {
     const fetchPost = async () => {
+      setIsLoading(true); 
       const adminData = sessionStorage.getItem("adminData");
       if (adminData) {
         try {
@@ -100,7 +105,7 @@ function Settings() {
           console.error("Error parsing adminData:", error);
         }
       }
-      // console.log(userRole);
+      setIsLoading(false);
     };
 
     fetchPost();
@@ -117,6 +122,7 @@ function Settings() {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        setIsLoading(true); 
         try {
           const response = await axios.delete(
             "http://localhost:8080/api/admin/delete-registration-post",
@@ -138,18 +144,21 @@ function Settings() {
         } catch (error) {
           Swal.fire("Error!", "Something went wrong.", "error");
           console.error(error);
+        } finally {
+          setIsLoading(false); 
         }
       }
     });
   };
-  console.log(renewalDeadline);
+
   const handleSubmit = async () => {
     if (!adminId) {
       console.error("Admin ID not available!");
       return;
     }
     setIsSaving(true);
-    console.log(userRole);
+    setIsLoading(true); 
+
     if (userRole === "sar" || userRole === "dr") {
       const payload = {
         adminId,
@@ -169,7 +178,8 @@ function Settings() {
         .catch((error) => {
           console.error(error);
           setIsSaving(false);
-        });
+        })
+        .finally(() => setIsLoading(false)); 
     } else {
       const payload = {
         adminId,
@@ -186,7 +196,8 @@ function Settings() {
         .catch((error) => {
           console.error(error);
           setIsSaving(false);
-        });
+        })
+        .finally(() => setIsLoading(false)); 
     }
   };
 
@@ -202,6 +213,11 @@ function Settings() {
         return "Loading...";
     }
   };
+
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -367,14 +383,14 @@ function Settings() {
                   <div className="flex items-center">
                     <input
                       type="checkbox"
-                      id="registrationOpenDR"
+                      id="registrationOpen"
                       checked={registrationOpen}
                       onChange={() => setRegistrationOpen(!registrationOpen)}
                       className="h-3 w-3 md:h-5 md:w-5 rounded border-gray-300 text-[#391031] focus:ring-[#391031]"
                     />
                     <label
-                      htmlFor="registrationOpenDR"
-                      className="ml-2  text-xs md:text-sm font-medium"
+                      htmlFor="registrationOpen"
+                      className="ml-2 text-xs md:text-sm font-medium"
                     >
                       REGISTRATION OPEN
                     </label>
@@ -382,54 +398,86 @@ function Settings() {
 
                   <div className="ml-6 text-[10px] md:text-sm text-gray-500">
                     <div className="flex items-center">
-                      <div className="h-1.5 w-3 md:h-3  rounded-full border border-gray-300 mr-2 flex items-center justify-center">
-                        <div className=" h-0.5 w-0.5  md:h-1  md:w-1 rounded-full bg-gray-500 "></div>
+                      <div className="h-1.5 w-3 md:h-3 rounded-full border border-gray-300 mr-2 flex items-center justify-center">
+                        <div className=" h-0.5 w-0.5  md:h-1  md:w-1 rounded-full bg-gray-500"></div>
                       </div>
                       WHEN ENABLED, STUDENTS CAN REGISTER FOR COURSES
                     </div>
                   </div>
 
                   <div className="border-t border-gray-200 pt-4">
-                    <div className="flex flex-col space-y-4">
-                      <div className="flex items-center">
-                        <label className="w-36 text-[10px] md:text-sm font-medium">
-                          ACADEMIC YEAR:
-                        </label>
-                        <div className="relative">
-                          <select
-                            value={academicYear}
-                            onChange={(e) => setAcademicYear(e.target.value)}
-                            className="block w-18 text-[10px] lg:text-sm md:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031] sm:text-sm sm:leading-6 bg-pink-100"
-                          >
-                            <option>2024/2025</option>
-                            <option>2023/2024</option>
-                            <option>2024/2026</option>
-                            <option>2025/2026</option>
-                          </select>
-                        </div>
-                      </div>
+                    <div className="flex items-center">
+                      <label className="mr-2 text-[10px] md:text-sm font-medium">
+                        ACADEMIC YEAR:
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={academicYear}
+                          onChange={(e) => {
+                            let value = e.target.value;
 
-                      <div className="flex items-center">
-                        <label className="w-36 text-[10px] md:text-sm font-medium">
-                          SEMESTER:
-                        </label>
-                        <div className="relative">
-                          <select
-                            value={semester}
-                            onChange={(e) => setSemester(e.target.value)}
-                            className="block w-18 text-[10px] lg:text-sm md:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031] sm:text-sm sm:leading-6 bg-pink-100"
-                          >
-                            <option>SEMESTER 1</option>
-                            <option>SEMESTER 2</option>
-                            <option>SEMESTER 3</option>
-                            <option>SEMESTER 4</option>
-                            <option>SEMESTER 5</option>
-                            <option>SEMESTER 6</option>
-                            <option>SEMESTER 7</option>
-                            <option>SEMESTER 8</option>
-                          </select>
-                        </div>
+                            if (!/^\d{0,2}\/?\d{0,2}$/.test(value)) {
+                              return;
+                            }
+
+                            if (value.length === 2 && !value.includes("/")) {
+                              value += "/";
+                            }
+
+                            setAcademicYear(value);
+                          }}
+                          placeholder="e.g., 23/24"
+                          maxLength={5}
+                          className="block w-18 text-xs lg:text-sm md:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031] sm:text-sm sm:leading-6 bg-pink-100"
+                        />
                       </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-gray-200 pt-4">
+                    <h3 className=" text-sm lg:text-lg font-medium text-[#391031]">
+                      ADVANCED SETTINGS
+                    </h3>
+
+                    <div className="mt-4 flex items-center">
+                      <label className="mr-2 text-[10px] md:text-sm font-medium">
+                        REGISTRATION DEADLINE:
+                      </label>
+                      <input
+                        type="date"
+                        value={registrationDeadline}
+                        onChange={(e) => {
+                          setRegistrationDeadline(e.target.value);
+                        }}
+                        className="block w-18 text-[10px] lg:text-sm md:w-40  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031]  sm:text-sm sm:leading-6 bg-pink-100"
+                      />
+                    </div>
+                    <div className="mt-4 flex items-center">
+                      <label className="mr-2 text-[10px] md:text-sm font-medium">
+                        ID CARD ISSUE DATE:
+                      </label>
+                      <input
+                        type="date"
+                        value={idCardIssueDate.split("/").reverse().join("-")}
+                        onChange={(e) => {
+                          setIdCardIssueDate(e.target.value);
+                        }}
+                        className="block w-18 text-[10px] lg:text-sm md:w-40  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031]  sm:text-sm sm:leading-6 bg-pink-100"
+                      />
+                    </div>
+                    <div className="mt-4 flex items-center">
+                      <label className="mr-2 text-[10px] md:text-sm font-medium">
+                        ENROLLMENT DATE:
+                      </label>
+                      <input
+                        type="date"
+                        value={enrollmentDate.split("/").reverse().join("-")}
+                        onChange={(e) => {
+                          setEnrollmentDate(e.target.value);
+                        }}
+                        className="block w-18 text-[10px] lg:text-sm md:w-40  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031]  sm:text-sm sm:leading-6 bg-pink-100"
+                      />
                     </div>
                   </div>
                 </div>
