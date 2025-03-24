@@ -74,7 +74,7 @@ function ForgotPassword() {
     <div className="h-screen flex flex-col justify-center items-center bg-gray-100">
       {isLoading && <Loading />}
       <div className="bg-white p-8 sm:p-12 rounded-3xl shadow-lg w-11/12 max-w-md text-center flex flex-col items-center gap-6">
-        <p className="text-gray-700 text-lg mb-6 font-medium">
+        <p className="text-black text-lg mb-6 font-medium">
           Please enter the e-mail that you provided to the University.
         </p>
 
