@@ -142,33 +142,52 @@ function Settings() {
       }
     });
   };
-
-  const handleSubmit = () => {
+  console.log(renewalDeadline);
+  const handleSubmit = async () => {
     if (!adminId) {
       console.error("Admin ID not available!");
       return;
     }
     setIsSaving(true);
+    console.log(userRole);
+    if (userRole === "sar" || userRole === "dr") {
+      const payload = {
+        adminId,
+        updateType: "Registration",
+        expireDate: registrationDeadline,
+        enrollmentDate,
+        idCardIssueDate,
+        academicYear,
+      };
 
-    const payload = {
-      adminId,
-      updateType,
-      expireDate: registrationDeadline,
-      enrollmentDate,
-      idCardIssueDate,
-      academicYear,
-    };
-
-    axios
-      .post("http://localhost:8080/api/admin/registration-post", payload)
-      .then((res) => {
-        console.log(res.data);
-        setIsSaving(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsSaving(false);
-      });
+      await axios
+        .post("http://localhost:8080/api/admin/registration-post", payload)
+        .then((res) => {
+          console.log(res.data);
+          setIsSaving(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setIsSaving(false);
+        });
+    } else {
+      const payload = {
+        adminId,
+        updateType: "Renewal",
+        expireDate: renewalDeadline,
+        academicYear,
+      };
+      await axios
+        .post("http://localhost:8080/api/admin/create-renewal-post", payload)
+        .then((res) => {
+          console.log(res.data);
+          setIsSaving(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setIsSaving(false);
+        });
+    }
   };
 
   const renderRoleTitle = () => {
@@ -183,14 +202,7 @@ function Settings() {
         return "Loading...";
     }
   };
-  // console.log(
-  //   registrationDeadline,
-  //   idCardIssueDate,
-  //   enrollmentDate,
-  //   academicYear,
-  //   registrationOpen,
-  //   updateType
-  // );
+
   return (
     <div>
       {/* Header */}
@@ -461,25 +473,44 @@ function Settings() {
                     <h3 className=" text-sm lg:text-lg font-medium text-[#391031]">
                       FACULTY SPECIFIC SETTINGS
                     </h3>
+                    <div className="flex items-center">
+                      <label className="mr-2 text-[10px] md:text-sm font-medium">
+                        ACADEMIC YEAR:
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={academicYear}
+                          onChange={(e) => {
+                            let value = e.target.value;
 
+                            if (!/^\d{0,2}\/?\d{0,2}$/.test(value)) {
+                              return;
+                            }
+
+                            if (value.length === 2 && !value.includes("/")) {
+                              value += "/";
+                            }
+
+                            setAcademicYear(value);
+                          }}
+                          placeholder="e.g., 23/24"
+                          maxLength={5}
+                          className="block w-18 text-xs lg:text-sm md:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031] sm:text-sm sm:leading-6 bg-pink-100"
+                        />
+                      </div>
+                    </div>
                     <div className="mt-4 flex items-center">
                       <label className="mr-2 text-[10px] md:text-sm  font-medium">
                         RENEWAL SUBMISSION DEADLINE:
                       </label>
                       <input
                         type="date"
-                        value={renewalDeadline.split("/").reverse().join("-")}
+                        value={registrationDeadline}
                         onChange={(e) => {
-                          const date = new Date(e.target.value);
-                          const formattedDate = `${date.getFullYear()}/${String(
-                            date.getMonth() + 1
-                          ).padStart(2, "0")}/${String(date.getDate()).padStart(
-                            2,
-                            "0"
-                          )}`;
-                          setRenewalDeadline(formattedDate);
+                          setRenewalDeadline(e.target.value);
                         }}
-                        className="block  w-18 text-[10px] lg:text-sm md:w-40  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031]  sm:text-sm sm:leading-6 bg-pink-100"
+                        className="block w-18 text-[10px] lg:text-sm md:w-40  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#391031]  sm:text-sm sm:leading-6 bg-pink-100"
                       />
                     </div>
                   </div>

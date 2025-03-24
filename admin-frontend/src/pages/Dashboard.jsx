@@ -74,7 +74,7 @@ function Dashboard() {
               <TextCard text="Renewal Submissions" />
             </Link>
             <Link to="/system-settings">
-              <TextCard text="System Settings" />
+              <TextCard text="Admin Updates" />
             </Link>
           </>
         )}
