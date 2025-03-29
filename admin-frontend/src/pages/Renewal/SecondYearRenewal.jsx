@@ -22,12 +22,9 @@ function SecondYearRenewal() {
         ]);
 
         if (renewalsResponse.data.success && usersResponse.data.success) {
-          // Filter second year students from renewals
           const secondYearStudents = renewalsResponse.data.renewals.filter(
             (st) => st.current_year_of_study === 2
           );
-
-          // Filter students based on active tab
           let filteredStudents = [];
           switch (activeTab) {
             case "information-technology":
@@ -49,7 +46,6 @@ function SecondYearRenewal() {
               filteredStudents = secondYearStudents;
           }
 
-          // Create a map of registered students for efficient lookup
           const userMap = new Map(
             usersResponse.data.data.map((user) => [
               user.Enrollment_Number,
@@ -57,7 +53,6 @@ function SecondYearRenewal() {
             ])
           );
 
-          // Combine renewal data with user data
           const formattedStudents = filteredStudents.map((student) => {
             const userData = userMap.get(student.Enrollment_Number) || {};
             return {
@@ -68,7 +63,7 @@ function SecondYearRenewal() {
               department: student.department,
               year: `YEAR ${student.current_year_of_study}`,
               course: student.course,
-              paymentSlip: student.receipt?.path,
+              paymentSlip: student.receipt?.path || Pay_slip, // Ensure fallback works
               paymentDate: student.payment_date,
               receiptNumber: student.receipt_number,
             };
@@ -98,7 +93,6 @@ function SecondYearRenewal() {
   const handleApprove = () => {
     alert(`Student ${selectedStudent.name} approved successfully!`);
     setSelectedStudent(null);
-    // Add API call to update approval status here
   };
 
   return (
@@ -225,11 +219,28 @@ function SecondYearRenewal() {
                 <div className="bg-gray-50 p-3 rounded-md flex items-center">
                   <div className="bg-white border p-2 flex-grow">
                     <div className="h-24 w-full bg-gray-200 flex items-center justify-center">
-                      <img
-                        src={selectedStudent.paymentSlip || Pay_slip}
-                        alt="Payment Slip"
-                        className="h-full object-contain"
-                      />
+                      {selectedStudent.paymentSlip ? (
+                        <a
+                          href={selectedStudent.paymentSlip}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src={selectedStudent.paymentSlip}
+                            alt="Payment Slip"
+                            className="h-full object-contain"
+                            onError={(e) => {
+                              e.target.src = Pay_slip;
+                            }}
+                          />
+                        </a>
+                      ) : (
+                        <img
+                          src={Pay_slip}
+                          alt="Default Payment Slip"
+                          className="h-full object-contain"
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="ml-3 text-green-600 font-semibold">
