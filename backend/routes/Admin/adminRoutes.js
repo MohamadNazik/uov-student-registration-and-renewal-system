@@ -18,10 +18,7 @@ import { getRegistrationPostController } from "../../controllers/Admin/Registrat
 import { getRenewalPostController } from "../../controllers/Admin/Renewal/getRenewalPostController.js";
 import { getNotApprovedStudents } from "../../controllers/Admin/getNotApprovedStudents.js";
 import { approveRenewalController } from "../../controllers/Admin/Renewal/approveRenewal.js";
-<<<<<<< Updated upstream
 import { getAdminDetails } from "../../controllers/Admin/getAdminDetails.js";
-=======
->>>>>>> Stashed changes
 import { getRenewalsController } from "../../controllers/Admin/getRenewalsController.js";
 
 const router = express.Router();
@@ -44,7 +41,7 @@ router.post("/login", loginController);
 router.get("/get-not-approved-students", getNotApprovedStudents);
 
 //Registration and Renewal
-<<<<<<< Updated upstream
+
 router.post("/registration-post", createRegistrationPostController);
 router.put("/update-registration-post", updateRegistrationPostController);
 router.delete("/delete-registration-post", deleteRegistrationPostController);
@@ -57,16 +54,3 @@ router.post("/approve-renewal", approveRenewalController);
 router.get("/get-admin-details", getAdminDetails);
 router.get("/get-renewals", getRenewalsController);
 export default router;
-=======
-router.post('/registration-post',createRegistrationPostController);
-router.put('/update-registration-post', updateRegistrationPostController);
-router.delete('/delete-registration-post',deleteRegistrationPostController);
-router.post('/create-renewal-post',createRenewalPostController);
-router.put('/update-renewal-post',updateRenewalPostController);
-router.delete('/delete-renewal-post',deleteRenewalPostController);
-router.get('/get-registration-post',getRegistrationPostController);
-router.get('/get-renewal-post',getRenewalPostController);
-router.post('/approve-renewal',approveRenewalController);
-router.get('/get-renewals',getRenewalsController);
-export default router;
->>>>>>> Stashed changes
