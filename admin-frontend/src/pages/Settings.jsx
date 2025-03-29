@@ -31,8 +31,6 @@ function Settings() {
     const adminData = sessionStorage.getItem("adminData");
     if (adminData) {
       try {
-        const parsedData = JSON.parse(adminData);
-        setUserRole(parsedData.admin.role);
       } catch (error) {
         console.error("Error parsing adminData:", error);
       }
