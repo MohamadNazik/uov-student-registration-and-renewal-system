@@ -31,7 +31,7 @@ const Settings = () => {
         setTimeout(() => {
           // This should come from your authentication system
           // You could use context, redux, or a direct API call
-          setUserRole("FAR"); // Setting to "DR" as requested
+          setUserRole("FAR"); 
         }, 500);
       } catch (error) {
         console.error("Failed to fetch user role:", error);
