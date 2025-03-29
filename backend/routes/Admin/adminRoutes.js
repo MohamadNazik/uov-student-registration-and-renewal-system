@@ -19,6 +19,7 @@ import { getRenewalPostController } from "../../controllers/Admin/Renewal/getRen
 import { getNotApprovedStudents } from "../../controllers/Admin/getNotApprovedStudents.js";
 import { approveRenewalController } from "../../controllers/Admin/Renewal/approveRenewal.js";
 import { getAdminDetails } from "../../controllers/Admin/getAdminDetails.js";
+import { getRenewalsController } from "../../controllers/Admin/getRenewalsController.js";
 
 const router = express.Router();
 
@@ -50,4 +51,5 @@ router.get("/get-registration-post", getRegistrationPostController);
 router.get("/get-renewal-post", getRenewalPostController);
 router.post("/approve-renewal", approveRenewalController);
 router.get("/get-admin-details", getAdminDetails);
+router.get("/get-renewals", getRenewalsController);
 export default router;
