@@ -18,7 +18,9 @@ function FirstYears() {
         );
 
         if (response.data.success) {
-          setStudents(response.data.data);
+          setStudents(
+            response.data.data.filter((student) => student.year_of_study === 1)
+          );
           setFilteredStudents(response.data.data);
         } else {
           console.error("Failed to fetch students.");
@@ -31,9 +33,7 @@ function FirstYears() {
     fetchStudents();
   }, []);
 
-
   const courses = [...new Set(students.map((student) => student.course))];
-
 
   useEffect(() => {
     let result = students;
@@ -73,7 +73,6 @@ function FirstYears() {
               STUDENTS DIRECTORY
             </label>
 
-            {/* Search and Filter Section */}
             <div className="flex gap-4 mb-4">
               <div className="relative flex-grow">
                 <input
@@ -155,8 +154,8 @@ function FirstYears() {
                       </td>
                       <td className="px-6 py-4">{student.course}</td>
                       <td className="px-6 py-4">{student.year_of_study}</td>
-                      <td className="px-6 py-4">
-                        {student.registration_approval ? "Approved" : "Pending"}
+                      <td className="px-6 py-4 text-green-600">
+                        {student.registration_approval ? "APPROVED" : "Pending"}
                       </td>
                       <td className="px-6 py-4">
                         <Link
