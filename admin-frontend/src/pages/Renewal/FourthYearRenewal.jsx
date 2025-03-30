@@ -6,103 +6,151 @@ import Pay_slip from "../../assets/slip.jpeg";
 
 function FourthYearRenewal() {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("information-technology");
-    const [selectedStudent, setSelectedStudent] = useState(null);
-    const [students, setStudents] = useState([]);
-    const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("information-technology");
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    // Simulated data - replace with actual API calls
-    useEffect(() => {
+  useEffect(() => {
+    const fetchRenewals = async () => {
+      try {
         setLoading(true);
-        // Reset selected student when changing tabs
-        setSelectedStudent(null);
-        
-        // Simulate API fetch with different students based on the active tab
-        setTimeout(() => {
-            if (activeTab === "information-technology") {
-                setStudents([
-                    {
-                        id: "1",
-                        name: "JOHN DOE",
-                        regNo: "2020ICT01",
-                        department: "PHYSICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    },
-                    {
-                        id: "2",
-                        name: "ALICE SMITH",
-                        regNo: "2020ICT02",
-                        department: "PHYSICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    },
-                    {
-                        id: "3",
-                        name: "PETER HARIS",
-                        regNo: "2020ICT03",
-                        department: "PHYSICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    }
-                ]);
-            } else if (activeTab === "computer-science") {
-                setStudents([
-                    {
-                        id: "4",
-                        name: "MICHAEL JOHNSON",
-                        regNo: "2020ASP01",
-                        department: "PHYSICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    },
-                    {
-                        id: "5",
-                        name: "SARAH WILLIAMS",
-                        regNo: "2020ASP02",
-                        department: "PHYSICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    },
-                ]);
-            } else if (activeTab === "environmental-science") {
-                setStudents([
-                    {
-                        id: "7",
-                        name: "EMMA DAVIS",
-                        regNo: "2020ASB01",
-                        department: "BIOLOGICAL",
-                        year: "FOURTH YEAR"
-                    },
-                    {
-                        id: "8",
-                        name: "JAMES WILSON",
-                        regNo: "2020ASB02",
-                        department: "BIOLOGICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    },
-                    {
-                        id: "9",
-                        name: "OLIVIA TAYLOR",
-                        regNo: "2020ASB03",
-                        department: "BIOLOGICAL SCIENCE",
-                        year: "FOURTH YEAR"
-                    }
-                ]);
-            }
-            setLoading(false);
-        }, 500);
-    }, [activeTab]);
+        const [renewalsResponse, usersResponse] = await Promise.all([
+          axios.get("http://localhost:8080/api/admin/get-renewals"),
+          axios.get("http://localhost:8080/api/admin/get-registered-students"),
+        ]);
 
-    const handleTabChange = (tabName) => {
-        setActiveTab(tabName);
+        if (renewalsResponse.data.success && usersResponse.data.success) {
+          const secondYearStudents = renewalsResponse.data.renewals.filter(
+            (st) =>
+              st.current_year_of_study === 4 && st.renewal_approved === false
+          );
+          let filteredStudents = [];
+          switch (activeTab) {
+            case "information-technology":
+              filteredStudents = secondYearStudents.filter(
+                (st) => st.course === "IT"
+              );
+              break;
+            case "computer-science":
+              filteredStudents = secondYearStudents.filter(
+                (st) => st.course === "CS" || st.course === "AMC"
+              );
+              break;
+            case "environmental-science":
+              filteredStudents = secondYearStudents.filter(
+                (st) => st.course === "Bio"
+              );
+              break;
+            default:
+              filteredStudents = secondYearStudents;
+          }
+
+          const userMap = new Map(
+            usersResponse.data.data.map((user) => [
+              user.Enrollment_Number,
+              user,
+            ])
+          );
+
+          const formattedStudents = filteredStudents.map((student) => {
+            const userData = userMap.get(student.Enrollment_Number) || {};
+            return {
+              id: student._id,
+              name:
+                userData.Name_denoted_by_Initials || student.Enrollment_Number,
+              regNo: student.Enrollment_Number,
+              department: student.department,
+              year: `YEAR ${student.current_year_of_study}`,
+              course: student.course,
+              paymentSlip: student.receipt?.path || Pay_slip, // Ensure fallback works
+              paymentDate: student.payment_date,
+              receiptNumber: student.receipt_number,
+            };
+          });
+
+          setStudents(formattedStudents);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const handleStudentClick = (student) => {
-        setSelectedStudent(student);
-    };
+    fetchRenewals();
+  }, [activeTab]);
 
-    const handleApprove = () => {
-        // Handle approval logic
-        alert(`Student ${selectedStudent.name} approved successfully!`);
-        setSelectedStudent(null);
-        // Here you would also call your API to update the approval status
-    };
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    setSelectedStudent(null);
+  };
+
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student);
+  };
+
+  const handleApprove = () => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: true,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, approve it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          setLoading(true);
+
+          axios
+            .post("http://localhost:8080/api/admin/approve-renewal", {
+              Enrollment_Number: selectedStudent.regNo,
+            })
+            .then((response) => {
+              if (response.data.success) {
+                swalWithBootstrapButtons.fire({
+                  title: "Approved!",
+                  text: "The student has been approved.",
+                  icon: "success",
+                });
+              } else {
+                swalWithBootstrapButtons.fire({
+                  title: "Failed",
+                  text: response.data.message || "Approval failed.",
+                  icon: "error",
+                });
+              }
+            })
+            .catch((error) => {
+              swalWithBootstrapButtons.fire({
+                title: "Error",
+                text: "An error occurred while approving the student.",
+                icon: "error",
+              });
+              console.error("Error approving student:", error);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "The approval process has been cancelled.",
+            icon: "error",
+          });
+        }
+      });
+  };
 
     return (
         <div>
