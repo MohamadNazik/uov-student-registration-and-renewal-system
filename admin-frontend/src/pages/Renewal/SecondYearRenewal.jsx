@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import PrimaryButton from "../../components/PrimaryButton";
 import Pay_slip from "../../assets/slip.jpeg";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function SecondYearRenewal() {
   const navigate = useNavigate();
@@ -91,8 +92,65 @@ function SecondYearRenewal() {
   };
 
   const handleApprove = () => {
-    alert(`Student ${selectedStudent.name} approved successfully!`);
-    setSelectedStudent(null);
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: true,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, approve it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          setLoading(true);
+
+          axios
+            .post("http://localhost:8080/api/admin/approve-renewal", {
+              Enrollment_Number: selectedStudent.regNo,
+            })
+            .then((response) => {
+              if (response.data.success) {
+                swalWithBootstrapButtons.fire({
+                  title: "Approved!",
+                  text: "The student has been approved.",
+                  icon: "success",
+                });
+              } else {
+                swalWithBootstrapButtons.fire({
+                  title: "Failed",
+                  text: response.data.message || "Approval failed.",
+                  icon: "error",
+                });
+              }
+            })
+            .catch((error) => {
+              swalWithBootstrapButtons.fire({
+                title: "Error",
+                text: "An error occurred while approving the student.",
+                icon: "error",
+              });
+              console.error("Error approving student:", error);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "The approval process has been cancelled.",
+            icon: "error",
+          });
+        }
+      });
   };
 
   return (
