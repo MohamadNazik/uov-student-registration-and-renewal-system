@@ -47,7 +47,7 @@ function Dashboard() {
               <TextCard text="Registered Students" />
             </Link>
             <Link to="/system-settings">
-              <TextCard text="System Settings" />
+              <TextCard text="Admin Updates" />
             </Link>
           </>
         )}
@@ -55,14 +55,14 @@ function Dashboard() {
         {/* DR Role Options */}
         {adminRole === "dr" && (
           <>
-            <Link to="/new-registration">
+            <Link to="/new-registrations">
               <TextCard text="New Registration" />
             </Link>
             <Link to="/registered-students">
               <TextCard text="Registered Students" />
             </Link>
             <Link to="/system-settings">
-              <TextCard text="System Settings" />
+              <TextCard text="Admin Updates" />
             </Link>
           </>
         )}
@@ -74,7 +74,7 @@ function Dashboard() {
               <TextCard text="Renewal Submissions" />
             </Link>
             <Link to="/system-settings">
-              <TextCard text="System Settings" />
+              <TextCard text="Admin Updates" />
             </Link>
           </>
         )}

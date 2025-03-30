@@ -14,7 +14,7 @@ const adminUpdatesSchema = new mongoose.Schema(
     },
     updateMessage: {
       type: String,
-      required: true,
+      required: false,
     },
     expireDate: {
       type: Date,
@@ -29,7 +29,7 @@ const adminUpdatesSchema = new mongoose.Schema(
       required: false,
     },
     academicYear: {
-      type: [String],
+      type: String,
       required: true,
     },
   },

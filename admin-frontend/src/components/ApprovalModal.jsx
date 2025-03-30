@@ -4,6 +4,7 @@ import checkmark from "../assets/icons/checkmark.png";
 import axios from "axios";
 import Loading from "./../../../admin-frontend/src/components/Loading";
 import Swal from "sweetalert2";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
 
 Modal.setAppElement("#root");
 
@@ -108,11 +109,13 @@ const ApprovalModal = ({ show, onClose, student }) => {
       overlayClassName="fixed inset-0 bg-transparent bg-opacity-30 backdrop-blur-md"
     >
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-5xl w-full mt-4">
-        <h2 className="text-lg font-semibold mb-4 uppercase text-[#391031]">
+        <h2 className="text-lg font-bold mb-4 uppercase text-[#391031]">
           Student details
         </h2>
         {loading ? (
-          <Loading />
+          <>
+          <Loading /> <h1>Processing</h1>
+          </>
         ) : (
           student && (
             <>
@@ -153,12 +156,7 @@ const ApprovalModal = ({ show, onClose, student }) => {
                         <p className="font-bold uppercase">Programme : </p>
                         <p className="ml-2">{student.course}</p>
                       </div>
-                      <div className="flex flex-row">
-                        <p className="font-bold uppercase">
-                          Previous education :{" "}
-                        </p>
-                        <p className="ml-2">{student.Address.course}</p>
-                      </div>
+                      
                       <div className="flex flex-row">
                         <p className="font-bold uppercase">Department : </p>
                         <p className="ml-2">{student.course}</p>
@@ -180,7 +178,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        UGC letter
+                        <a
+                          href={student.Documents.UGC_Letter.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                          {" "}
+                          UGC letter
+                          <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -188,7 +194,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        National identity card
+                        <a
+                          href={student.Documents.NIC.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                          National identity card
+                          <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                        
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -196,7 +210,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        A-Level result sheet
+                         <a
+                          href={student.Documents.AL.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                           A-Level result sheet
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                       
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -204,7 +226,14 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        A4 form
+                       <a
+                          href={student.Documents.A4.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                           A4 FORM
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -212,7 +241,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        A6 form
+                        <a
+                          href={student.Documents.A6.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                            A6 form
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                       
                       </li>
                     </ul>
                   </div>
@@ -224,7 +261,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        Birth certificate
+                        <a
+                          href={student.Documents.BC.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                            Birth certificate
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                        
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -232,7 +277,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        O-Level result sheet
+                        <a
+                          href={student.Documents.OL.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                            O-Level result sheet
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                        
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -240,7 +293,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        A3 form
+                        <a
+                          href={student.Documents.A3.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                            A3 form
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                        
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -248,7 +309,15 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        A5 form
+                        <a
+                          href={student.Documents.A5.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                            A5 form
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                        
                       </li>
                       <li className="flex items-center uppercase">
                         <img
@@ -256,16 +325,21 @@ const ApprovalModal = ({ show, onClose, student }) => {
                           alt="Checkmark"
                           className="w-4 h-4 mr-2"
                         />
-                        Attestation
+                        <a
+                          href={student.Documents.Attestation.path}
+                          alt="ugc_letter"
+                          target="blank"
+                        >
+                            Attestation
+                           <InsertLinkIcon className=" mb-0.5 ml-2  "  />
+                        </a>
+                        
                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
-            </>
-          )
-        )}
-        <div className="flex justify-end space-x-3 mt-4">
+              <div className="flex justify-end space-x-3 mt-4">
           <button
             className="bg-red-400 text-white px-4 py-2 rounded-md hover:bg-red-500"
             onClick={onClose}
@@ -279,6 +353,10 @@ const ApprovalModal = ({ show, onClose, student }) => {
             Approve
           </button>
         </div>
+            </>
+          )
+        )}
+        
       </div>
     </Modal>
   );
