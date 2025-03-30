@@ -52,9 +52,9 @@ function AddStaffModal({ onClose, onSave, roleType, existingStaff = null }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-gray-200 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
-        <div className="bg-purple-900 text-white py-4 px-6 rounded-t-lg">
+        <div className="bg-[#391031] text-white py-4 px-6 rounded-t-lg">
           <h2 className="text-xl font-bold text-center">{getModalTitle()}</h2>
         </div>
         
@@ -64,7 +64,7 @@ function AddStaffModal({ onClose, onSave, roleType, existingStaff = null }) {
               type="text"
               name="name"
               placeholder="Full Name"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 "
               value={staffData.name}
               onChange={handleChange}
               required
@@ -76,7 +76,7 @@ function AddStaffModal({ onClose, onSave, roleType, existingStaff = null }) {
               type="email"
               name="email"
               placeholder="Email Address"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2"
               value={staffData.email}
               onChange={handleChange}
               required
@@ -91,7 +91,7 @@ function AddStaffModal({ onClose, onSave, roleType, existingStaff = null }) {
               type={passwordVisible ? "text" : "password"}
               name="password"
               placeholder={existingStaff ? "New Password" : "Password"}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2"
               value={staffData.password}
               onChange={handleChange}
               required={!existingStaff}
@@ -117,7 +117,7 @@ function AddStaffModal({ onClose, onSave, roleType, existingStaff = null }) {
               type={confirmPasswordVisible ? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirm Password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 "
               value={staffData.confirmPassword}
               onChange={handleChange}
               required={!existingStaff || staffData.password !== ""}

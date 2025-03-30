@@ -76,7 +76,7 @@ function Dashboard() {
         {/* FAR Role Options */}
         {adminRole === "far" && (
           <>
-            <Link to="/renewal-submission">
+            <Link to="/renewal-dashboard">
               <TextCard text="Renewal Submissions" />
             </Link>
             <Link to="/staff-management">

@@ -9,6 +9,7 @@ function StaffManagement() {
   const navigate = useNavigate();
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [staffToEdit, setStaffToEdit] = useState(null);
   
   // Get admin role from session storage
   const [adminRole, setAdminRole] = useState(() => {
@@ -29,8 +30,6 @@ function StaffManagement() {
 
   // Initialize staff list based on admin role
   const [staffList, setStaffList] = useState(() => {
-    // This would typically come from an API call based on admin role
-    // For now, we'll simulate different data for different roles
     if (adminRole === 'sar') {
       return [
         {
@@ -101,21 +100,31 @@ function StaffManagement() {
   }, [adminRole, navigate]);
 
   const handleAddStaff = (newStaff) => {
-    // Generate a new ID based on the admin role
-    const rolePrefix = adminRole.toUpperCase();
-    const roleStaffCount = staffList.length;
-    const newId = `${rolePrefix}-${String(roleStaffCount + 1).padStart(3, '0')}`;
-    const today = new Date().toISOString().split('T')[0];
-    
-    setStaffList([
-      ...staffList,
-      {
-        ...newStaff,
-        id: newId,
-        lastUpdated: today,
-        role: adminRole
-      }
-    ]);
+    if (staffToEdit) {
+      // If editing existing staff
+      handleUpdateStaff({
+        ...staffToEdit,
+        ...newStaff
+      });
+      setStaffToEdit(null);
+    } else {
+      // Adding new staff
+      // Generate a new ID based on the admin role
+      const rolePrefix = adminRole.toUpperCase();
+      const roleStaffCount = staffList.length;
+      const newId = `${rolePrefix}-${String(roleStaffCount + 1).padStart(3, '0')}`;
+      const today = new Date().toISOString().split('T')[0];
+      
+      setStaffList([
+        ...staffList,
+        {
+          ...newStaff,
+          id: newId,
+          lastUpdated: today,
+          role: adminRole
+        }
+      ]);
+    }
     setShowAddModal(false);
   };
 
@@ -138,6 +147,11 @@ function StaffManagement() {
         staff.id === updatedStaff.id ? staffWithCorrectRole : staff
       )
     );
+  };
+
+  const handleEditStaff = (staff) => {
+    setStaffToEdit(staff);
+    setShowAddModal(true);
   };
 
   const logoutAdmin = () => {
@@ -176,6 +190,11 @@ function StaffManagement() {
     );
   });
 
+  const handleCloseModal = () => {
+    setShowAddModal(false);
+    setStaffToEdit(null);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Header title="STAFF MANAGEMENT" logOutFunc={logoutAdmin} />
@@ -187,7 +206,10 @@ function StaffManagement() {
           </Link>
           <PrimaryButton 
             text="+ ADD STAFF MEMBER" 
-            onClick={() => setShowAddModal(true)} 
+            onClick={() => {
+              setStaffToEdit(null); // Reset staffToEdit when adding new staff
+              setShowAddModal(true);
+            }} 
           />
         </div>
         
@@ -215,20 +237,50 @@ function StaffManagement() {
             </svg>
           </div>
           
-          <StaffTable 
-            staffList={filteredStaff} 
-            onUpdateStaff={handleUpdateStaff}
-            roleOptions={roleOptions}
-            adminRole={adminRole}
-          />
+          <table className="min-w-full bg-white">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="py-3 px-4 text-left">STAFF NAME</th>
+                <th className="py-3 px-4 text-left">EMAIL</th>
+                <th className="py-3 px-4 text-left">LAST UPDATES</th>
+                <th className="py-3 px-4 text-center">ACTION</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {filteredStaff.map((staff) => (
+                <tr key={staff.id} className="hover:bg-gray-50">
+                  <td className="py-3 px-4">
+                    {staff.name}
+                    <br />
+                    <span className="text-sm text-gray-500">ID: {staff.id}</span>
+                  </td>
+                  <td className="py-3 px-4">{staff.email}</td>
+                  <td className="py-3 px-4">{staff.lastUpdated}</td>
+                  <td className="py-3 px-4 flex justify-center space-x-2">
+                    <button 
+                      className="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-full transition-colors"
+                      onClick={() => handleEditStaff(staff)}
+                      title="Edit Staff"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
       
+      {/* Modal for both adding and updating staff */}
       {showAddModal && (
         <AddStaffModal 
-          onClose={() => setShowAddModal(false)}
+          onClose={handleCloseModal}
           onSave={handleAddStaff}
           roleType={adminRole}
+          existingStaff={staffToEdit}
         />
       )}
     </div>
