@@ -13,13 +13,15 @@ function ThirdYears() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get
-          //("http://localhost:8080/api/admin/get-not-approved-students");
-         
+        const response = await axios.get(
+          "http://localhost:8080/api/admin/get-registered-students"
+        );
 
         if (response.data.success) {
-          setStudents(response.data.students);
-          setFilteredStudents(response.data.students);
+          setStudents(
+            response.data.data.filter((student) => student.year_of_study === 3)
+          );
+          setFilteredStudents(response.data.data);
         } else {
           console.error("Failed to fetch students.");
         }
@@ -31,19 +33,21 @@ function ThirdYears() {
     fetchStudents();
   }, []);
 
-  // Get unique courses from students
   const courses = [...new Set(students.map((student) => student.course))];
 
-  // Filter students based on search term and selected course
   useEffect(() => {
     let result = students;
 
     if (searchTerm) {
       result = result.filter(
         (student) =>
-          student.Name_with_Initials.toLowerCase().includes(
+          student.Name_with_Initials?.toLowerCase().includes(
             searchTerm.toLowerCase()
-          ) || student.id.toLowerCase().includes(searchTerm.toLowerCase())
+          ) ||
+          student.Enrollment_Number?.toLowerCase().includes(
+            searchTerm.toLowerCase()
+          ) ||
+          student.Email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -56,7 +60,7 @@ function ThirdYears() {
 
   return (
     <div>
-      <Header title="Third Year Students" />
+      <Header title="First Year Students" />
 
       <div className="flex flex-col items-left gap-5 sm:gap-8 mt-8 sm:mt-12 m-10">
         <Link to="/registered-students">
@@ -69,12 +73,11 @@ function ThirdYears() {
               STUDENTS DIRECTORY
             </label>
 
-            {/* Search and Filter Section */}
             <div className="flex gap-4 mb-4">
               <div className="relative flex-grow">
                 <input
                   type="text"
-                  placeholder="Search by Name, Id or email"
+                  placeholder="Search by Name, Enrollment No. or Email"
                   className="w-full p-2 rounded-lg text-sm bg-[#ECE6F0]"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -117,22 +120,22 @@ function ThirdYears() {
               <thead className="text-xs text-black uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    id
+                    Enrollment No.
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    name
+                    Name
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    course
+                    Course
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    year
+                    Year
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    status
+                    Status
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    action
+                    Action
                   </th>
                 </tr>
               </thead>
@@ -144,21 +147,23 @@ function ThirdYears() {
                       className="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700"
                     >
                       <td className="px-6 py-4 font-medium text-black dark:text-white">
-                        {student.id}
+                        {student.Enrollment_Number}
                       </td>
                       <td className="px-6 py-4 font-medium text-black dark:text-white">
                         {student.Name_with_Initials}
                       </td>
                       <td className="px-6 py-4">{student.course}</td>
-                      <td className="px-6 py-4">{student.year}</td>
-                      <td className="px-6 py-4">{student.status}</td>
+                      <td className="px-6 py-4">{student.year_of_study}</td>
+                      <td className="px-6 py-4 text-green-600">
+                        {student.registration_approval ? "APPROVED" : "Pending"}
+                      </td>
                       <td className="px-6 py-4">
-                        <a
-                          href="#"
+                        <Link
+                          to={`/student/${student._id}`} // Assuming you have a route for individual student details
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >
                           View Details
-                        </a>
+                        </Link>
                       </td>
                     </tr>
                   ))
