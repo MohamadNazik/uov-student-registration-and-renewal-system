@@ -46,6 +46,9 @@ function Dashboard() {
             <Link to="/registered-students">
               <TextCard text="Registered Students" />
             </Link>
+            <Link to="/staff-management">
+              <TextCard text="Staff Managemnt" />
+            </Link>
             <Link to="/system-settings">
               <TextCard text="Admin Updates" />
             </Link>
@@ -61,6 +64,9 @@ function Dashboard() {
             <Link to="/registered-students">
               <TextCard text="Registered Students" />
             </Link>
+            <Link to="/staff-management">
+              <TextCard text="Staff Managemnt" />
+            </Link>
             <Link to="/system-settings">
               <TextCard text="Admin Updates" />
             </Link>
@@ -72,6 +78,9 @@ function Dashboard() {
           <>
             <Link to="/renewal-dashboard">
               <TextCard text="Renewal Submissions" />
+            </Link>
+            <Link to="/staff-management">
+              <TextCard text="Staff Managemnt" />
             </Link>
             <Link to="/system-settings">
               <TextCard text="Admin Updates" />
