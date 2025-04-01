@@ -66,9 +66,15 @@ function ThirdYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
+  };
+
   return (
     <div>
-      <Header title="Third Year Students" />
+      <Header title="Third Year Students" logOutFunc={logoutAdmin}/>
       {loading ? (
         <LoadingScreen />
       ) : (

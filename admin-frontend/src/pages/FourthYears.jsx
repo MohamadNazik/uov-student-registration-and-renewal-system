@@ -66,9 +66,15 @@ function FourthYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
+  };
+
   return (
     <div>
-      <Header title="Fourth Year Students" />
+      <Header title="Fourth Year Students" logOutFunc={logoutAdmin} />
       {loading ? (
         <LoadingScreen />
       ) : (
