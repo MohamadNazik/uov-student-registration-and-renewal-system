@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import SecondaryButton from "./../../../student-frontend/src/components/SecondaryButton";
 import Swal from "sweetalert2";
-import Loading from "./../../../admin-frontend/src/components/Loading"; 
+import Loading from "./../../../admin-frontend/src/components/Loading";
 
 function Settings() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Settings() {
   const [renewalDeadline, setRenewalDeadline] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [post, setPost] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
   const storedToken = sessionStorage.getItem("adminToken");
   const parsedToken = storedToken ? JSON.parse(storedToken).token : null;
 
@@ -38,12 +38,12 @@ function Settings() {
       console.log("No admin role found, redirecting to login...");
       navigate("/");
     }
-    setIsLoading(false); 
+    setIsLoading(false);
   }, [navigate]);
 
   useEffect(() => {
     const fetchAdmin = async () => {
-      setIsLoading(true); 
+      setIsLoading(true);
       await axios
         .get("http://localhost:8080/api/admin/get-admin-details", {
           headers: {
@@ -56,14 +56,14 @@ function Settings() {
           }
         })
         .catch((error) => console.error("Error fetching admin ID:", error))
-        .finally(() => setIsLoading(false)); 
+        .finally(() => setIsLoading(false));
     };
     fetchAdmin();
   }, []);
 
   useEffect(() => {
     const fetchPost = async () => {
-      setIsLoading(true); 
+      setIsLoading(true);
       const adminData = sessionStorage.getItem("adminData");
       if (adminData) {
         try {
@@ -120,7 +120,7 @@ function Settings() {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setIsLoading(true); 
+        setIsLoading(true);
         try {
           const response = await axios.delete(
             "http://localhost:8080/api/admin/delete-registration-post",
@@ -143,7 +143,7 @@ function Settings() {
           Swal.fire("Error!", "Something went wrong.", "error");
           console.error(error);
         } finally {
-          setIsLoading(false); 
+          setIsLoading(false);
         }
       }
     });
@@ -155,7 +155,7 @@ function Settings() {
       return;
     }
     setIsSaving(true);
-    setIsLoading(true); 
+    setIsLoading(true);
 
     if (userRole === "sar" || userRole === "dr") {
       const payload = {
@@ -177,7 +177,7 @@ function Settings() {
           console.error(error);
           setIsSaving(false);
         })
-        .finally(() => setIsLoading(false)); 
+        .finally(() => setIsLoading(false));
     } else {
       const payload = {
         adminId,
@@ -195,7 +195,7 @@ function Settings() {
           console.error(error);
           setIsSaving(false);
         })
-        .finally(() => setIsLoading(false)); 
+        .finally(() => setIsLoading(false));
     }
   };
 
@@ -211,7 +211,6 @@ function Settings() {
         return "Loading...";
     }
   };
-
 
   if (isLoading) {
     return <Loading />;

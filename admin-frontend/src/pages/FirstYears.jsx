@@ -4,6 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
+import StudentDetailsModal from "../components/StudentDetailModal"; // Import modal component
 
 function FirstYears() {
   const [students, setStudents] = useState([]);
@@ -11,6 +12,7 @@ function FirstYears() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null); // State for modal
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -32,7 +34,7 @@ function FirstYears() {
       } catch (error) {
         console.error("Error fetching students:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetch completes
+        setLoading(false);
       }
     };
 
@@ -66,6 +68,14 @@ function FirstYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
+
+  const handleViewDetails = (student) => {
+    setSelectedStudent(student);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedStudent(null);
+
   const logoutAdmin = () => {
     sessionStorage.removeItem("adminData");
     sessionStorage.removeItem("adminToken");
@@ -97,22 +107,6 @@ function FirstYears() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <button className="absolute right-2 top-1/2 transform -translate-y-1/2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </button>
                 </div>
 
                 <select
@@ -131,40 +125,25 @@ function FirstYears() {
             </div>
 
             <div className="relative overflow-x-auto mt-5">
-              <table className="w-full text-sm text-left text-black dark:text-gray-400">
-                <thead className="text-xs text-black uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+              <table className="w-full text-sm text-left text-black">
+                <thead className="text-xs text-black uppercase bg-gray-200">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Enrollment No.
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Name
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Course
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Year
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Status
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Action
-                    </th>
+                    <th className="px-6 py-3">Enrollment No.</th>
+                    <th className="px-6 py-3">Name</th>
+                    <th className="px-6 py-3">Course</th>
+                    <th className="px-6 py-3">Year</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredStudents.length > 0 ? (
                     filteredStudents.map((student) => (
-                      <tr
-                        key={student._id}
-                        className="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700"
-                      >
-                        <td className="px-6 py-4 font-medium text-black dark:text-white">
+                      <tr key={student._id} className="bg-white border-b">
+                        <td className="px-6 py-4">
                           {student.Enrollment_Number}
                         </td>
-                        <td className="px-6 py-4 font-medium text-black dark:text-white">
+                        <td className="px-6 py-4">
                           {student.Name_with_Initials}
                         </td>
                         <td className="px-6 py-4">{student.course}</td>
@@ -175,21 +154,18 @@ function FirstYears() {
                             : "PENDING"}
                         </td>
                         <td className="px-6 py-4">
-                          <Link
-                            to={`/student/${student._id}`}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          <button
+                            onClick={() => handleViewDetails(student)}
+                            className="text-blue-600 hover:underline"
                           >
                             View Details
-                          </Link>
+                          </button>
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td
-                        colSpan="6"
-                        className="text-center py-4 border-b border-gray-300"
-                      >
+                      <td colSpan="6" className="text-center py-4">
                         No registrations found.
                       </td>
                     </tr>
@@ -199,6 +175,12 @@ function FirstYears() {
             </div>
           </div>
         </div>
+      )}
+      {selectedStudent && (
+        <StudentDetailsModal
+          student={selectedStudent}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );
