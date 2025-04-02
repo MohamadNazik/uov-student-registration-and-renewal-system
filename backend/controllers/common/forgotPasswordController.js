@@ -106,7 +106,7 @@ export const verifyOTPController = async (req, res) => {
 
     return res
       .status(200)
-      .send({ message: "OTP verified successfully", email });
+      .send({ message: "OTP verified successfully", email, success: true });
   } catch (error) {
     res.status(500).send({
       success: false,

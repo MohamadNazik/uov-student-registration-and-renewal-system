@@ -16,11 +16,16 @@ function ForgotPassword() {
 
   useEffect(() => {
     const availableToken = sessionStorage.getItem("token");
+    const emailAdd = sessionStorage.getItem("Email");
     sessionStorage.removeItem("formData");
     if (availableToken) {
       navigate("/user-dashboard");
     } else {
       sessionStorage.removeItem("Enrollment_Number");
+    }
+
+    if (emailAdd) {
+      navigate("/verify-otp");
     }
     const removeLocalStorage = () => {
       localStorage.removeItem("regDetails");
@@ -41,6 +46,7 @@ function ForgotPassword() {
       if (response.data.status === "PENDING") {
         setIsLoading(false);
         navigate("/verify-otp");
+        sessionStorage.setItem("Email", email);
         toast.success(`OTP is sent to ${email}`, {
           position: "top-right",
           autoClose: 3000,

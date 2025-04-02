@@ -56,6 +56,7 @@ function Home() {
     };
     const removeSessionStorage = () => {
       sessionStorage.removeItem("formData");
+      sessionStorage.removeItem("Email");
     };
     removeSessionStorage();
     removeLocalStorage();
