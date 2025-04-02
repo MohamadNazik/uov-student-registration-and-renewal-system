@@ -6,6 +6,8 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 import SecondaryButton from "../../components/SecondaryButton";
 import { toast, Bounce } from "react-toastify";
+import { IoEye } from "react-icons/io5";
+import { IoMdEyeOff } from "react-icons/io";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,6 +15,7 @@ function Login() {
   const [regNo, setRegNo] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isPassVisible, setIsPassVisible] = useState(false);
 
   const navigate = useNavigate();
 
@@ -108,7 +111,7 @@ function Login() {
         </div>
         <div className="relative">
           <input
-            type="password"
+            type={isPassVisible ? "text" : "password"}
             id="password"
             value={password}
             className="block px-2 pb-2 sm:px-2.5 sm:pb-2.5 pt-4 w-[14rem] sm:w-[20rem] text-xs sm:text-lg font-medium text-gray-900 bg-transparent outline outline-2 outline-gray-300 rounded-md peer focus:outline focus:outline-2 focus:outline-black"
@@ -121,6 +124,19 @@ function Login() {
           >
             Password
           </label>
+          <div className="absolute right-5 top-4 cursor-pointer">
+            {isPassVisible ? (
+              <IoEye
+                size="25px"
+                onClick={() => setIsPassVisible((prev) => !prev)}
+              />
+            ) : (
+              <IoMdEyeOff
+                size="25px"
+                onClick={() => setIsPassVisible((prev) => !prev)}
+              />
+            )}
+          </div>
         </div>
 
         <Link to="/forgot-password">
