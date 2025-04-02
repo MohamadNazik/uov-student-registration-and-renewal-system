@@ -153,10 +153,15 @@ function SecondYearRenewal() {
         }
       });
   };
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
+  };
 
   return (
     <div>
-      <Header title="RENEWAL SUBMISSIONS" />
+      <Header title="RENEWAL SUBMISSIONS" logOutFunc={logoutAdmin}/>
 
       <div className="p-4">
         <div className="flex justify-between items-center mb-6">

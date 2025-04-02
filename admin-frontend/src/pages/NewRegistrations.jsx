@@ -35,9 +35,10 @@ function NewRegistrations() {
     setOpenModal(true);
   };
 
+  
   return (
     <div>
-      <Header title="New Registrations" />
+      <Header title="New Registrations"  />
 
       <div className="flex flex-col items-left gap-5 sm:gap-8 mt-8 sm:mt-12 m-10">
         <Link to="/dashboard">

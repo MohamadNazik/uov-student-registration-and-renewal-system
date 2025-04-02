@@ -66,9 +66,15 @@ function SecondYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
+  };
+
   return (
     <div>
-      <Header title="Second Year Students" />
+      <Header title="Second Year Students" logOutFunc={logoutAdmin} />
       {loading ? (
         <LoadingScreen />
       ) : (
