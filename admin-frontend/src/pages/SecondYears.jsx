@@ -4,6 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
+import StudentDetailsModal from "./../components/StudentDetailModal";
 
 function SecondYears() {
   const [students, setStudents] = useState([]);
@@ -11,6 +12,7 @@ function SecondYears() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -21,11 +23,11 @@ function SecondYears() {
         );
 
         if (response.data.success) {
-          const firstYearStudents = response.data.data.filter(
+          const secondYearStudents = response.data.data.filter(
             (student) => student.year_of_study === 2
           );
-          setStudents(firstYearStudents);
-          setFilteredStudents(firstYearStudents);
+          setStudents(secondYearStudents);
+          setFilteredStudents(secondYearStudents);
         } else {
           console.error("Failed to fetch students.");
         }
@@ -66,6 +68,14 @@ function SecondYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedStudent(null);
+  };
+
   const logoutAdmin = () => {
     sessionStorage.removeItem("adminData");
     sessionStorage.removeItem("adminToken");
@@ -74,7 +84,7 @@ function SecondYears() {
 
   return (
     <div>
-      <Header title="Second Year Students" logOutFunc={logoutAdmin} />
+      <Header title="Second Year Students" />
       {loading ? (
         <LoadingScreen />
       ) : (
@@ -89,31 +99,13 @@ function SecondYears() {
               </label>
 
               <div className="flex gap-4 mb-4">
-                <div className="relative flex-grow">
-                  <input
-                    type="text"
-                    placeholder="Search by Name, Enrollment No. or Email"
-                    className="w-full p-2 rounded-lg text-sm bg-[#ECE6F0]"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <button className="absolute right-2 top-1/2 transform -translate-y-1/2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                <input
+                  type="text"
+                  placeholder="Search by Name, Enrollment No. or Email"
+                  className="w-full p-2 rounded-lg text-sm bg-[#ECE6F0]"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
 
                 <select
                   className="p-2 rounded-lg text-sm bg-[#ECE6F0]"
@@ -131,27 +123,15 @@ function SecondYears() {
             </div>
 
             <div className="relative overflow-x-auto mt-5">
-              <table className="w-full text-sm text-left text-black dark:text-gray-400">
-                <thead className="text-xs text-black uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+              <table className="w-full text-sm text-left text-black">
+                <thead className="text-xs text-black uppercase bg-gray-200">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Enrollment No.
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Name
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Course
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Year
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Status
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Action
-                    </th>
+                    <th className="px-6 py-3">Enrollment No.</th>
+                    <th className="px-6 py-3">Name</th>
+                    <th className="px-6 py-3">Course</th>
+                    <th className="px-6 py-3">Year</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -159,12 +139,12 @@ function SecondYears() {
                     filteredStudents.map((student) => (
                       <tr
                         key={student._id}
-                        className="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700"
+                        className="bg-white border-b border-gray-300"
                       >
-                        <td className="px-6 py-4 font-medium text-black dark:text-white">
+                        <td className="px-6 py-4 font-medium text-black">
                           {student.Enrollment_Number}
                         </td>
-                        <td className="px-6 py-4 font-medium text-black dark:text-white">
+                        <td className="px-6 py-4 font-medium text-black">
                           {student.Name_with_Initials}
                         </td>
                         <td className="px-6 py-4">{student.course}</td>
@@ -175,12 +155,12 @@ function SecondYears() {
                             : "PENDING"}
                         </td>
                         <td className="px-6 py-4">
-                          <Link
-                            to={`/student/${student._id}`}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          <button
+                            onClick={() => handleStudentClick(student)}
+                            className="font-medium text-blue-600 hover:underline"
                           >
                             View Details
-                          </Link>
+                          </button>
                         </td>
                       </tr>
                     ))
@@ -199,6 +179,13 @@ function SecondYears() {
             </div>
           </div>
         </div>
+      )}
+      {selectedStudent && (
+        <StudentDetailsModal
+          student={selectedStudent}
+          show={!!selectedStudent} // Ensures show is true when a student is selected
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );
