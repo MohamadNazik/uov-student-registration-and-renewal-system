@@ -4,7 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
-import StudentDetailsModal from "../components/StudentDetailModal"; // Import modal component
+import StudentDetailsModal from "./../components/StudentDetailModal";
 
 function FirstYears() {
   const [students, setStudents] = useState([]);
@@ -12,7 +12,7 @@ function FirstYears() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState(null); // State for modal
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -68,14 +68,13 @@ function FirstYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
-
   const handleViewDetails = (student) => {
     setSelectedStudent(student);
   };
 
   const handleCloseModal = () => {
     setSelectedStudent(null);
-
+  };
   const logoutAdmin = () => {
     sessionStorage.removeItem("adminData");
     sessionStorage.removeItem("adminToken");
@@ -84,7 +83,7 @@ function FirstYears() {
 
   return (
     <div>
-      <Header title="First Year Students" logOutFunc={logoutAdmin} />
+      <Header title="First Year Students" />
       {loading ? (
         <LoadingScreen />
       ) : (
@@ -179,6 +178,7 @@ function FirstYears() {
       {selectedStudent && (
         <StudentDetailsModal
           student={selectedStudent}
+          show={!!selectedStudent} // Ensures show is true when a student is selected
           onClose={handleCloseModal}
         />
       )}
