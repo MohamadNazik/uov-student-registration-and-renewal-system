@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ToastContainer, Bounce } from "react-toastify";
 
 import Home from "./pages/Common/Home";
 import Login from "./pages/AlreadyStudent/Login";
@@ -23,6 +24,8 @@ import RegSuccess from "./pages/RegistrationProcess/RegSuccess";
 import AlreadyRegSubmitted from "./pages/RegistrationProcess/AlreadyRegSubmitted";
 import { FormProvider } from "./utils/FormContext";
 import RegNotOpen from "./pages/RegistrationProcess/RegNotOpen";
+import RenNotOpen from "./pages/AlreadyStudent/RenNotOpen";
+import { RenewalProvider } from "./utils/RenewalContext";
 
 const router = createBrowserRouter(
   [
@@ -31,12 +34,19 @@ const router = createBrowserRouter(
     { path: "/user-dashboard", element: <UserDashboard /> },
     { path: "/student-id", element: <StudentID /> },
     { path: "/record-book", element: <RecordBook /> },
-    { path: "/renewal", element: <Renewal /> },
+    {
+      path: "/renewal",
+      element: (
+        <RenewalProvider>
+          <Renewal />
+        </RenewalProvider>
+      ),
+    },
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/verify-otp", element: <VerifyOTP /> },
-    { path: "/re-success", element: <RenewalSuccess /> },
-    { path: "/re-submitted", element: <AlreadyRenewalSubmitted /> },
+    // { path: "/re-success", element: <RenewalSuccess /> },
+    // { path: "/re-submitted", element: <AlreadyRenewalSubmitted /> },
     { path: "/check-selection", element: <CheckSelection /> },
     { path: "/confirm-selection", element: <ConfirmSelection /> },
     { path: "/instructions", element: <Instructions /> },
@@ -83,6 +93,7 @@ const router = createBrowserRouter(
     { path: "/reg-success", element: <RegSuccess /> },
     { path: "/already-reg-submitted", element: <AlreadyRegSubmitted /> },
     { path: "/reg-not-open", element: <RegNotOpen /> },
+    { path: "/renewal-not-open", element: <RenNotOpen /> },
     { path: "/*", element: <Home /> },
   ],
   {
@@ -96,6 +107,18 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </>
   );
 }

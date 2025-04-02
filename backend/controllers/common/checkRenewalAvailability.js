@@ -14,15 +14,10 @@ export const checkRenewalAvailabilityController = async (req, res) => {
         message: "No Renewal found",
       });
     } else {
-      const signature = await adminModel.findOne({
-        email: "far@example.com",
-      });
-
       return res.status(200).send({
         success: true,
         message: "Registration available",
         data: posts,
-        signatureData: signature ? signature.eSignature : null,
       });
     }
   } catch (error) {

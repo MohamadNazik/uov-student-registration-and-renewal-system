@@ -5,31 +5,40 @@ import PrimaryButton from "../../components/PrimaryButton";
 import download_icon from "../../assets/icons/download_icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loading from "../../components/Loading";
+import { logout } from "../../utils/SwatAleart";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function StudentID() {
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const availableToken = sessionStorage.getItem("token");
 
   useEffect(() => {
     const getStudentDetails = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:8080/api/users/get-student-details",
+          `${backendUrl}/users/get-student-details`,
           {
             headers: { Authorization: `Bearer ${availableToken}` },
           }
         );
 
         if (response.data.success) {
+          setIsLoading(false);
           setStudent(response.data.student);
         }
       } catch (error) {
-        console.error("Error fetching student details:", error);
+        // console.error("Error fetching student details:", error);
+        setIsLoading(false);
 
         if (error.response?.status === 401) {
           sessionStorage.removeItem("token");
           navigate("/login");
+          setIsLoading(false);
         }
       }
     };
@@ -41,14 +50,15 @@ function StudentID() {
     }
   }, [availableToken, navigate]);
 
-  const logOutFunc = () => {
+  const confirmFunc = () => {
     sessionStorage.removeItem("token");
     navigate("/login");
   };
 
   return (
     <>
-      <Header title="Student ID" logOutFunc={logOutFunc} />
+      <Header title="Student ID" logOutFunc={() => logout(confirmFunc)} />
+      {isLoading && <Loading />}
       <div className="flex justify-between px-4 sm:px-[100px] mt-5 xl:mt-10">
         <Link to="/user-dashboard">
           <PrimaryButton text="Go Back To Dashboard" />
