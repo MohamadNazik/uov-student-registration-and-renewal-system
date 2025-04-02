@@ -89,9 +89,9 @@ function Dashboard() {
         )}
 
         {/* Common option for all roles */}
-        <Link to="/change-password">
+        {/* <Link to="/change-password">
           <PrimaryButton text="Change Password" />
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

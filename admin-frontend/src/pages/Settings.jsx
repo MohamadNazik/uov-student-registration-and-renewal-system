@@ -27,6 +27,10 @@ function Settings() {
   const storedToken = sessionStorage.getItem("adminToken");
   const parsedToken = storedToken ? JSON.parse(storedToken).token : null;
 
+  const [excelFile, setExcelFile] = useState(null);
+
+  const [importSuccess, setImportSuccess] = useState(false);
+
   useEffect(() => {
     const adminData = sessionStorage.getItem("adminData");
     if (adminData) {
@@ -107,7 +111,7 @@ function Settings() {
     };
 
     fetchPost();
-  }, []);
+  }, [importSuccess]);
 
   const handleDelete = async () => {
     Swal.fire({
@@ -214,7 +218,6 @@ function Settings() {
 
   if (isLoading) {
     return <Loading />;
-
   }
 
   const logoutAdmin = () => {
@@ -223,10 +226,32 @@ function Settings() {
     navigate("/");
   };
 
+  const handleImport = async () => {
+    try {
+      const data = new FormData();
+      data.append("file", excelFile);
+      const response = await axios.post(
+        "http://localhost:8080/api/admin/upload-student-details",
+        data
+      );
+
+      // console.log(response.data);
+
+      if (response.data.success) {
+        alert("Student list is imported scuccessfully!");
+        setExcelFile(null);
+        setImportSuccess((prev) => !prev);
+      }
+    } catch (error) {
+      // console.log(error);
+      alert("An error occured during the import. Try again later!");
+    }
+  };
+
   return (
     <div>
       {/* Header */}
-      <Header title="Admin Updates" logOutFunc={logoutAdmin}/>
+      <Header title="Admin Updates" logOutFunc={logoutAdmin} />
 
       <div className="flex justify-between px-4 sm:px-[100px] mt-5 xl:mt-10 mb-10">
         <Link to="/dashboard">
@@ -270,6 +295,29 @@ function Settings() {
                 <h2 className="text-sm md:text-xl font-bold text-[#391031]">
                   {renderRoleTitle()}
                 </h2>
+
+                <div className="flex justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs sm:text-sm xl:text-lg ml-4">
+                    <p className="font-medium">Upload the UGC list:-</p>
+                    <input
+                      type="file"
+                      name="ugc_list"
+                      accept=".xls, .xlsx"
+                      onChange={(e) => setExcelFile(e.target.files[0])}
+                      required
+                      className="border border-black p-1 rounded-md"
+                    />
+                  </div>
+                  <div>
+                    <SecondaryButton
+                      text="Import"
+                      color="bg-green-700"
+                      onClick={handleImport}
+                    />
+                  </div>
+                </div>
+
+                <hr />
 
                 <div className="space-y-4">
                   <div className="flex items-center">
