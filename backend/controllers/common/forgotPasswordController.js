@@ -96,9 +96,10 @@ export const verifyOTPController = async (req, res) => {
     let user = await userModel.findOne({ "Address.Email": email });
     let admin = await adminModel.findOne({ email });
     if (user) {
+      const default_password = user.default_password;
       await userModel.updateOne(
         { "Address.Email": email },
-        { otp_verify: true }
+        { permanent_password: default_password }
       );
     } else if (admin) {
       await adminModel.updateOne({ email }, { otp_verify: true });
@@ -133,58 +134,6 @@ export const resendOtpController = async (req, res) => {
       success: false,
       error: error.message,
       message: "Error resending OTP",
-    });
-  }
-};
-
-export const resetPasswordController = async (req, res) => {
-  try {
-    const { email, newPassword, conformPassword } = req.body;
-    if (!email || !newPassword || !conformPassword) {
-      return res.status(400).send({ message: "All fields are required" });
-    } else {
-      if (newPassword !== conformPassword) {
-        return res.status(400).send({ message: "Passwords do not match" });
-      } else {
-        let user = await userModel.findOne({ "Address.Email": email });
-        let admin = await adminModel.findOne({ email });
-
-        if (!user && !admin) {
-          return res.status(404).send({ message: "User not found" });
-        }
-
-        if ((user && !user.otp_verify) || (admin && !admin.otp_verify)) {
-          return res.status(400).send({
-            message: "OTP verification required before resetting password",
-          });
-        } else {
-          const hashedPassword = await hashPassword(newPassword);
-          if (user) {
-            await userModel.updateOne(
-              { "Address.Email": email },
-              { $set: { Password: hashedPassword, otp_verify: false } }
-            );
-          }
-          if (admin) {
-            await adminModel.updateOne(
-              { email },
-              { $set: { Password: hashedPassword, otp_verify: false } }
-            );
-          }
-
-          await otpModel.deleteMany({ email });
-
-          return res
-            .status(200)
-            .send({ message: "Password reset successfully" });
-        }
-      }
-    }
-  } catch (error) {
-    res.status(500).send({
-      success: false,
-      error: error.message,
-      message: "Error resetting password",
     });
   }
 };
