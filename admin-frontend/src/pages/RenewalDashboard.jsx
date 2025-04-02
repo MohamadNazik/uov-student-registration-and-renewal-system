@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 
 function RenewalDashboard() {
+  
   return (
     <div>
-      <Header title="RENEWAL SUBMISSIONS DASHBOARD" />
+      <Header title="RENEWAL SUBMISSIONS DASHBOARD"/>
       <div className="flex flex-col items-center gap-5 sm:gap-8 mt-14">
         <Link to="/second-year-renewal">
           <TextCard text="Second Year Renewal Submissions" />

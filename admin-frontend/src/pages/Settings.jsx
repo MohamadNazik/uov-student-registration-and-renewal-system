@@ -214,12 +214,19 @@ function Settings() {
 
   if (isLoading) {
     return <Loading />;
+
   }
+
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
+  };
 
   return (
     <div>
       {/* Header */}
-      <Header title="Admin Updates" />
+      <Header title="Admin Updates" logOutFunc={logoutAdmin}/>
 
       <div className="flex justify-between px-4 sm:px-[100px] mt-5 xl:mt-10 mb-10">
         <Link to="/dashboard">

@@ -68,17 +68,23 @@ function FirstYears() {
     setFilteredStudents(result);
   }, [searchTerm, selectedCourse, students]);
 
+
   const handleViewDetails = (student) => {
     setSelectedStudent(student);
   };
 
   const handleCloseModal = () => {
     setSelectedStudent(null);
+
+  const logoutAdmin = () => {
+    sessionStorage.removeItem("adminData");
+    sessionStorage.removeItem("adminToken");
+    navigate("/");
   };
 
   return (
     <div>
-      <Header title="First Year Students" />
+      <Header title="First Year Students" logOutFunc={logoutAdmin} />
       {loading ? (
         <LoadingScreen />
       ) : (
