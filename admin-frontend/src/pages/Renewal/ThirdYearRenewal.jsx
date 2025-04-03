@@ -25,7 +25,7 @@ function ThirdYearRenewal() {
         if (renewalsResponse.data.success && usersResponse.data.success) {
           const secondYearStudents = renewalsResponse.data.renewals.filter(
             (st) =>
-              st.current_year_of_study === 3 && st.renewal_approved === false
+              st.current_year_of_study === 2 && st.renewal_approved === false
           );
           let filteredStudents = [];
           switch (activeTab) {
@@ -161,7 +161,7 @@ function ThirdYearRenewal() {
 
   return (
     <div>
-      <Header title="RENEWAL SUBMISSIONS" logOutFunc={logoutAdmin}/>
+      <Header title="RENEWAL SUBMISSIONS" logOutFunc={logoutAdmin} />
 
       <div className="p-4">
         {/* Department tabs and dashboard button in one row */}

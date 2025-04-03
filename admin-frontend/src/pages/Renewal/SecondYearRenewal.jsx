@@ -25,7 +25,7 @@ function SecondYearRenewal() {
         if (renewalsResponse.data.success && usersResponse.data.success) {
           const secondYearStudents = renewalsResponse.data.renewals.filter(
             (st) =>
-              st.current_year_of_study === 2 && st.renewal_approved === false
+              st.current_year_of_study === 1 && st.renewal_approved === false
           );
           let filteredStudents = [];
           switch (activeTab) {
@@ -161,7 +161,7 @@ function SecondYearRenewal() {
 
   return (
     <div>
-      <Header title="RENEWAL SUBMISSIONS" logOutFunc={logoutAdmin}/>
+      <Header title="RENEWAL SUBMISSIONS" logOutFunc={logoutAdmin} />
 
       <div className="p-4">
         <div className="flex justify-between items-center mb-6">

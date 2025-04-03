@@ -23,7 +23,7 @@ function FourthYearRenewal() {
         if (renewalsResponse.data.success && usersResponse.data.success) {
           const secondYearStudents = renewalsResponse.data.renewals.filter(
             (st) =>
-              st.current_year_of_study === 4 && st.renewal_approved === false
+              st.current_year_of_study === 3 && st.renewal_approved === false
           );
           let filteredStudents = [];
           switch (activeTab) {
